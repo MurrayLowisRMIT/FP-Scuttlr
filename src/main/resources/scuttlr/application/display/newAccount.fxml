@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scuttlr.application.controllers.NewAccountController">
+    <children>
+        <GridPane layoutX="350.0" layoutY="100.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="110.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="20.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label text="Username*" />
+                <TextField fx:id="username" maxWidth="1.7976931348623157E308" promptText="username" GridPane.columnIndex="1" />
+            <Label fx:id="usernameFailLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Username taken" textFill="RED" visible="false" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
+                <Label text="Password*" GridPane.rowIndex="2" />
+                <PasswordField fx:id="password" maxWidth="1.7976931348623157E308" promptText="********" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="passwordFailLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Password too short, minimum 8 characters" textFill="RED" visible="false" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
+                <Label text="Confirm password*" GridPane.rowIndex="4" />
+                <PasswordField fx:id="confirmPassword" maxWidth="1.7976931348623157E308" promptText="********" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label fx:id="confirmPasswordFailLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Passwords do not match" textFill="RED" visible="false" GridPane.columnSpan="2147483647" GridPane.rowIndex="5" />
+                <Label text="Avatar" GridPane.rowIndex="6" />
+                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#uploadImage" text="Upload" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <CheckBox fx:id="avatarConfirmedCheckbox" disable="true" focusTraversable="false" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="6">
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </CheckBox>
+                <Button fx:id="createAccountButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#createAccount" text="Create account" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                <Hyperlink alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onAction="#goToLogin" text="Log in" textAlignment="CENTER" GridPane.columnSpan="2147483647" GridPane.rowIndex="9" />
+            </children>
+        </GridPane>
+        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="100.0" layoutY="118.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphics/Logo.png" />
+            </image>
+        </ImageView>
+      <ImageView fx:id="avatarPreview" fitHeight="150.0" fitWidth="200.0" layoutX="50.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true" />
+    </children>
+</AnchorPane>
