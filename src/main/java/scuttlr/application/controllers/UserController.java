@@ -32,7 +32,6 @@ public class UserController
     public void login(Stage stage) throws IOException
     {
         this.stage = stage;
-        System.out.println(getClass().getResource("/scuttlr/application/display/board.fxml"));
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/board.fxml"));
         this.pane = loader.load();
         this.stage.setTitle(userController.getCurrentUser().getUsername());

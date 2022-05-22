@@ -5,7 +5,7 @@ import javafx.scene.control.ListCell;
 import java.io.Serializable;
 import java.util.LinkedHashSet;
 
-public class TaskList extends ListCell<Board>
+public class TaskList
 {
     private String title;
     private LinkedHashSet<Task> tasks;

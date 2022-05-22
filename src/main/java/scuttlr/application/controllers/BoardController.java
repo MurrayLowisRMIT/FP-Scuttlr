@@ -18,7 +18,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import scuttlr.application.model.Board;
-import scuttlr.application.model.TaskList;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -27,6 +26,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
+import static scuttlr.application.Main.boardController;
 import static scuttlr.application.Main.userController;
 
 public class BoardController implements Initializable
@@ -50,9 +50,9 @@ public class BoardController implements Initializable
     @FXML
     private Label quoteLabel;
     @FXML
-    private ObservableList<TaskList> taskLists;
+    private ObservableList<TaskListController> taskLists;
     @FXML
-    private ListView<TaskList> listView;
+    private ListView<TaskListController> listView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -89,15 +89,26 @@ public class BoardController implements Initializable
 
         // populate taskLists
         this.taskLists = FXCollections.observableArrayList();
-        this.listView = new ListView<TaskList>(taskLists);
-        this.listView.setCellFactory(new Callback<ListView<TaskList>, ListCell<TaskList>>()
+        this.listView = new ListView<TaskListController>(taskLists);
+        this.listView.setLayoutX(50);
+        this.listView.setLayoutY(50);
+        this.listView.setCellFactory(new Callback<ListView<TaskListController>, ListCell<TaskListController>>()
         {
             @Override
-            public ListCell<TaskList> call(ListView<TaskList> listView)
+            public ListCell<TaskListController> call(ListView<TaskListController> listView)
             {
-                return new ListCell<TaskList>();
+                return new ListCell<TaskListController>();
             }
         });
+
+        this.pane.getChildren().add(listView);
+
+        LinkedHashSet<Board> boards = boardController.getUserBoards();
+        Iterator<Board> i = boards.iterator();
+        while (i.hasNext())
+        {
+            taskLists.add(new TaskListController(i.next()));
+        }
     }
 
     public void openBoard(ActionEvent actionEvent) throws IOException
@@ -107,9 +118,9 @@ public class BoardController implements Initializable
 
     public void createNewBoard(ActionEvent actionEvent) throws IOException
     {
-        // TODO need to add function to update password
         this.activeBoard = userController.getCurrentUser().createBoard("New project");
         this.saveBoardMenuItem.setDisable(false);
+        this.userBoards.add(this.activeBoard);
     }
 
     public void createNewList(ActionEvent actionEvent) throws IOException
@@ -152,10 +163,10 @@ public class BoardController implements Initializable
     public void loadBoards(String username) throws IOException, ClassNotFoundException
     {
         Reader reader = new Reader();
-        for (String boardName : userController.getCurrentUser().getUserBoards())
+        LinkedHashSet<Board> userBoards = boardController.getUserBoards();
+        for (Board board : userBoards)
         {
-            System.out.println(boardName);
-            this.userBoards.add(reader.loadBoard("src/main/resources/scuttlr/application/boards/" + username + "_" + boardName + "_data.ser"));
+            this.userBoards.add(reader.loadBoard("src/main/resources/scuttlr/application/boards/" + username + "_" + board.getBoardName() + "_data.ser"));
         }
     }
 
@@ -163,7 +174,6 @@ public class BoardController implements Initializable
     {
         Writer writer = new Writer();
         writer.saveBoard(this.activeBoard);
-        // userHandler.getCurrentUser().saveBoard(this.activeBoard.getBoardName());
     }
 
     public void deleteList(ActionEvent actionEvent)
