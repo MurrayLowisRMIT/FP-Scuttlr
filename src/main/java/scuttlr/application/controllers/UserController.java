@@ -31,15 +31,15 @@ public class UserController
 
     public void login(Stage stage) throws IOException
     {
-        //        boolean usernameAvailable = false;
-        //        File save = new File("src/main/resources/scuttlr/application/accounts/" + username + "_data.ser");
-        //        if (!save.exists())
-        //        {
-        //            usernameAvailable = true;
-        //        }
+//        File save = new File("C:\\Users\\skelm\\OneDrive\\Documents\\Uni\\RMIT - IT\\2022\\SP01\\Further Programming\\Assignment 2\\src\\main\\resources\\scuttlr\\application\\display\\board.fxml");
+//        if (save.exists())
+//        {
+//            System.out.println("File found");
+//        }
 
         this.stage = stage;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("src/main/resources/scuttlr/application/display/board.fxml"));
+        System.out.println(getClass().getResource("/scuttlr/application/display/board.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/board.fxml"));
         System.out.println("1");
         this.pane = loader.load();
         System.out.println("2");

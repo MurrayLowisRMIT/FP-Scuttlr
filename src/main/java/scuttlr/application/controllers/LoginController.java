@@ -12,7 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import javax.swing.text.html.ImageView;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
