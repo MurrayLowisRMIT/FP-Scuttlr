@@ -121,6 +121,10 @@ public class BoardController implements Initializable
     {
         this.activeBoard = userController.getCurrentUser().createBoard("New project");
         this.saveBoardMenuItem.setDisable(false);
+        if (this.userBoards == null)
+        {
+            this.userBoards = new LinkedHashSet<Board>();
+        }
         this.userBoards.add(this.activeBoard);
     }
 
@@ -182,8 +186,11 @@ public class BoardController implements Initializable
 
     public void saveBoard()
     {
-        Writer writer = new Writer();
-        writer.saveBoard(this.activeBoard);
+        if (this.activeBoard != null)
+        {
+            Writer writer = new Writer();
+            writer.saveBoard(this.activeBoard);
+        }
     }
 
     public void deleteList(ActionEvent actionEvent)

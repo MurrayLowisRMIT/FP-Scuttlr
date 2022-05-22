@@ -15,11 +15,6 @@ public class Reader
 
     public User loadUser(String fileAddress) throws IOException, ClassNotFoundException
     {
-        File save = new File(fileAddress);
-        if (save.exists())
-        {
-            System.out.println(fileAddress);
-        }
         User user;
         FileInputStream fileIn = new FileInputStream(fileAddress);
         ObjectInputStream in = new ObjectInputStream(fileIn);
