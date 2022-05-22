@@ -32,7 +32,7 @@
                                 <MenuItem fx:id="openBoardMenuItem" mnemonicParsing="false" onAction="#openBoard" text="Open" />
                                 <MenuItem fx:id="saveBoardMenuItem" mnemonicParsing="false" onAction="#saveBoard" text="Save" />
                                 <MenuItem fx:id="logoutMenuItem" mnemonicParsing="false" onAction="#logout" text="Logout" />
-                                <MenuItem mnemonicParsing="false" text="Quit" />
+                                <MenuItem fx:id="quitButton" mnemonicParsing="false" onAction="#quit" text="Quit" />
                             </items>
                         </Menu>
                     </menus>
@@ -112,6 +112,9 @@
                      </children>
                   </Pane>
                     </children>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
                 </HBox>
                 <HBox disable="true">
                     <children>

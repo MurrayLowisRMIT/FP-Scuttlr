@@ -1,5 +1,8 @@
 package scuttlr.application.controllers;
 
+import javafx.animation.Interpolator;
+import javafx.animation.RotateTransition;
+import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,8 +18,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.Duration;
 import scuttlr.application.model.Board;
 
 import javax.imageio.ImageIO;
@@ -37,8 +42,6 @@ public class BoardController implements Initializable
     private AnchorPane pane;
     @FXML
     private Scene scene;
-    @FXML
-    private ImageView avatarImageView;
     @FXML
     private MenuItem logoutMenuItem;
     @FXML
@@ -85,7 +88,6 @@ public class BoardController implements Initializable
                 pw.setArgb(x, y, image.getRGB(x, y));
             }
         }
-        this.avatarImageView.setImage(avatar);
 
         // populate taskLists
         this.taskLists = FXCollections.observableArrayList();
@@ -203,5 +205,10 @@ public class BoardController implements Initializable
 
     public void deleteTask(ActionEvent actionEvent)
     {
+    }
+
+    public void quit()
+    {
+        this.stage.close();
     }
 }
