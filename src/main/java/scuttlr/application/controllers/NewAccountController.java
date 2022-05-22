@@ -29,6 +29,7 @@ import static scuttlr.application.Main.userController;
 public class NewAccountController implements Initializable
 {
     private boolean customAvatar = false;
+    private byte[] avatar;
     @FXML
     private ImageView logoImageView;
     @FXML
@@ -116,7 +117,14 @@ public class NewAccountController implements Initializable
         if (!failure)
         {
             userController.createUser(username, password);
-            userController.getCurrentUser().setAvatar(createAvatar());
+            if (this.customAvatar)
+            {
+                userController.getCurrentUser().setAvatar(this.avatar);
+            }
+            else
+            {
+                userController.getCurrentUser().setAvatar(defaultAvatar());
+            }
             userController.saveUser();
             boardController.loadBoards(username);
             this.stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -124,27 +132,28 @@ public class NewAccountController implements Initializable
         }
     }
 
-    public void uploadImage()
+    public void uploadImage() throws IOException
     {
-        this.customAvatar = true;
+        // save avatar as byte array
+        // TODO filter file types
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(null);
+        BufferedImage image = ImageIO.read(new File(file.getPath()));
+        ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
+        ImageIO.write(image, "png", outStreamObj);
+        this.avatar = outStreamObj.toByteArray();
+
+        if (this.avatar != null)
+        {
+            this.customAvatar = true;
+        }
     }
 
-    public byte[] createAvatar() throws IOException
+    public byte[] defaultAvatar() throws IOException
     {
         // save avatar as byte array
         byte[] avatarData;
-        BufferedImage image;
-        if (this.customAvatar)
-        {
-            // TODO filter file types
-            FileChooser fileChooser = new FileChooser();
-            File file = fileChooser.showOpenDialog(null);
-            image = ImageIO.read(new File(file.getPath()));
-        }
-        else
-        {
-            image = ImageIO.read(new File("src/main/resources/scuttlr/application/graphics/Generic_Avatar.png"));
-        }
+        BufferedImage image = ImageIO.read(new File("src/main/resources/scuttlr/application/graphics/Generic_Avatar.png"));
         ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
         ImageIO.write(image, "png", outStreamObj);
         avatarData = outStreamObj.toByteArray();

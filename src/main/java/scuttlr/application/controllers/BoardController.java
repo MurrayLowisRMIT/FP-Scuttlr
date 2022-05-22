@@ -43,6 +43,8 @@ public class BoardController implements Initializable
     @FXML
     private Scene scene;
     @FXML
+    private ImageView avatarImageView;
+    @FXML
     private MenuItem logoutMenuItem;
     @FXML
     private MenuItem newBoardMenuItem;
@@ -88,6 +90,7 @@ public class BoardController implements Initializable
                 pw.setArgb(x, y, image.getRGB(x, y));
             }
         }
+        this.avatarImageView.setImage(avatar);
 
         // populate taskLists
         this.taskLists = FXCollections.observableArrayList();
