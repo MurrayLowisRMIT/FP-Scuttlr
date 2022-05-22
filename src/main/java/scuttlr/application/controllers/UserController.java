@@ -31,18 +31,10 @@ public class UserController
 
     public void login(Stage stage) throws IOException
     {
-//        File save = new File("C:\\Users\\skelm\\OneDrive\\Documents\\Uni\\RMIT - IT\\2022\\SP01\\Further Programming\\Assignment 2\\src\\main\\resources\\scuttlr\\application\\display\\board.fxml");
-//        if (save.exists())
-//        {
-//            System.out.println("File found");
-//        }
-
         this.stage = stage;
         System.out.println(getClass().getResource("/scuttlr/application/display/board.fxml"));
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/board.fxml"));
-        System.out.println("1");
         this.pane = loader.load();
-        System.out.println("2");
         this.stage.setTitle(userController.getCurrentUser().getUsername());
         this.scene = new Scene(this.pane);
         this.stage.setScene(this.scene);

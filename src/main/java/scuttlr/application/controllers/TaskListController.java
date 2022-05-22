@@ -9,14 +9,8 @@ import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.ResourceBundle;
 
-public class TaskListController implements Initializable
+public class TaskListController
 {
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle)
-    {
-
-    }
-
     private static class ListView
     {
         private String name;

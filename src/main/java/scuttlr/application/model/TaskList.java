@@ -1,9 +1,11 @@
 package scuttlr.application.model;
 
+import javafx.scene.control.ListCell;
+
 import java.io.Serializable;
 import java.util.LinkedHashSet;
 
-public class TaskList implements Serializable
+public class TaskList extends ListCell<Board>
 {
     private String title;
     private LinkedHashSet<Task> tasks;
@@ -15,12 +17,12 @@ public class TaskList implements Serializable
 
     public String getTitle()
     {
-        return title;
+        return this.title;
     }
 
     public LinkedHashSet<Task> getTasks()
     {
-        return tasks;
+        return this.tasks;
     }
 
     public void setTitle(String title)

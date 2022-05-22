@@ -51,6 +51,8 @@ public class BoardController implements Initializable
     private Label quoteLabel;
     @FXML
     private ObservableList<TaskList> taskLists;
+    @FXML
+    private ListView<TaskList> listView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -84,6 +86,18 @@ public class BoardController implements Initializable
             }
         }
         this.avatarImageView.setImage(avatar);
+
+        // populate taskLists
+        this.taskLists = FXCollections.observableArrayList();
+        this.listView = new ListView<TaskList>(taskLists);
+        this.listView.setCellFactory(new Callback<ListView<TaskList>, ListCell<TaskList>>()
+        {
+            @Override
+            public ListCell<TaskList> call(ListView<TaskList> listView)
+            {
+                return new ListCell<TaskList>();
+            }
+        });
     }
 
     public void openBoard(ActionEvent actionEvent) throws IOException
