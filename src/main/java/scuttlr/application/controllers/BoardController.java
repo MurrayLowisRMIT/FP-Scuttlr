@@ -103,6 +103,7 @@ public class BoardController implements Initializable
 
         this.pane.getChildren().add(listView);
 
+        // TODO populate actual boards into boardController
         LinkedHashSet<Board> boards = boardController.getUserBoards();
         Iterator<Board> i = boards.iterator();
         while (i.hasNext())
@@ -163,10 +164,19 @@ public class BoardController implements Initializable
     public void loadBoards(String username) throws IOException, ClassNotFoundException
     {
         Reader reader = new Reader();
-        LinkedHashSet<Board> userBoards = boardController.getUserBoards();
-        for (Board board : userBoards)
+        // read user's boards from database
+        LinkedHashSet<Board> userBoards = this.userBoards;
+        if (userBoards != null)
         {
-            this.userBoards.add(reader.loadBoard("src/main/resources/scuttlr/application/boards/" + username + "_" + board.getBoardName() + "_data.ser"));
+            for (Board board : userBoards)
+            {
+                this.userBoards.add(reader.loadBoard("src/main/resources/scuttlr/application/boards/" + username + "_" + board.getBoardName() + "_data.ser"));
+            }
+        }
+        else
+        {
+            // if user has no saved boards in database, create new temporary userBoards LinkedHashSet
+            this.userBoards = new LinkedHashSet<Board>();
         }
     }
 

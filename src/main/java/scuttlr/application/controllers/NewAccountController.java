@@ -14,11 +14,12 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
+import static scuttlr.application.Main.boardController;
 import static scuttlr.application.Main.userController;
 
 public class NewAccountController
 {
-    private byte[] avatarData;
+    private boolean customAvatar = false;
     @FXML
     private TextField username;
     @FXML
@@ -49,7 +50,7 @@ public class NewAccountController
         this.stage.setScene(this.scene);
     }
 
-    public void createAccount(ActionEvent actionEvent) throws IOException
+    public void createAccount(ActionEvent actionEvent) throws IOException, ClassNotFoundException
     {
         String username = this.username.getText();
         String password = this.password.getText();
@@ -90,22 +91,38 @@ public class NewAccountController
         if (!failure)
         {
             userController.createUser(username, password);
-            userController.getCurrentUser().setAvatar(this.avatarData);
+            userController.getCurrentUser().setAvatar(createAvatar());
             userController.saveUser();
+            boardController.loadBoards(username);
             this.stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             userController.login(this.stage);
         }
     }
 
-    public void uploadImage() throws IOException
+    public void uploadImage()
     {
-        // TODO filter file types
+        this.customAvatar = true;
+    }
+
+    public byte[] createAvatar() throws IOException
+    {
         // save avatar as byte array
-        FileChooser fileChooser = new FileChooser();
-        File file = fileChooser.showOpenDialog(null);
-        BufferedImage image = ImageIO.read(new File(file.getPath()));
+        byte[] avatarData;
+        BufferedImage image;
+        if (this.customAvatar)
+        {
+            // TODO filter file types
+            FileChooser fileChooser = new FileChooser();
+            File file = fileChooser.showOpenDialog(null);
+            image = ImageIO.read(new File(file.getPath()));
+        }
+        else
+        {
+            image = ImageIO.read(new File("src/main/resources/scuttlr/application/graphics/Generic_Avatar.png"));
+        }
         ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
         ImageIO.write(image, "png", outStreamObj);
-        this.avatarData = outStreamObj.toByteArray();
+        avatarData = outStreamObj.toByteArray();
+        return avatarData;
     }
 }
