@@ -4,6 +4,7 @@ import scuttlr.application.model.Board;
 
 import java.io.*;
 
+import static scuttlr.application.Main.boardController;
 import static scuttlr.application.Main.userController;
 
 public class Writer
@@ -30,6 +31,12 @@ public class Writer
 
     public void saveBoard(Board board)
     {
+        if (board == null)
+        {
+            userController.getCurrentUser().createBoard("New board");
+            board = boardController.getCurrentBoard();
+        }
+
         try
         {
             FileOutputStream fileOut = new FileOutputStream("src/main/resources/scuttlr/application/boards/" + board.getUserName() + "_" + board.getBoardName() + ".ser");

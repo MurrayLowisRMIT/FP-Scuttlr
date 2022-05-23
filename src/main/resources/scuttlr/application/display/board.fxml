@@ -2,104 +2,65 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="517.0" prefWidth="766.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scuttlr.application.controllers.BoardController">
+<AnchorPane fx:id="pane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scuttlr.application.controllers.BoardController">
     <children>
         <VBox prefHeight="517.0" prefWidth="766.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <MenuBar prefHeight="25.0" prefWidth="766.0">
+                <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="766.0">
                     <menus>
                         <Menu mnemonicParsing="false" text="File">
                             <items>
                                 <MenuItem fx:id="newBoardMenuItem" mnemonicParsing="false" onAction="#createNewBoard" text="New" />
                                 <MenuItem fx:id="openBoardMenuItem" mnemonicParsing="false" onAction="#openBoard" text="Open" />
-                                <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" onAction="#saveBoard" text="Save" />
-                                <MenuItem fx:id="logoutMenuItem" mnemonicParsing="false" onAction="#logout" text="Logout" />
-                                <MenuItem mnemonicParsing="false" text="Quit" />
+                                <MenuItem fx:id="saveBoardMenuItem" mnemonicParsing="false" onAction="#saveBoard" text="Save" />
+                                <MenuItem fx:id="quitMenuItem" mnemonicParsing="false" onAction="#quit" text="Quit" />
                             </items>
                         </Menu>
                     </menus>
                 </MenuBar>
-            <HBox alignment="CENTER" spacing="10.0">
-               <children>
-                  <Label fx:id="quoteLabel" maxWidth="1.7976931348623157E308" text="Quote" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="logoutButton" mnemonicParsing="false" onMouseClicked="#logout" text="Logout" />
-                  <ImageView fx:id="avatarImageView" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-               </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <padding>
-                  <Insets left="10.0" right="10.0" />
-               </padding>
-            </HBox>
-                <HBox fx:id="boardHBox" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="10.0">
                     <children>
-                  <Pane fx:id="list1" prefWidth="300.0">
-                     <children>
-                                <VBox fx:id="columnVBox" fillWidth="false">
-                                    <children>
-                              <Label fx:id="listTitleLabel" text="Column 1" />
-                                        <ToolBar>
-                                            <items>
-                                                <Button mnemonicParsing="false" text="&lt;&lt;" />
-                                                <Button fx:id="deleteListButton" mnemonicParsing="false" onAction="#deleteList" text="Delete list" />
-                                                <Button fx:id="newTaskButton" mnemonicParsing="false" onAction="#createNewTask" text="New task" />
-                                                <Button mnemonicParsing="false" text="&gt;&gt;" />
-                                            </items>
-                                        </ToolBar>
-                                        <TitledPane fx:id="taskTitledPane" animated="false" text="Task 1" wrapText="true">
-                                            <content>
-                                                <VBox>
-                                                    <children>
-                                                        <ToolBar>
-                                                            <items>
-                                                                <Button mnemonicParsing="false" text="&lt;&lt;" />
-                                                                <Button fx:id="deleteTaskButton" mnemonicParsing="false" onAction="#deleteTask" text="Delete task" />
-                                                                <Button mnemonicParsing="false" text="&gt;&gt;" />
-                                                                <CheckBox fx:id="completeCheckBox" mnemonicParsing="false" text="Complete" />
-                                                            </items>
-                                                        </ToolBar>
-                                                        <TextArea fx:id="taskDescription" maxWidth="250.0" promptText="Enter new task details" wrapText="true" />
-                                                        <HBox alignment="CENTER" fillHeight="false">
-                                                            <children>
-                                                                <Label alignment="CENTER" contentDisplay="CENTER" text="Due date" />
-                                                                <DatePicker fx:id="dueDatePicker" nodeOrientation="RIGHT_TO_LEFT" />
-                                                            </children>
-                                                            <opaqueInsets>
-                                                                <Insets />
-                                                            </opaqueInsets>
-                                                        </HBox>
-                                                    </children>
-                                                </VBox>
-                                            </content>
-                                            <graphic>
-                                                <Pane />
-                                            </graphic>
-                                        </TitledPane>
-                                    </children>
-                                </VBox>
-                     </children>
-                  </Pane>
+                        <Label fx:id="quoteLabel" maxWidth="1.7976931348623157E308" text="Quote" HBox.hgrow="ALWAYS" />
+                        <GridPane hgap="10.0">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" />
+                                <ColumnConstraints hgrow="SOMETIMES" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+                            <children>
+                                <Label fx:id="usernameLabel" alignment="CENTER" contentDisplay="CENTER" text="Username" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" />
+                                <Button fx:id="logoutButton" mnemonicParsing="false" onMouseClicked="#logout" text="Logout" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <ImageView fx:id="avatarImageView" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.rowSpan="2147483647" />
+                            </children>
+                        </GridPane>
                     </children>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <padding>
+                        <Insets left="10.0" right="10.0" />
+                    </padding>
                 </HBox>
-                <HBox disable="true">
+                <Pane fx:id="columnsPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+                <HBox>
                     <children>
-                        <Button fx:id="activeBoardTab" mnemonicParsing="false" text="New list" />
+                        <Button fx:id="newColumnTab" mnemonicParsing="false" onAction="#newColumn" text="New column" />
                         <Button mnemonicParsing="false" text="Button" />
                         <Button mnemonicParsing="false" text="Button" />
                     </children>

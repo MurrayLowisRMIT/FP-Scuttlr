@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Rectangle?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scuttlr.application.controllers.LoginController">
     <children>
@@ -28,21 +29,26 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Label text="Username" />
-                <TextField fx:id="username" maxWidth="1.7976931348623157E308" promptText="username" GridPane.columnIndex="1" />
+                <Label text="Username*" />
+                <TextField fx:id="username" maxWidth="1.7976931348623157E308" onAction="#verifyLogin" promptText="username" GridPane.columnIndex="1" />
             <Label fx:id="usernameFailLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="No such user" textFill="RED" visible="false" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
-                <Label text="Password" GridPane.rowIndex="2" />
-                <PasswordField fx:id="password" maxWidth="1.7976931348623157E308" promptText="********" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Label text="Password*" GridPane.rowIndex="2" />
+                <PasswordField fx:id="password" maxWidth="1.7976931348623157E308" onAction="#verifyLogin" promptText="********" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label fx:id="passwordFailLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Password incorrect" textFill="RED" visible="false" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
                 <Button fx:id="verifyLoginButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#verifyLogin" text="Login" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                 <Hyperlink alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onAction="#goToNewAccount" text="New account" textAlignment="CENTER" GridPane.columnSpan="2147483647" GridPane.rowIndex="5" />
             </children>
         </GridPane>
-        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="100.0" layoutY="118.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="logoImageView" fitHeight="150.0" fitWidth="200.0" layoutX="100.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../../../resources/scuttlr/application/graphics/Logo.png" />
+                <Image url="@../graphics/Logo.png" />
             </image>
         </ImageView>
-      <ImageView fx:id="avatarPreview" fitHeight="150.0" fitWidth="200.0" layoutX="70.0" layoutY="219.0" pickOnBounds="true" preserveRatio="true" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="35.0" layoutX="50.0" layoutY="158.0" stroke="TRANSPARENT" strokeType="INSIDE" width="248.0" />
+      <ImageView fitHeight="35.0" fitWidth="176.0" layoutX="126.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/Logo_Text.png" />
+         </image>
+      </ImageView>
     </children>
 </AnchorPane>

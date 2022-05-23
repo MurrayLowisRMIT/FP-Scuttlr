@@ -1,26 +1,30 @@
 package scuttlr.application.model;
 
-import java.io.Serializable;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 
-public class TaskList implements Serializable
+public class Column
 {
     private String title;
-    private LinkedHashSet<Task> tasks;
+    private LinkedList<Task> tasks;
 
-    public TaskList()
+    public Column()
+    {
+        this.title = "New column";
+    }
+    public Column(String title)
     {
         this.title = title;
     }
 
     public String getTitle()
     {
-        return title;
+        return this.title;
     }
 
-    public LinkedHashSet<Task> getTasks()
+    public LinkedList<Task> getTasks()
     {
-        return tasks;
+        return this.tasks;
     }
 
     public void setTitle(String title)

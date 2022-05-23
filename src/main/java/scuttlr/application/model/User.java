@@ -1,23 +1,21 @@
 package scuttlr.application.model;
 
-import javafx.scene.image.Image;
-
 import java.io.Serializable;
-import java.util.LinkedHashSet;
+import java.util.LinkedList;
 
 public class User implements Serializable
 {
     private String username;
     private String password;
     private byte[] avatarData;
-    private LinkedHashSet<String> userBoards;
+    private LinkedList<String> userBoardNames;
     private String currentBoard;
 
     public User(String username, String password)
     {
         this.username = username;
         this.password = password;
-        this.userBoards = new LinkedHashSet<String>();
+        this.userBoardNames = new LinkedList<String>();
     }
 
     public void setPassword(String password)
@@ -50,9 +48,9 @@ public class User implements Serializable
         this.avatarData = avatarData;
     }
 
-    public LinkedHashSet<String> getUserBoards()
+    public LinkedList<String> getUserBoardNames()
     {
-        return this.userBoards;
+        return this.userBoardNames;
     }
 
     // creating board here ensures password is added securely
@@ -60,11 +58,12 @@ public class User implements Serializable
     public Board createBoard(String boardName)
     {
         Board board = new Board(boardName, this.password);
+        saveBoard(boardName);
         return board;
     }
 
     public void saveBoard(String boardName)
     {
-        this.userBoards.add(boardName);
+        this.userBoardNames.add(boardName);
     }
 }

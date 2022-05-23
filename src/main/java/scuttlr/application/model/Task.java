@@ -1,8 +1,10 @@
 package scuttlr.application.model;
 
+import javafx.scene.control.ListCell;
+
 import java.util.Date;
 
-public class Task extends TaskList
+public class Task
 {
     private String name;
     private String description;
@@ -17,6 +19,4 @@ public class Task extends TaskList
         this.start = start;
         this.due = due;
     }
-
-    // TODO getters/setters
 }

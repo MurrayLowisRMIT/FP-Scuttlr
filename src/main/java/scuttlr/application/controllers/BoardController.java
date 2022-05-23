@@ -1,24 +1,25 @@
 package scuttlr.application.controllers;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Orientation;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import scuttlr.application.model.Board;
-import scuttlr.application.model.TaskList;
+import scuttlr.application.model.Column;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -31,18 +32,18 @@ import static scuttlr.application.Main.userController;
 
 public class BoardController implements Initializable
 {
+    private Board activeBoard;
+    private LinkedList<Board> userBoards;
     @FXML
     private Stage stage;
     @FXML
-    private AnchorPane pane;
+    private Pane columnsPane;
     @FXML
     private Scene scene;
     @FXML
     private ImageView avatarImageView;
     @FXML
-    private MenuItem logoutMenuItem;
-    @FXML
-    private MenuItem newBoardMenuItem;
+    private MenuBar menuBar;
     @FXML
     private MenuItem saveBoardMenuItem;
     @FXML
@@ -50,7 +51,11 @@ public class BoardController implements Initializable
     @FXML
     private Label quoteLabel;
     @FXML
-    private ObservableList<TaskList> taskLists;
+    private CheckBox completeCheckBox;
+    @FXML
+    protected ObservableList<Column> columns;
+    @FXML
+    protected ListView<Column> columnListView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -84,6 +89,48 @@ public class BoardController implements Initializable
             }
         }
         this.avatarImageView.setImage(avatar);
+
+        // populate columns
+        this.columns = FXCollections.observableArrayList();
+        this.columnListView = new ListView<>();
+        this.columnListView.setItems(this.columns);
+        this.columnListView.setOrientation(Orientation.HORIZONTAL);
+        this.columnListView.prefWidthProperty().bind(this.columnsPane.widthProperty().subtract(10));
+        this.columnListView.prefHeightProperty().bind(this.columnsPane.heightProperty().subtract(10));
+        this.columnListView.setLayoutX(5);
+        this.columnListView.setLayoutY(5);
+
+        columnListView.setCellFactory(param -> new ColumnController()
+        {
+        });
+
+        //        columnListView.setCellFactory(param -> new ListCell<Column>()
+        //        {
+        //            @Override
+        //            protected void updateItem(Column column, boolean empty)
+        //            {
+        //                super.updateItem(column, empty);
+        //                if (empty || column == null)
+        //                {
+        //                    setText(null);
+        //                }
+        //                else
+        //                {
+        //                    setText(column.getTitle());
+        //                }
+        //            }
+        //        });
+
+        this.columnsPane.getChildren().add(this.columnListView);
+
+        this.columns.addListener(new InvalidationListener()
+        {
+            @Override
+            public void invalidated(Observable observable)
+            {
+                System.out.println("THING HAPPENED");
+            }
+        });
     }
 
     public void openBoard(ActionEvent actionEvent) throws IOException
@@ -93,29 +140,22 @@ public class BoardController implements Initializable
 
     public void createNewBoard(ActionEvent actionEvent) throws IOException
     {
-        // TODO need to add function to update password
-        this.activeBoard = userController.getCurrentUser().createBoard("New project");
+        String name = "New board";
+        this.activeBoard = userController.getCurrentUser().createBoard(name);
         this.saveBoardMenuItem.setDisable(false);
+        if (this.userBoards == null)
+        {
+            this.userBoards = new LinkedList<Board>();
+        }
+        this.userBoards.add(this.activeBoard);
     }
-
-    public void createNewList(ActionEvent actionEvent) throws IOException
-    {
-    }
-
-    public void logout() throws IOException
-    {
-        userController.logout();
-    }
-
-    private Board activeBoard;
-    private LinkedHashSet<Board> userBoards;
 
     public Board getCurrentBoard()
     {
         return this.activeBoard;
     }
 
-    public LinkedHashSet<Board> getUserBoards()
+    public LinkedList<Board> getUserBoards()
     {
         return this.userBoards;
     }
@@ -135,32 +175,87 @@ public class BoardController implements Initializable
         this.activeBoard.setBoardName(boardName);
     }
 
-    public void loadBoards(String username) throws IOException, ClassNotFoundException
+    public void loadBoards(String username)
     {
         Reader reader = new Reader();
-        for (String boardName : userController.getCurrentUser().getUserBoards())
+        LinkedList<Board> tempUserBoards;
+        // read user's boards from database
+        if (this.userBoards != null)
         {
-            System.out.println(boardName);
-            this.userBoards.add(reader.loadBoard("src/main/resources/scuttlr/application/boards/" + username + "_" + boardName + "_data.ser"));
+            tempUserBoards = new LinkedList<Board>();
+            LinkedList<String> tempBoardNames = userController.getCurrentUser().getUserBoardNames();
+            for (int i = 0; i < userController.getCurrentUser().getUserBoardNames().size(); i++)
+            {
+                try
+                {
+                    tempUserBoards.add(reader.loadBoard("src/main/resources/scuttlr/application/boards/" + username + "_" + tempBoardNames.get(i) + "_data.ser"));
+                }
+                catch (IOException e)
+                {
+                    throw new RuntimeException(e);
+                }
+                catch (ClassNotFoundException e)
+                {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        else
+        {
+            // if user has no saved boards in database, create new temporary userBoards LinkedList
+            this.userBoards = new LinkedList<Board>();
         }
     }
 
     public void saveBoard()
     {
-        Writer writer = new Writer();
-        writer.saveBoard(this.activeBoard);
-        // userHandler.getCurrentUser().saveBoard(this.activeBoard.getBoardName());
+        if (this.activeBoard != null)
+        {
+            Writer writer = new Writer();
+            writer.saveBoard(this.activeBoard);
+        }
     }
 
-    public void deleteList(ActionEvent actionEvent)
+    public void logout() throws IOException
     {
+        userController.logout();
     }
 
-    public void createNewTask(ActionEvent actionEvent)
+    public void newColumn()
+    {
+        this.columns.add(new Column("New column"));
+    }
+
+    public void deleteColumn(ActionEvent actionEvent)
+    {
+        this.columns.remove(actionEvent.getSource());
+    }
+
+    public void newTask(ActionEvent actionEvent)
     {
     }
 
     public void deleteTask(ActionEvent actionEvent)
     {
+    }
+
+    public void quit(ActionEvent actionEvent)
+    {
+        this.stage = (Stage) this.menuBar.getScene().getWindow();
+        this.stage.close();
+    }
+
+    // toggle completed status for task
+    public void checkComplete(ActionEvent actionEvent)
+    {
+        this.completeCheckBox.setSelected(!this.completeCheckBox.isSelected());
+        if (this.completeCheckBox.isSelected())
+        {
+
+        }
+        else
+        {
+
+        }
     }
 }
