@@ -47,6 +47,8 @@ public class NewAccountController implements Initializable
     @FXML
     private Label confirmPasswordFailLabel;
     @FXML
+    private Label avatarFailLabel;
+    @FXML
     private Stage stage;
     @FXML
     private Scene scene;
@@ -86,6 +88,7 @@ public class NewAccountController implements Initializable
         this.usernameFailLabel.setVisible(false);
         this.passwordFailLabel.setVisible(false);
         this.confirmPasswordFailLabel.setVisible(false);
+        this.avatarFailLabel.setVisible(false);
 
         if (!userController.checkUsernameAvailable(username))
         {
@@ -138,15 +141,23 @@ public class NewAccountController implements Initializable
         // TODO filter file types
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(null);
-        BufferedImage image = ImageIO.read(new File(file.getPath()));
-        ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
-        ImageIO.write(image, "png", outStreamObj);
-        this.avatar = outStreamObj.toByteArray();
-
-        if (this.avatar != null)
+        if (file.getAbsoluteFile().toString().contains(".png"))
         {
-            this.customAvatar = true;
-            this.avatarConfirmedCheckbox.setSelected(true);
+            BufferedImage image = ImageIO.read(new File(file.getPath()));
+            ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
+            ImageIO.write(image, "png", outStreamObj);
+            this.avatar = outStreamObj.toByteArray();
+            this.avatarFailLabel.setVisible(false);
+
+            if (this.avatar != null)
+            {
+                this.customAvatar = true;
+                this.avatarConfirmedCheckbox.setSelected(true);
+            }
+        }
+        else
+        {
+            this.avatarFailLabel.setVisible(true);
         }
     }
 

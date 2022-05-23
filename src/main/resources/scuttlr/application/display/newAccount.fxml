@@ -21,51 +21,52 @@
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="110.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" />
+                <ColumnConstraints hgrow="SOMETIMES" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="20.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="20.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
                 <Label text="Username*" />
                 <TextField fx:id="username" maxWidth="1.7976931348623157E308" promptText="username" GridPane.columnIndex="1" />
-            <Label fx:id="usernameFailLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Username taken" textFill="RED" visible="false" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
+                <Label fx:id="usernameFailLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Username taken" textFill="RED" visible="false" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
                 <Label text="Password*" GridPane.rowIndex="2" />
                 <PasswordField fx:id="password" maxWidth="1.7976931348623157E308" promptText="********" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label fx:id="passwordFailLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Password too short, minimum 8 characters" textFill="RED" visible="false" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
+                <Label fx:id="passwordFailLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Password too short, minimum 8 characters" textFill="RED" visible="false" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
                 <Label text="Confirm password*" GridPane.rowIndex="4" />
                 <PasswordField fx:id="confirmPassword" maxWidth="1.7976931348623157E308" promptText="********" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label fx:id="confirmPasswordFailLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Passwords do not match" textFill="RED" visible="false" GridPane.columnSpan="2147483647" GridPane.rowIndex="5" />
+                <Label fx:id="confirmPasswordFailLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Passwords do not match" textFill="RED" visible="false" GridPane.columnSpan="2147483647" GridPane.rowIndex="5" />
                 <Label text="Avatar" GridPane.rowIndex="6" />
                 <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#uploadImage" text="Upload" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <CheckBox fx:id="avatarConfirmedCheckbox" disable="true" focusTraversable="false" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="6">
-               <padding>
-                  <Insets left="10.0" />
-               </padding>
-            </CheckBox>
+                <CheckBox fx:id="avatarConfirmedCheckbox" disable="true" focusTraversable="false" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="6">
+                    <padding>
+                        <Insets left="10.0" />
+                    </padding>
+                </CheckBox>
+                <Label fx:id="avatarFailLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text=".png format only" textFill="RED" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                 <Button fx:id="createAccountButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#createAccount" text="Create account" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                 <Hyperlink alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onAction="#goToLogin" text="Log in" textAlignment="CENTER" GridPane.columnSpan="2147483647" GridPane.rowIndex="9" />
             </children>
         </GridPane>
-      <ImageView fx:id="logoImageView" fitHeight="150.0" fitWidth="200.0" layoutX="100.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../graphics/Logo.png" />
-         </image>
-      </ImageView>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="35.0" layoutX="50.0" layoutY="158.0" stroke="TRANSPARENT" strokeType="INSIDE" width="248.0" />
-      <ImageView fitHeight="35.0" fitWidth="176.0" layoutX="126.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../graphics/Logo_Text.png" />
-         </image>
-      </ImageView>
+        <ImageView fx:id="logoImageView" fitHeight="150.0" fitWidth="200.0" layoutX="100.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphics/Logo.png" />
+            </image>
+        </ImageView>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="35.0" layoutX="50.0" layoutY="158.0" stroke="TRANSPARENT" strokeType="INSIDE" width="248.0" />
+        <ImageView fitHeight="35.0" fitWidth="176.0" layoutX="126.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../graphics/Logo_Text.png" />
+            </image>
+        </ImageView>
     </children>
 </AnchorPane>
