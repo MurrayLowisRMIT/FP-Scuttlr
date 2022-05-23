@@ -58,9 +58,9 @@
                     </padding>
                 </HBox>
                 <Pane fx:id="columnsPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
-                <HBox disable="true">
+                <HBox>
                     <children>
-                        <Button fx:id="activeBoardTab" mnemonicParsing="false" text="New list" />
+                        <Button fx:id="newColumnTab" mnemonicParsing="false" onAction="#newColumn" text="New column" />
                         <Button mnemonicParsing="false" text="Button" />
                         <Button mnemonicParsing="false" text="Button" />
                     </children>

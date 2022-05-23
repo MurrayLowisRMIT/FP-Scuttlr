@@ -3,12 +3,13 @@ package scuttlr.application.model;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 
 import static scuttlr.application.Main.userController;
 
 public class Board implements Serializable
 {
-    private HashMap<String, Column> columns;
+    private LinkedList<Column> columns;
     private String boardName;
     private String userName;
     private String userPassword;

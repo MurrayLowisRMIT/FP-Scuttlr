@@ -2,16 +2,23 @@ package scuttlr.application.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.input.InputMethodEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import scuttlr.application.model.Column;
 import scuttlr.application.model.Task;
 
+import java.io.IOException;
 import java.util.LinkedList;
+
+import static scuttlr.application.Main.boardController;
 
 public class ColumnController extends ListCell<Column>
 {
+    @FXML
+    private Pane pane;
     @FXML
     private VBox columnVBox;
     @FXML
@@ -63,6 +70,8 @@ public class ColumnController extends ListCell<Column>
 
     public void deleteColumn(ActionEvent actionEvent)
     {
+        System.out.println("ASD");
+        boardController.deleteColumn(actionEvent);
     }
 
     public void newTask(ActionEvent actionEvent)

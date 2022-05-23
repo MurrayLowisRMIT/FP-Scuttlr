@@ -32,7 +32,6 @@ import static scuttlr.application.Main.userController;
 
 public class BoardController implements Initializable
 {
-
     private Board activeBoard;
     private LinkedList<Board> userBoards;
     @FXML
@@ -92,20 +91,14 @@ public class BoardController implements Initializable
         this.avatarImageView.setImage(avatar);
 
         // populate columns
-        columns = FXCollections.observableArrayList();
-        for (int i = 0; i < 5; i++)
-        {
-            this.columns.add(new Column("" + i));
-        }
-
-        // columns layout
+        this.columns = FXCollections.observableArrayList();
         this.columnListView = new ListView<>();
         this.columnListView.setItems(this.columns);
         this.columnListView.setOrientation(Orientation.HORIZONTAL);
-        this.columnListView.prefWidthProperty().bind(columnsPane.widthProperty().subtract(10));
-        this.columnListView.prefHeightProperty().bind(columnsPane.heightProperty().subtract(10));
+        this.columnListView.prefWidthProperty().bind(this.columnsPane.widthProperty().subtract(10));
+        this.columnListView.prefHeightProperty().bind(this.columnsPane.heightProperty().subtract(10));
         this.columnListView.setLayoutX(5);
-        this.columnListView.setLayoutY(10);
+        this.columnListView.setLayoutY(5);
 
         columnListView.setCellFactory(param -> new ColumnController()
         {
@@ -130,7 +123,7 @@ public class BoardController implements Initializable
 
         this.columnsPane.getChildren().add(this.columnListView);
 
-        columns.addListener(new InvalidationListener()
+        this.columns.addListener(new InvalidationListener()
         {
             @Override
             public void invalidated(Observable observable)
@@ -155,11 +148,6 @@ public class BoardController implements Initializable
             this.userBoards = new LinkedList<Board>();
         }
         this.userBoards.add(this.activeBoard);
-    }
-
-    public void logout() throws IOException
-    {
-        userController.logout();
     }
 
     public Board getCurrentBoard()
@@ -228,11 +216,22 @@ public class BoardController implements Initializable
         }
     }
 
-    public void deleteList(ActionEvent actionEvent)
+    public void logout() throws IOException
     {
+        userController.logout();
     }
 
-    public void createNewTask(ActionEvent actionEvent)
+    public void newColumn()
+    {
+        this.columns.add(new Column("New column"));
+    }
+
+    public void deleteColumn(ActionEvent actionEvent)
+    {
+        this.columns.remove(actionEvent.getSource());
+    }
+
+    public void newTask(ActionEvent actionEvent)
     {
     }
 
