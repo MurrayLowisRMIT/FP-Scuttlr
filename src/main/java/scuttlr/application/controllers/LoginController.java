@@ -50,7 +50,7 @@ public class LoginController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        // rotate logo
+        // rotating logo
         RotateTransition rotation = new RotateTransition();
         rotation.setNode(this.logoImageView);
         rotation.setDuration(Duration.millis(5000));

@@ -8,11 +8,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
@@ -45,11 +43,13 @@ public class BoardController implements Initializable
     @FXML
     private ImageView avatarImageView;
     @FXML
-    private MenuItem logoutMenuItem;
+    private MenuBar menuBar;
     @FXML
     private MenuItem newBoardMenuItem;
     @FXML
     private MenuItem saveBoardMenuItem;
+    @FXML
+    private MenuItem quitMenuItem;
     @FXML
     private Label usernameLabel;
     @FXML
@@ -210,8 +210,9 @@ public class BoardController implements Initializable
     {
     }
 
-    public void quit()
+    public void quit(ActionEvent actionEvent)
     {
+        this.stage = (Stage) menuBar.getScene().getWindow();
         this.stage.close();
     }
 }

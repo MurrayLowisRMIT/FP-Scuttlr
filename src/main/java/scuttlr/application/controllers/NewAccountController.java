@@ -58,7 +58,7 @@ public class NewAccountController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        // rotate logo
+        // rotating logo
         RotateTransition rotation = new RotateTransition();
         rotation.setNode(this.logoImageView);
         rotation.setDuration(Duration.millis(5000));
@@ -141,7 +141,8 @@ public class NewAccountController implements Initializable
         // TODO filter file types
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(null);
-        if (file.getAbsoluteFile().toString().contains(".png"))
+        // avatar only allowed to be png format
+        if (file != null && file.getAbsoluteFile().toString().contains(".png"))
         {
             BufferedImage image = ImageIO.read(new File(file.getPath()));
             ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
@@ -149,6 +150,7 @@ public class NewAccountController implements Initializable
             this.avatar = outStreamObj.toByteArray();
             this.avatarFailLabel.setVisible(false);
 
+            // do not use default avatar
             if (this.avatar != null)
             {
                 this.customAvatar = true;
@@ -161,6 +163,7 @@ public class NewAccountController implements Initializable
         }
     }
 
+    // set default avatar if none selected
     public byte[] defaultAvatar() throws IOException
     {
         // save avatar as byte array

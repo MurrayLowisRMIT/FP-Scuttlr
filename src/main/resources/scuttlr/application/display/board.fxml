@@ -24,15 +24,14 @@
     <children>
         <VBox prefHeight="517.0" prefWidth="766.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <MenuBar prefHeight="25.0" prefWidth="766.0">
+                <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="766.0">
                     <menus>
                         <Menu mnemonicParsing="false" text="File">
                             <items>
                                 <MenuItem fx:id="newBoardMenuItem" mnemonicParsing="false" onAction="#createNewBoard" text="New" />
                                 <MenuItem fx:id="openBoardMenuItem" mnemonicParsing="false" onAction="#openBoard" text="Open" />
                                 <MenuItem fx:id="saveBoardMenuItem" mnemonicParsing="false" onAction="#saveBoard" text="Save" />
-                                <MenuItem fx:id="logoutMenuItem" mnemonicParsing="false" onAction="#logout" text="Logout" />
-                                <MenuItem fx:id="quitButton" mnemonicParsing="false" onAction="#quit" text="Quit" />
+                                <MenuItem fx:id="quitMenuItem" mnemonicParsing="false" onAction="#quit" text="Quit" />
                             </items>
                         </Menu>
                     </menus>

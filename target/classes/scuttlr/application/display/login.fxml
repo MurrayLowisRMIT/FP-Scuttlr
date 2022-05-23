@@ -29,10 +29,10 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Label text="Username" />
+                <Label text="Username*" />
                 <TextField fx:id="username" maxWidth="1.7976931348623157E308" promptText="username" GridPane.columnIndex="1" />
             <Label fx:id="usernameFailLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="No such user" textFill="RED" visible="false" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
-                <Label text="Password" GridPane.rowIndex="2" />
+                <Label text="Password*" GridPane.rowIndex="2" />
                 <PasswordField fx:id="password" maxWidth="1.7976931348623157E308" promptText="********" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label fx:id="passwordFailLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Password incorrect" textFill="RED" visible="false" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
                 <Button fx:id="verifyLoginButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#verifyLogin" text="Login" GridPane.columnIndex="1" GridPane.rowIndex="4" />
