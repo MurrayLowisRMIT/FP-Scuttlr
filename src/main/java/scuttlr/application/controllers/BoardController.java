@@ -1,5 +1,8 @@
 package scuttlr.application.controllers;
 
+import javafx.animation.Interpolator;
+import javafx.animation.RotateTransition;
+import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,10 +18,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.Duration;
 import scuttlr.application.model.Board;
-import scuttlr.application.model.TaskList;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -27,6 +31,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
+import static scuttlr.application.Main.boardController;
 import static scuttlr.application.Main.userController;
 
 public class BoardController implements Initializable
@@ -50,7 +55,9 @@ public class BoardController implements Initializable
     @FXML
     private Label quoteLabel;
     @FXML
-    private ObservableList<TaskList> taskLists;
+    private ObservableList<TaskListController> taskLists;
+    @FXML
+    private ListView<TaskListController> listView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -84,6 +91,30 @@ public class BoardController implements Initializable
             }
         }
         this.avatarImageView.setImage(avatar);
+
+        // populate taskLists
+        this.taskLists = FXCollections.observableArrayList();
+        this.listView = new ListView<TaskListController>(taskLists);
+        this.listView.setLayoutX(50);
+        this.listView.setLayoutY(50);
+        this.listView.setCellFactory(new Callback<ListView<TaskListController>, ListCell<TaskListController>>()
+        {
+            @Override
+            public ListCell<TaskListController> call(ListView<TaskListController> listView)
+            {
+                return new ListCell<TaskListController>();
+            }
+        });
+
+        this.pane.getChildren().add(listView);
+
+        // TODO populate actual boards into boardController
+        LinkedHashSet<Board> boards = boardController.getUserBoards();
+        Iterator<Board> i = boards.iterator();
+        while (i.hasNext())
+        {
+            taskLists.add(new TaskListController(i.next()));
+        }
     }
 
     public void openBoard(ActionEvent actionEvent) throws IOException
@@ -93,9 +124,13 @@ public class BoardController implements Initializable
 
     public void createNewBoard(ActionEvent actionEvent) throws IOException
     {
-        // TODO need to add function to update password
         this.activeBoard = userController.getCurrentUser().createBoard("New project");
         this.saveBoardMenuItem.setDisable(false);
+        if (this.userBoards == null)
+        {
+            this.userBoards = new LinkedHashSet<Board>();
+        }
+        this.userBoards.add(this.activeBoard);
     }
 
     public void createNewList(ActionEvent actionEvent) throws IOException
@@ -138,18 +173,29 @@ public class BoardController implements Initializable
     public void loadBoards(String username) throws IOException, ClassNotFoundException
     {
         Reader reader = new Reader();
-        for (String boardName : userController.getCurrentUser().getUserBoards())
+        // read user's boards from database
+        LinkedHashSet<Board> userBoards = this.userBoards;
+        if (userBoards != null)
         {
-            System.out.println(boardName);
-            this.userBoards.add(reader.loadBoard("src/main/resources/scuttlr/application/boards/" + username + "_" + boardName + "_data.ser"));
+            for (Board board : userBoards)
+            {
+                this.userBoards.add(reader.loadBoard("src/main/resources/scuttlr/application/boards/" + username + "_" + board.getBoardName() + "_data.ser"));
+            }
+        }
+        else
+        {
+            // if user has no saved boards in database, create new temporary userBoards LinkedHashSet
+            this.userBoards = new LinkedHashSet<Board>();
         }
     }
 
     public void saveBoard()
     {
-        Writer writer = new Writer();
-        writer.saveBoard(this.activeBoard);
-        // userHandler.getCurrentUser().saveBoard(this.activeBoard.getBoardName());
+        if (this.activeBoard != null)
+        {
+            Writer writer = new Writer();
+            writer.saveBoard(this.activeBoard);
+        }
     }
 
     public void deleteList(ActionEvent actionEvent)
@@ -162,5 +208,10 @@ public class BoardController implements Initializable
 
     public void deleteTask(ActionEvent actionEvent)
     {
+    }
+
+    public void quit()
+    {
+        this.stage.close();
     }
 }

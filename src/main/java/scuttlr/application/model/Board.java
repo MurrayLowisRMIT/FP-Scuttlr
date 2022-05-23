@@ -21,12 +21,6 @@ public class Board implements Serializable
         this.userPassword = userPassword;
     }
 
-    public void saveBoard(Board board)
-    {
-        Writer writer = new Writer();
-        writer.saveBoard(board);
-    }
-
     public void setBoardName(String boardName)
     {
         this.boardName = boardName;

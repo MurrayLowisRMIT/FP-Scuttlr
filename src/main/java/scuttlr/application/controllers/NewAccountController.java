@@ -1,24 +1,37 @@
 package scuttlr.application.controllers;
 
+import javafx.animation.Interpolator;
+import javafx.animation.RotateTransition;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.transform.Rotate;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URL;
+import java.util.ResourceBundle;
 
+import static scuttlr.application.Main.boardController;
 import static scuttlr.application.Main.userController;
 
-public class NewAccountController
+public class NewAccountController implements Initializable
 {
-    private byte[] avatarData;
+    private boolean customAvatar = false;
+    private byte[] avatar;
+    @FXML
+    private ImageView logoImageView;
     @FXML
     private TextField username;
     @FXML
@@ -40,6 +53,20 @@ public class NewAccountController
     @FXML
     private AnchorPane pane;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle)
+    {
+        // rotate logo
+        RotateTransition rotation = new RotateTransition();
+        rotation.setNode(this.logoImageView);
+        rotation.setDuration(Duration.millis(5000));
+        rotation.setCycleCount(TranslateTransition.INDEFINITE);
+        rotation.setInterpolator(Interpolator.LINEAR);
+        rotation.setByAngle(360);
+        rotation.setAxis(Rotate.Z_AXIS);
+        rotation.play();
+    }
+
     public void goToLogin(ActionEvent actionEvent) throws IOException
     {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/login.fxml"));
@@ -49,7 +76,7 @@ public class NewAccountController
         this.stage.setScene(this.scene);
     }
 
-    public void createAccount(ActionEvent actionEvent) throws IOException
+    public void createAccount(ActionEvent actionEvent) throws IOException, ClassNotFoundException
     {
         String username = this.username.getText();
         String password = this.password.getText();
@@ -90,8 +117,16 @@ public class NewAccountController
         if (!failure)
         {
             userController.createUser(username, password);
-            userController.getCurrentUser().setAvatar(this.avatarData);
+            if (this.customAvatar)
+            {
+                userController.getCurrentUser().setAvatar(this.avatar);
+            }
+            else
+            {
+                userController.getCurrentUser().setAvatar(defaultAvatar());
+            }
             userController.saveUser();
+            boardController.loadBoards(username);
             this.stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             userController.login(this.stage);
         }
@@ -99,13 +134,30 @@ public class NewAccountController
 
     public void uploadImage() throws IOException
     {
-        // TODO filter file types
         // save avatar as byte array
+        // TODO filter file types
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(null);
         BufferedImage image = ImageIO.read(new File(file.getPath()));
         ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
         ImageIO.write(image, "png", outStreamObj);
-        this.avatarData = outStreamObj.toByteArray();
+        this.avatar = outStreamObj.toByteArray();
+
+        if (this.avatar != null)
+        {
+            this.customAvatar = true;
+            this.avatarConfirmedCheckbox.setSelected(true);
+        }
+    }
+
+    public byte[] defaultAvatar() throws IOException
+    {
+        // save avatar as byte array
+        byte[] avatarData;
+        BufferedImage image = ImageIO.read(new File("src/main/resources/scuttlr/application/graphics/Generic_Avatar.png"));
+        ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
+        ImageIO.write(image, "png", outStreamObj);
+        avatarData = outStreamObj.toByteArray();
+        return avatarData;
     }
 }

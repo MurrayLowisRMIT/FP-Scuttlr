@@ -31,18 +31,9 @@ public class UserController
 
     public void login(Stage stage) throws IOException
     {
-        //        boolean usernameAvailable = false;
-        //        File save = new File("src/main/resources/scuttlr/application/accounts/" + username + "_data.ser");
-        //        if (!save.exists())
-        //        {
-        //            usernameAvailable = true;
-        //        }
-
         this.stage = stage;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("src/main/resources/scuttlr/application/display/board.fxml"));
-        System.out.println("1");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/board.fxml"));
         this.pane = loader.load();
-        System.out.println("2");
         this.stage.setTitle(userController.getCurrentUser().getUsername());
         this.scene = new Scene(this.pane);
         this.stage.setScene(this.scene);

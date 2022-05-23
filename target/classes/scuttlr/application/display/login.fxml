@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Rectangle?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scuttlr.application.controllers.LoginController">
     <children>
@@ -38,11 +39,16 @@
                 <Hyperlink alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onAction="#goToNewAccount" text="New account" textAlignment="CENTER" GridPane.columnSpan="2147483647" GridPane.rowIndex="5" />
             </children>
         </GridPane>
-        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="100.0" layoutY="118.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="logoImageView" fitHeight="150.0" fitWidth="200.0" layoutX="100.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../graphics/Logo.png" />
             </image>
         </ImageView>
-      <ImageView fx:id="avatarPreview" fitHeight="150.0" fitWidth="200.0" layoutX="70.0" layoutY="219.0" pickOnBounds="true" preserveRatio="true" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="35.0" layoutX="50.0" layoutY="158.0" stroke="TRANSPARENT" strokeType="INSIDE" width="248.0" />
+      <ImageView fitHeight="35.0" fitWidth="176.0" layoutX="126.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/Logo_Text.png" />
+         </image>
+      </ImageView>
     </children>
 </AnchorPane>
