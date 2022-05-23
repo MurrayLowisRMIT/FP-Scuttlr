@@ -1,12 +1,17 @@
 package scuttlr.application.model;
 
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 
 public class Column
 {
     private String title;
-    private LinkedHashSet<Task> tasks;
+    private LinkedList<Task> tasks;
 
+    public Column()
+    {
+        this.title = "New column";
+    }
     public Column(String title)
     {
         this.title = title;
@@ -17,7 +22,7 @@ public class Column
         return this.title;
     }
 
-    public LinkedHashSet<Task> getTasks()
+    public LinkedList<Task> getTasks()
     {
         return this.tasks;
     }

@@ -14,7 +14,6 @@ public class Task
 
     public Task(String name, String description, Date start, Date due)
     {
-        super();
         this.name = name;
         this.description = description;
         this.start = start;

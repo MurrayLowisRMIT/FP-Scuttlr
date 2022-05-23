@@ -60,16 +60,7 @@ public class UserController
     {
         Reader reader = new Reader();
         this.currentUser = reader.loadUser("src/main/resources/scuttlr/application/accounts/" + username + "_data.ser");
-
-        try
-        {
-            boardController.loadBoards(username);
-        }
-        catch (ClassNotFoundException e)
-        {
-            // TODO failure to read boards
-            throw new RuntimeException(e);
-        }
+        boardController.loadBoards(username);
     }
 
     public void saveUser()

@@ -7,13 +7,16 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import scuttlr.application.model.Board;
 import scuttlr.application.model.Column;
@@ -29,10 +32,13 @@ import static scuttlr.application.Main.userController;
 
 public class BoardController implements Initializable
 {
+
+    private Board activeBoard;
+    private LinkedList<Board> userBoards;
     @FXML
     private Stage stage;
     @FXML
-    private AnchorPane pane;
+    private Pane columnsPane;
     @FXML
     private Scene scene;
     @FXML
@@ -48,9 +54,9 @@ public class BoardController implements Initializable
     @FXML
     private CheckBox completeCheckBox;
     @FXML
-    protected static ObservableList<Column> columns;
+    protected ObservableList<Column> columns;
     @FXML
-    protected static ListView<Column> columnListView;
+    protected ListView<Column> columnListView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -87,6 +93,43 @@ public class BoardController implements Initializable
 
         // populate columns
         columns = FXCollections.observableArrayList();
+        for (int i = 0; i < 5; i++)
+        {
+            this.columns.add(new Column("" + i));
+        }
+
+        // columns layout
+        this.columnListView = new ListView<>();
+        this.columnListView.setItems(this.columns);
+        this.columnListView.setOrientation(Orientation.HORIZONTAL);
+        this.columnListView.prefWidthProperty().bind(columnsPane.widthProperty().subtract(10));
+        this.columnListView.prefHeightProperty().bind(columnsPane.heightProperty().subtract(10));
+        this.columnListView.setLayoutX(5);
+        this.columnListView.setLayoutY(10);
+
+        columnListView.setCellFactory(param -> new ColumnController()
+        {
+        });
+
+        //        columnListView.setCellFactory(param -> new ListCell<Column>()
+        //        {
+        //            @Override
+        //            protected void updateItem(Column column, boolean empty)
+        //            {
+        //                super.updateItem(column, empty);
+        //                if (empty || column == null)
+        //                {
+        //                    setText(null);
+        //                }
+        //                else
+        //                {
+        //                    setText(column.getTitle());
+        //                }
+        //            }
+        //        });
+
+        this.columnsPane.getChildren().add(this.columnListView);
+
         columns.addListener(new InvalidationListener()
         {
             @Override
@@ -95,11 +138,6 @@ public class BoardController implements Initializable
                 System.out.println("THING HAPPENED");
             }
         });
-        columnListView = new ListView<Column>() ;
-        columns.add(new Column("New column 1"));
-        columns.add(new Column("New column 2"));
-        columns.add(new Column("New column 3"));
-        columnListView.setItems(columns);
     }
 
     public void openBoard(ActionEvent actionEvent) throws IOException
@@ -123,9 +161,6 @@ public class BoardController implements Initializable
     {
         userController.logout();
     }
-
-    private Board activeBoard;
-    private LinkedList<Board> userBoards;
 
     public Board getCurrentBoard()
     {
@@ -152,7 +187,7 @@ public class BoardController implements Initializable
         this.activeBoard.setBoardName(boardName);
     }
 
-    public void loadBoards(String username) throws IOException, ClassNotFoundException
+    public void loadBoards(String username)
     {
         Reader reader = new Reader();
         LinkedList<Board> tempUserBoards;
@@ -163,7 +198,18 @@ public class BoardController implements Initializable
             LinkedList<String> tempBoardNames = userController.getCurrentUser().getUserBoardNames();
             for (int i = 0; i < userController.getCurrentUser().getUserBoardNames().size(); i++)
             {
-                tempUserBoards.add(reader.loadBoard("src/main/resources/scuttlr/application/boards/" + username + "_" + tempBoardNames.get(i) + "_data.ser"));
+                try
+                {
+                    tempUserBoards.add(reader.loadBoard("src/main/resources/scuttlr/application/boards/" + username + "_" + tempBoardNames.get(i) + "_data.ser"));
+                }
+                catch (IOException e)
+                {
+                    throw new RuntimeException(e);
+                }
+                catch (ClassNotFoundException e)
+                {
+                    throw new RuntimeException(e);
+                }
             }
         }
         else
@@ -196,7 +242,7 @@ public class BoardController implements Initializable
 
     public void quit(ActionEvent actionEvent)
     {
-        this.stage = (Stage) menuBar.getScene().getWindow();
+        this.stage = (Stage) this.menuBar.getScene().getWindow();
         this.stage.close();
     }
 
