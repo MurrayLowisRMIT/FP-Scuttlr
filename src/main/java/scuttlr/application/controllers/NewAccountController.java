@@ -146,6 +146,7 @@ public class NewAccountController implements Initializable
         if (this.avatar != null)
         {
             this.customAvatar = true;
+            this.avatarConfirmedCheckbox.setSelected(true);
         }
     }
 
