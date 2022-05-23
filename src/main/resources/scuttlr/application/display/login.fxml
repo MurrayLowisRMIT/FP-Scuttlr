@@ -30,10 +30,10 @@
             </rowConstraints>
             <children>
                 <Label text="Username*" />
-                <TextField fx:id="username" maxWidth="1.7976931348623157E308" promptText="username" GridPane.columnIndex="1" />
+                <TextField fx:id="username" maxWidth="1.7976931348623157E308" onAction="#verifyLogin" promptText="username" GridPane.columnIndex="1" />
             <Label fx:id="usernameFailLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="No such user" textFill="RED" visible="false" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
                 <Label text="Password*" GridPane.rowIndex="2" />
-                <PasswordField fx:id="password" maxWidth="1.7976931348623157E308" promptText="********" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <PasswordField fx:id="password" maxWidth="1.7976931348623157E308" onAction="#verifyLogin" promptText="********" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label fx:id="passwordFailLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Password incorrect" textFill="RED" visible="false" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
                 <Button fx:id="verifyLoginButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#verifyLogin" text="Login" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                 <Hyperlink alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onAction="#goToNewAccount" text="New account" textAlignment="CENTER" GridPane.columnSpan="2147483647" GridPane.rowIndex="5" />

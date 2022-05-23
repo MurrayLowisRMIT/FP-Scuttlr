@@ -55,6 +55,8 @@ public class BoardController implements Initializable
     @FXML
     private Label quoteLabel;
     @FXML
+    private CheckBox completeCheckBox;
+    @FXML
     private ObservableList<TaskListController> taskLists;
     @FXML
     private ListView<TaskListController> listView;
@@ -95,8 +97,8 @@ public class BoardController implements Initializable
         // populate taskLists
         this.taskLists = FXCollections.observableArrayList();
         this.listView = new ListView<TaskListController>(taskLists);
-        this.listView.setLayoutX(50);
-        this.listView.setLayoutY(50);
+        this.listView.setLayoutX(200);
+        this.listView.setLayoutY(200);
         this.listView.setCellFactory(new Callback<ListView<TaskListController>, ListCell<TaskListController>>()
         {
             @Override
@@ -214,5 +216,19 @@ public class BoardController implements Initializable
     {
         this.stage = (Stage) menuBar.getScene().getWindow();
         this.stage.close();
+    }
+
+    // toggle completed status for task
+    public void checkComplete(ActionEvent actionEvent)
+    {
+        this.completeCheckBox.setSelected(!this.completeCheckBox.isSelected());
+        if (this.completeCheckBox.isSelected())
+        {
+
+        }
+        else
+        {
+
+        }
     }
 }
