@@ -50,6 +50,7 @@ public class UserController
         this.currentUser = null;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/login.fxml"));
         this.pane = loader.load();
+        this.stage.setTitle("Scuttlr");
         this.scene = new Scene(this.pane);
         this.stage.setScene(this.scene);
         this.stage.show();

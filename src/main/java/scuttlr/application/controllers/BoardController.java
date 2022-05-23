@@ -1,14 +1,12 @@
 package scuttlr.application.controllers;
 
-import javafx.animation.Interpolator;
-import javafx.animation.RotateTransition;
-import javafx.animation.TranslateTransition;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 
@@ -16,11 +14,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import javafx.util.Duration;
 import scuttlr.application.model.Board;
+import scuttlr.application.model.Column;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -29,7 +25,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-import static scuttlr.application.Main.boardController;
 import static scuttlr.application.Main.userController;
 
 public class BoardController implements Initializable
@@ -45,11 +40,7 @@ public class BoardController implements Initializable
     @FXML
     private MenuBar menuBar;
     @FXML
-    private MenuItem newBoardMenuItem;
-    @FXML
     private MenuItem saveBoardMenuItem;
-    @FXML
-    private MenuItem quitMenuItem;
     @FXML
     private Label usernameLabel;
     @FXML
@@ -57,9 +48,9 @@ public class BoardController implements Initializable
     @FXML
     private CheckBox completeCheckBox;
     @FXML
-    private ObservableList<TaskListController> taskLists;
+    protected static ObservableList<Column> columns;
     @FXML
-    private ListView<TaskListController> listView;
+    protected static ListView<Column> columnListView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -94,29 +85,21 @@ public class BoardController implements Initializable
         }
         this.avatarImageView.setImage(avatar);
 
-        // populate taskLists
-        this.taskLists = FXCollections.observableArrayList();
-        this.listView = new ListView<TaskListController>(taskLists);
-        this.listView.setLayoutX(200);
-        this.listView.setLayoutY(200);
-        this.listView.setCellFactory(new Callback<ListView<TaskListController>, ListCell<TaskListController>>()
+        // populate columns
+        columns = FXCollections.observableArrayList();
+        columns.addListener(new InvalidationListener()
         {
             @Override
-            public ListCell<TaskListController> call(ListView<TaskListController> listView)
+            public void invalidated(Observable observable)
             {
-                return new ListCell<TaskListController>();
+                System.out.println("THING HAPPENED");
             }
         });
-
-        this.pane.getChildren().add(listView);
-
-        // TODO populate actual boards into boardController
-        LinkedHashSet<Board> boards = boardController.getUserBoards();
-        Iterator<Board> i = boards.iterator();
-        while (i.hasNext())
-        {
-            taskLists.add(new TaskListController(i.next()));
-        }
+        columnListView = new ListView<Column>() ;
+        columns.add(new Column("New column 1"));
+        columns.add(new Column("New column 2"));
+        columns.add(new Column("New column 3"));
+        columnListView.setItems(columns);
     }
 
     public void openBoard(ActionEvent actionEvent) throws IOException
@@ -126,17 +109,14 @@ public class BoardController implements Initializable
 
     public void createNewBoard(ActionEvent actionEvent) throws IOException
     {
-        this.activeBoard = userController.getCurrentUser().createBoard("New project");
+        String name = "New board";
+        this.activeBoard = userController.getCurrentUser().createBoard(name);
         this.saveBoardMenuItem.setDisable(false);
         if (this.userBoards == null)
         {
-            this.userBoards = new LinkedHashSet<Board>();
+            this.userBoards = new LinkedList<Board>();
         }
         this.userBoards.add(this.activeBoard);
-    }
-
-    public void createNewList(ActionEvent actionEvent) throws IOException
-    {
     }
 
     public void logout() throws IOException
@@ -145,14 +125,14 @@ public class BoardController implements Initializable
     }
 
     private Board activeBoard;
-    private LinkedHashSet<Board> userBoards;
+    private LinkedList<Board> userBoards;
 
     public Board getCurrentBoard()
     {
         return this.activeBoard;
     }
 
-    public LinkedHashSet<Board> getUserBoards()
+    public LinkedList<Board> getUserBoards()
     {
         return this.userBoards;
     }
@@ -175,19 +155,21 @@ public class BoardController implements Initializable
     public void loadBoards(String username) throws IOException, ClassNotFoundException
     {
         Reader reader = new Reader();
+        LinkedList<Board> tempUserBoards;
         // read user's boards from database
-        LinkedHashSet<Board> userBoards = this.userBoards;
-        if (userBoards != null)
+        if (this.userBoards != null)
         {
-            for (Board board : userBoards)
+            tempUserBoards = new LinkedList<Board>();
+            LinkedList<String> tempBoardNames = userController.getCurrentUser().getUserBoardNames();
+            for (int i = 0; i < userController.getCurrentUser().getUserBoardNames().size(); i++)
             {
-                this.userBoards.add(reader.loadBoard("src/main/resources/scuttlr/application/boards/" + username + "_" + board.getBoardName() + "_data.ser"));
+                tempUserBoards.add(reader.loadBoard("src/main/resources/scuttlr/application/boards/" + username + "_" + tempBoardNames.get(i) + "_data.ser"));
             }
         }
         else
         {
-            // if user has no saved boards in database, create new temporary userBoards LinkedHashSet
-            this.userBoards = new LinkedHashSet<Board>();
+            // if user has no saved boards in database, create new temporary userBoards LinkedList
+            this.userBoards = new LinkedList<Board>();
         }
     }
 

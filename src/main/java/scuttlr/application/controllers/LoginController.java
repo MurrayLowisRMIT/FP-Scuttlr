@@ -2,7 +2,6 @@ package scuttlr.application.controllers;
 
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
-import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,6 +30,8 @@ public class LoginController implements Initializable
     @FXML
     private ImageView logoImageView;
     @FXML
+    private RotateTransition logoRotation;
+    @FXML
     private Stage stage;
     @FXML
     private Scene scene;
@@ -51,14 +52,14 @@ public class LoginController implements Initializable
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         // rotating logo
-        RotateTransition rotation = new RotateTransition();
-        rotation.setNode(this.logoImageView);
-        rotation.setDuration(Duration.millis(5000));
-        rotation.setCycleCount(TranslateTransition.INDEFINITE);
-        rotation.setInterpolator(Interpolator.LINEAR);
-        rotation.setByAngle(360);
-        rotation.setAxis(Rotate.Z_AXIS);
-        rotation.play();
+        this.logoRotation = new RotateTransition();
+        this.logoRotation.setNode(this.logoImageView);
+        this.logoRotation.setDuration(Duration.millis(5000));
+        this.logoRotation.setCycleCount(RotateTransition.INDEFINITE);
+        this.logoRotation.setInterpolator(Interpolator.LINEAR);
+        this.logoRotation.setByAngle(360);
+        this.logoRotation.setAxis(Rotate.Z_AXIS);
+        this.logoRotation.play();
     }
 
     public void verifyLogin(ActionEvent actionEvent) throws RuntimeException

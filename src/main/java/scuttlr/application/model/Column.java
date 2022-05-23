@@ -1,16 +1,13 @@
 package scuttlr.application.model;
 
-import javafx.scene.control.ListCell;
-
-import java.io.Serializable;
 import java.util.LinkedHashSet;
 
-public class TaskList
+public class Column
 {
     private String title;
     private LinkedHashSet<Task> tasks;
 
-    public TaskList()
+    public Column(String title)
     {
         this.title = title;
     }

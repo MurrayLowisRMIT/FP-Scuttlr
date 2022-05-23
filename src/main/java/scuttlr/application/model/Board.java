@@ -1,15 +1,14 @@
 package scuttlr.application.model;
 
-import scuttlr.application.controllers.Writer;
-
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 
 import static scuttlr.application.Main.userController;
 
 public class Board implements Serializable
 {
-    private LinkedHashSet<TaskList> lists;
+    private HashMap<String, Column> columns;
     private String boardName;
     private String userName;
     private String userPassword;

@@ -1,23 +1,21 @@
 package scuttlr.application.model;
 
-import scuttlr.application.controllers.Writer;
-
 import java.io.Serializable;
-import java.util.LinkedHashSet;
+import java.util.LinkedList;
 
 public class User implements Serializable
 {
     private String username;
     private String password;
     private byte[] avatarData;
-    private LinkedHashSet<String> userBoardNames;
+    private LinkedList<String> userBoardNames;
     private String currentBoard;
 
     public User(String username, String password)
     {
         this.username = username;
         this.password = password;
-        this.userBoardNames = new LinkedHashSet<String>();
+        this.userBoardNames = new LinkedList<String>();
     }
 
     public void setPassword(String password)
@@ -50,7 +48,7 @@ public class User implements Serializable
         this.avatarData = avatarData;
     }
 
-    public LinkedHashSet<String> getUserBoardnames()
+    public LinkedList<String> getUserBoardNames()
     {
         return this.userBoardNames;
     }

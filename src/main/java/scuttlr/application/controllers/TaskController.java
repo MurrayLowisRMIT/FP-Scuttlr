@@ -2,11 +2,11 @@ package scuttlr.application.controllers;
 
 import javafx.scene.control.ListCell;
 import scuttlr.application.model.Task;
-import scuttlr.application.model.TaskList;
+import scuttlr.application.model.Column;
 
 import java.util.ArrayList;
 
-public class TaskController extends ListCell<TaskList>
+public class TaskController extends ListCell<Column>
 {
     private ArrayList<Task> tasks;
 
@@ -16,13 +16,13 @@ public class TaskController extends ListCell<TaskList>
     }
 
     @Override
-    protected void updateItem(TaskList taskList, boolean empty)
+    protected void updateItem(Column column, boolean empty)
     {
-        super.updateItem(taskList, empty);
-        if (taskList != null && !empty) // <== test for null item and empty parameter
+        super.updateItem(column, empty);
+        if (column != null && !empty) // <== test for null item and empty parameter
         {
-//            this.name = taskList.getTasks().;
-//            price.setText(String.format("%d $", taskList.getPrice()));
+//            this.name = column.getTasks().;
+//            price.setText(String.format("%d $", column.getPrice()));
 //            setGraphic(content);
         }
         else
