@@ -15,7 +15,7 @@ public class Writer
     {
         try
         {
-            FileOutputStream fileOut = new FileOutputStream("src/main/resources/scuttlr/application/accounts/" + userController.getCurrentUser().getUsername() + "_data.ser");
+            FileOutputStream fileOut = new FileOutputStream("src/main/resources/scuttlr/application/accounts/" + userController.getCurrentUser().getUsername() + ".ser");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(userController.getCurrentUser());
             out.close();

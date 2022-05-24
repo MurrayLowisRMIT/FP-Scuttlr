@@ -72,7 +72,7 @@ public class UserController
     public void loadUser(String username) throws IOException, ClassNotFoundException
     {
         Reader reader = new Reader();
-        this.currentUser = reader.loadUser("src/main/resources/scuttlr/application/accounts/" + username + "_data.ser");
+        this.currentUser = reader.loadUser("src/main/resources/scuttlr/application/accounts/" + username + ".ser");
     }
 
     public void saveUser()
@@ -84,7 +84,7 @@ public class UserController
     public boolean checkUsernameAvailable(String username)
     {
         boolean usernameAvailable = false;
-        File save = new File("src/main/resources/scuttlr/application/accounts/" + username + "_data.ser");
+        File save = new File("src/main/resources/scuttlr/application/accounts/" + username + ".ser");
         if (!save.exists())
         {
             usernameAvailable = true;
