@@ -75,6 +75,9 @@ public class LoginController implements Initializable
                 if (userController.getCurrentUser().checkPassword(this.password.getText()))
                 {
                     this.stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                    this.stage.close();
+                    this.stage = new Stage();
+                    this.stage.setResizable(true);
                     userController.login(this.stage);
                 }
                 else

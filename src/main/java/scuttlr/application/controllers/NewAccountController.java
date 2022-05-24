@@ -134,6 +134,9 @@ public class NewAccountController implements Initializable
             userController.saveUser();
             boardController.loadBoards(username);
             this.stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            this.stage.close();
+            this.stage = new Stage();
+            this.stage.setResizable(true);
             userController.login(this.stage);
         }
     }
