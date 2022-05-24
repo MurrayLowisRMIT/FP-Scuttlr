@@ -16,7 +16,6 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import scuttlr.application.model.Board;
 import scuttlr.application.model.Column;
@@ -46,6 +45,8 @@ public class BoardController implements Initializable
     private MenuBar menuBar;
     @FXML
     private MenuItem saveBoardMenuItem;
+    @FXML
+    private HBox boardControlsHBox;
     @FXML
     private Label usernameLabel;
     @FXML
@@ -148,6 +149,7 @@ public class BoardController implements Initializable
             this.userBoards = new LinkedList<Board>();
         }
         this.userBoards.add(this.activeBoard);
+        toggleBoardActive();
     }
 
     public Board getCurrentBoard()
@@ -163,11 +165,30 @@ public class BoardController implements Initializable
     public void setCurrentBoard(Board board)
     {
         this.activeBoard = board;
+        toggleBoardActive();
     }
 
     public void closeCurrentBoard()
     {
         this.activeBoard = null;
+        this.columnListView.getItems().clear();
+        toggleBoardActive();
+    }
+
+    // toggle UI dependent on whether a board is open
+    public void toggleBoardActive()
+    {
+        this.stage = (Stage) this.menuBar.getScene().getWindow();
+        if (this.activeBoard != null)
+        {
+            this.boardControlsHBox.setDisable(false);
+            this.stage.setTitle(userController.getCurrentUser().getUsername() + " - " + this.activeBoard.getBoardName());
+        }
+        else
+        {
+            this.boardControlsHBox.setDisable(true);
+            this.stage.setTitle(userController.getCurrentUser().getUsername() + " - No project selected");
+        }
     }
 
     public void setBoardName(String boardName)

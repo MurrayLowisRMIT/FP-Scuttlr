@@ -71,7 +71,6 @@ public class User implements Serializable
     }
 
     // creating board here ensures password is added securely
-    // kinda pointless since the serialized object is still partially human-readable anyway
     public Board createBoard(String boardName)
     {
         Board board = new Board(boardName, this.password);

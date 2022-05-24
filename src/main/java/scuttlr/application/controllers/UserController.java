@@ -21,7 +21,7 @@ public class UserController
     private AnchorPane pane;
     private User currentUser;
 
-    public void createNewBoard(ActionEvent actionEvent)
+    public void addBoardToUser(ActionEvent actionEvent)
     {
     }
 
@@ -35,7 +35,7 @@ public class UserController
         this.stage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/board.fxml"));
         this.pane = loader.load();
-        this.stage.setTitle(userController.getCurrentUser().getUsername());
+        this.stage.setTitle(userController.getCurrentUser().getUsername() + " - No project selected");
         this.scene = new Scene(this.pane);
         this.stage.setScene(this.scene);
         this.stage.show();

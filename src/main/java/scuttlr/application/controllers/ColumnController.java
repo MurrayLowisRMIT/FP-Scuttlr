@@ -36,6 +36,7 @@ public class ColumnController extends ListCell<Column>
     @FXML
     private ListView<Task> tasks;
 
+    // TODO read from fxml file instead of hard coding here
     public ColumnController()
     {
         super();
@@ -57,7 +58,7 @@ public class ColumnController extends ListCell<Column>
     protected void updateItem(Column column, boolean empty)
     {
         super.updateItem(column, empty);
-        if (column != null && !empty) // <== test for null item and empty parameter
+        if (column != null && !empty)
         {
             titleTextField.setText(column.getTitle());
             setGraphic(columnVBox);
