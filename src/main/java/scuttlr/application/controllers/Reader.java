@@ -13,6 +13,7 @@ import java.util.Random;
 public class Reader
 {
 
+    // load user data from save file
     public User loadUser(String fileAddress) throws IOException, ClassNotFoundException
     {
         User user;
@@ -24,6 +25,7 @@ public class Reader
         return user;
     }
 
+    // read random quote from save file to display at top of main screen
     public String loadQuote()
     {
         List<String> quotes = null;
@@ -38,6 +40,7 @@ public class Reader
         return quotes.get(new Random().nextInt(quotes.size()));
     }
 
+    // load board from save file
     public Board loadBoard(String fileAddress) throws IOException, ClassNotFoundException
     {
         Board board;

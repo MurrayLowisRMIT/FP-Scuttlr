@@ -11,6 +11,7 @@ public class Board implements Serializable
 {
     private LinkedList<Column> columns;
     private String boardName;
+    // board is only accessible to user with matching username and password
     private String userName;
     private String userPassword;
 
@@ -31,11 +32,13 @@ public class Board implements Serializable
         return this.boardName;
     }
 
+    // get name of board's owner - used for verification
     public String getUserName()
     {
         return this.userName;
     }
 
+    // TODO use this
     public boolean verifyOwner(String userName, String userPassword)
     {
         boolean verified = false;

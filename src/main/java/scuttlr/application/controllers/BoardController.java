@@ -16,7 +16,7 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import scuttlr.application.model.Board;
 import scuttlr.application.model.Column;
@@ -24,6 +24,8 @@ import scuttlr.application.model.Column;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -46,6 +48,8 @@ public class BoardController implements Initializable
     private MenuBar menuBar;
     @FXML
     private MenuItem saveBoardMenuItem;
+    @FXML
+    private HBox boardControlsHBox;
     @FXML
     private Label usernameLabel;
     @FXML
@@ -135,7 +139,16 @@ public class BoardController implements Initializable
 
     public void openBoard(ActionEvent actionEvent) throws IOException
     {
-        // TODO read board from database
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(null);
+        if (file != null && file.getAbsoluteFile().toString().matches(userController.getCurrentUser().getUsername() + "_" + this.activeBoard.getBoardName() + ".ser"))
+        {
+            // TODO activate file
+        }
+        else
+        {
+            // TODO set popup error warning
+        }
     }
 
     public void createNewBoard(ActionEvent actionEvent) throws IOException
@@ -148,6 +161,7 @@ public class BoardController implements Initializable
             this.userBoards = new LinkedList<Board>();
         }
         this.userBoards.add(this.activeBoard);
+        toggleBoardActiveUI();
     }
 
     public Board getCurrentBoard()
@@ -163,11 +177,30 @@ public class BoardController implements Initializable
     public void setCurrentBoard(Board board)
     {
         this.activeBoard = board;
+        toggleBoardActiveUI();
     }
 
     public void closeCurrentBoard()
     {
         this.activeBoard = null;
+        this.columnListView.getItems().clear();
+        toggleBoardActiveUI();
+    }
+
+    // toggle UI elements based on whether a board is open
+    public void toggleBoardActiveUI()
+    {
+        this.stage = (Stage) this.menuBar.getScene().getWindow();
+        if (this.activeBoard != null)
+        {
+            this.boardControlsHBox.setDisable(false);
+            this.stage.setTitle(userController.getCurrentUser().getUsername() + " - " + this.activeBoard.getBoardName());
+        }
+        else
+        {
+            this.boardControlsHBox.setDisable(true);
+            this.stage.setTitle(userController.getCurrentUser().getUsername() + " - No project selected");
+        }
     }
 
     public void setBoardName(String boardName)
@@ -188,6 +221,7 @@ public class BoardController implements Initializable
             {
                 try
                 {
+                    // open boards associated with the user - checks both the file name and the board's 'username' attribute
                     tempUserBoards.add(reader.loadBoard("src/main/resources/scuttlr/application/boards/" + username + "_" + tempBoardNames.get(i) + "_data.ser"));
                 }
                 catch (IOException e)
@@ -214,6 +248,22 @@ public class BoardController implements Initializable
             Writer writer = new Writer();
             writer.saveBoard(this.activeBoard);
         }
+    }
+
+    // delete board save file
+    public void deleteBoard()
+    {
+        String fileName = userController.getCurrentUser().getUsername() + "_" + this.activeBoard.getBoardName() + ".ser";
+        File file = new File("src/main/resources/scuttlr/application/boards/" + fileName);
+        if (file.delete())
+        {
+            // TODO notify user of success
+        }
+        else
+        {
+            // TODO notify user of failure
+        }
+        closeCurrentBoard();
     }
 
     public void logout() throws IOException

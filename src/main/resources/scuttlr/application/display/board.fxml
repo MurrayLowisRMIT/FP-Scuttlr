@@ -58,11 +58,12 @@
                     </padding>
                 </HBox>
                 <Pane fx:id="columnsPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
-                <HBox>
+                <HBox fx:id="boardControlsHBox" disable="true">
                     <children>
                         <Button fx:id="newColumnTab" mnemonicParsing="false" onAction="#newColumn" text="New column" />
-                        <Button mnemonicParsing="false" text="Button" />
-                        <Button mnemonicParsing="false" text="Button" />
+                        <Button fx:id="saveBoardButton" mnemonicParsing="false" onAction="#saveBoard" text="Save board" />
+                        <Button fx:id="deleteBoardButton" mnemonicParsing="false" onAction="#deleteBoard" text="Delete board" />
+                  <Button fx:id="closeBoardButton" mnemonicParsing="false" onAction="#closeCurrentBoard" text="Closeboard" />
                     </children>
                 </HBox>
             </children>

@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.transform.Rotate;
@@ -64,6 +65,7 @@ public class LoginController implements Initializable
 
     public void verifyLogin(ActionEvent actionEvent) throws RuntimeException
     {
+        // hide error messages until triggered
         this.usernameFailLabel.setVisible(false);
         this.passwordFailLabel.setVisible(false);
         // TODO make this less shitty
@@ -71,10 +73,18 @@ public class LoginController implements Initializable
         {
             try
             {
+                // check if a user file exists for the username entered and load if so
                 userController.loadUser(this.username.getText());
+                // if password matches, log in
                 if (userController.getCurrentUser().checkPassword(this.password.getText()))
                 {
+                    // open main screen in new window
                     this.stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                    this.stage.close();
+                    this.stage = new Stage();
+                    Image icon = new Image("/scuttlr/application/graphics/Logo.png");
+                    stage.getIcons().add(icon);
+                    this.stage.setResizable(true);
                     userController.login(this.stage);
                 }
                 else
@@ -103,6 +113,7 @@ public class LoginController implements Initializable
 
     public void goToNewAccount() throws IOException
     {
+        // go to new account screen in same window
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/newAccount.fxml"));
         this.pane = loader.load();
         this.stage = (Stage) this.verifyLoginButton.getScene().getWindow();
