@@ -26,7 +26,7 @@ public class Main extends Application
     {
         AnchorPane root = FXMLLoader.load(getClass().getResource("/scuttlr/application/display/login.fxml"));
         Scene scene = new Scene(root);
-        Image icon = new Image("/scuttlr/application/graphics/Icon.png");
+        Image icon = new Image("/scuttlr/application/graphics/Logo.png");
         stage.getIcons().add(icon);
         stage.setResizable(false);
         stage.setTitle("Scuttlr");

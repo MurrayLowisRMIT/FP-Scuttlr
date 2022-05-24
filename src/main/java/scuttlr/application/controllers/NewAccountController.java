@@ -171,7 +171,7 @@ public class NewAccountController implements Initializable
     {
         // save avatar as byte array
         byte[] avatarData;
-        BufferedImage image = ImageIO.read(new File("src/main/resources/scuttlr/application/graphics/Generic_Avatar.png"));
+        BufferedImage image = ImageIO.read(new File("src/main/resources/scuttlr/application/graphics/Logo.png"));
         ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
         ImageIO.write(image, "png", outStreamObj);
         avatarData = outStreamObj.toByteArray();
