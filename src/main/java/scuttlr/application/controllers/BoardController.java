@@ -15,8 +15,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -33,12 +31,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
+import static scuttlr.application.Main.boardController;
 import static scuttlr.application.Main.userController;
 
 public class BoardController implements Initializable
 {
     private Board activeBoard;
-    private LinkedList<Board> userBoards;
+    private LinkedList<Board> loadedBoards;
     @FXML
     private Stage stage;
     @FXML
@@ -50,17 +49,15 @@ public class BoardController implements Initializable
     @FXML
     private MenuBar menuBar;
     @FXML
-    private MenuItem saveBoardMenuItem;
+    private Menu projectMenu;
     @FXML
-    private HBox boardControlsHBox;
+    private MenuItem saveBoardMenuItem;
     @FXML
     private Label usernameLabel;
     @FXML
     private Label quoteLabel;
     @FXML
     private Label notificationsLabel;
-    @FXML
-    private TextField boardNameTextField;
     @FXML
     private CheckBox completeCheckBox;
     @FXML
@@ -71,7 +68,8 @@ public class BoardController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        this.userBoards = new LinkedList<Board>();
+        // load user's boards
+        boardController.loadBoards(userController.getCurrentUser().getUsername());
 
         // set username to label
         this.usernameLabel.setText(userController.getCurrentUser().getUsername());
@@ -161,12 +159,11 @@ public class BoardController implements Initializable
     {
         String name = "New project";
         this.activeBoard = new Board(name, null);
-        this.saveBoardMenuItem.setDisable(false);
-        if (this.userBoards == null)
+        if (this.loadedBoards == null)
         {
-            this.userBoards = new LinkedList<Board>();
+            this.loadedBoards = new LinkedList<Board>();
         }
-        this.userBoards.add(this.activeBoard);
+        this.loadedBoards.add(this.activeBoard);
         updateActiveBoardUI();
     }
 
@@ -175,9 +172,9 @@ public class BoardController implements Initializable
         return this.activeBoard;
     }
 
-    public LinkedList<Board> getUserBoards()
+    public LinkedList<Board> getLoadedBoards()
     {
-        return this.userBoards;
+        return this.loadedBoards;
     }
 
     public void setCurrentBoard(Board board)
@@ -196,41 +193,30 @@ public class BoardController implements Initializable
     // update UI elements based on whether a board is open
     public void updateActiveBoardUI()
     {
-        this.stage = getStage();
+        this.stage = (Stage) this.menuBar.getScene().getWindow();
         if (this.activeBoard != null)
         {
-            this.boardControlsHBox.setDisable(false);
+            this.projectMenu.setDisable(false);
+            this.saveBoardMenuItem.setDisable(false);
             this.stage.setTitle(userController.getCurrentUser().getUsername() + " - " + this.activeBoard.getBoardName());
-            this.boardNameTextField.setText(this.activeBoard.getBoardName());
         }
         else
         {
-            this.boardControlsHBox.setDisable(true);
+            this.projectMenu.setDisable(true);
+            this.saveBoardMenuItem.setDisable(true);
             this.stage.setTitle(userController.getCurrentUser().getUsername() + " - No project selected");
-            this.boardNameTextField.setText("Project name");
         }
     }
 
-    // update board name from 'boardNameTextField' when user presses 'enter' key
-    public void setBoardName(KeyEvent keyEvent)
+    public void setBoardName(ActionEvent actionEvent)
     {
-        KeyCode key = keyEvent.getCode();
-        if (key == KeyCode.ENTER)
-        {
-            this.activeBoard.setBoardName(this.boardNameTextField.getText());
-            updateActiveBoardUI();
-        }
-    }
-
-    // update board name from other source
-    public void setBoardName(String boardName)
-    {
-        this.activeBoard.setBoardName(boardName);
+        // TODO
+        this.stage = (Stage) this.menuBar.getScene().getWindow();
     }
 
     public void loadBoards(String username)
     {
-        this.userBoards = new LinkedList<Board>();
+        this.loadedBoards = new LinkedList<Board>();
         Reader reader = new Reader();
         // read user's boards from database
         LinkedList<String> tempBoardNames = userController.getCurrentUser().getUserBoardNames();
@@ -239,7 +225,7 @@ public class BoardController implements Initializable
             try
             {
                 // open boards associated with the user - checks both the file name and the board's 'username' attribute
-                this.userBoards.add(reader.loadBoard("src/main/resources/scuttlr/application/boards/" + username + "_" + tempBoardNames.get(i) + ".ser"));
+                this.loadedBoards.add(reader.loadBoard("src/main/resources/scuttlr/application/boards/" + username + "_" + tempBoardNames.get(i) + ".ser"));
             }
             catch (IOException e)
             {
@@ -249,6 +235,11 @@ public class BoardController implements Initializable
             {
                 throw new RuntimeException(e);
             }
+        }
+        // set most recent board to active
+        if (this.loadedBoards.size() > 0)
+        {
+            this.activeBoard = this.loadedBoards.getLast();
         }
     }
 
@@ -290,9 +281,9 @@ public class BoardController implements Initializable
         this.columns.remove(actionEvent.getSource());
     }
 
-    public void quit(ActionEvent actionEvent)
+    public void quit()
     {
-        this.stage = getStage();
+        this.stage = (Stage) this.menuBar.getScene().getWindow();
         this.stage.close();
     }
 
@@ -318,12 +309,6 @@ public class BoardController implements Initializable
         PauseTransition notificationFade = new PauseTransition(Duration.seconds(3));
         notificationFade.setOnFinished(event -> this.notificationsLabel.setVisible(false));
         notificationFade.play();
-    }
-
-    // get current window for ActionEvent purposes
-    public Stage getStage()
-    {
-        return (Stage) this.menuBar.getScene().getWindow();
     }
 
     // TODO migrate below methods to other classes

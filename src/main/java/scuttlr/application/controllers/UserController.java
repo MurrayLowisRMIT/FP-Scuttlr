@@ -1,11 +1,13 @@
 package scuttlr.application.controllers;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import scuttlr.application.model.User;
 
 import java.io.File;
@@ -32,9 +34,6 @@ public class UserController
 
     public void login(Stage stage) throws IOException
     {
-        // load user's boards
-        boardController.loadBoards(userController.getCurrentUser().getUsername());
-
         this.stage = new Stage();
         Image icon = new Image("/scuttlr/application/graphics/Logo.png");
         stage.getIcons().add(icon);
