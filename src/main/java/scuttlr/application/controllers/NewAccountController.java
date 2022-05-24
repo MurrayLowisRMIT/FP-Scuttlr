@@ -142,14 +142,9 @@ public class NewAccountController implements Initializable
                 userController.getCurrentUser().setAvatar(defaultAvatar());
             }
             userController.saveUser();
-            boardController.loadBoards(username);
             // open main screen in new window
             this.stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             this.stage.close();
-            this.stage = new Stage();
-            Image icon = new Image("/scuttlr/application/graphics/Logo.png");
-            stage.getIcons().add(icon);
-            this.stage.setResizable(true);
             userController.login(this.stage);
         }
     }

@@ -21,10 +21,6 @@ public class Writer
             out.close();
             fileOut.close();
         }
-        catch (FileNotFoundException e)
-        {
-            throw new RuntimeException(e);
-        }
         catch (IOException e)
         {
             throw new RuntimeException(e);
@@ -35,11 +31,7 @@ public class Writer
     // save a board as a serialized file including contents, and owner's username and password (for verification)
     public void saveBoard(Board board)
     {
-        if (board == null)
-        {
-            userController.getCurrentUser().createBoard("New board");
-            board = boardController.getCurrentBoard();
-        }
+        board = userController.getCurrentUser().createBoard(board);
 
         try
         {

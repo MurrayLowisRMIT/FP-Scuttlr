@@ -38,6 +38,16 @@ public class Board implements Serializable
         return this.userName;
     }
 
+    public LinkedList<Column> getColumns()
+    {
+        return this.columns;
+    }
+
+    public void setColumns(LinkedList<Column> columns)
+    {
+        this.columns = columns;
+    }
+
     // TODO use this
     public boolean verifyOwner(String userName, String userPassword)
     {

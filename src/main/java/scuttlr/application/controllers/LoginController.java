@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static scuttlr.application.Main.boardController;
 import static scuttlr.application.Main.userController;
 
 public class LoginController implements Initializable
@@ -81,10 +82,6 @@ public class LoginController implements Initializable
                     // open main screen in new window
                     this.stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                     this.stage.close();
-                    this.stage = new Stage();
-                    Image icon = new Image("/scuttlr/application/graphics/Logo.png");
-                    stage.getIcons().add(icon);
-                    this.stage.setResizable(true);
                     userController.login(this.stage);
                 }
                 else

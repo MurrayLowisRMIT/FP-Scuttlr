@@ -32,6 +32,13 @@ public class UserController
 
     public void login(Stage stage) throws IOException
     {
+        // load user's boards
+        boardController.loadBoards(userController.getCurrentUser().getUsername());
+
+        this.stage = new Stage();
+        Image icon = new Image("/scuttlr/application/graphics/Logo.png");
+        stage.getIcons().add(icon);
+        this.stage.setResizable(true);
         this.stage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/board.fxml"));
         this.pane = loader.load();
@@ -66,7 +73,6 @@ public class UserController
     {
         Reader reader = new Reader();
         this.currentUser = reader.loadUser("src/main/resources/scuttlr/application/accounts/" + username + "_data.ser");
-        boardController.loadBoards(username);
     }
 
     public void saveUser()

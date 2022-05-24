@@ -1,5 +1,7 @@
 package scuttlr.application.model;
 
+import scuttlr.application.controllers.Writer;
+
 import java.io.Serializable;
 import java.util.LinkedList;
 
@@ -71,10 +73,33 @@ public class User implements Serializable
     }
 
     // creating board here ensures password is added securely
-    public Board createBoard(String boardName)
+    //    public Board createBoard(String boardName)
+    //    {
+    //        Board board = new Board(boardName, this.password);
+    //        addToUserBoards(boardName);
+    //        return board;
+    //    }
+    public Board createBoard(Board board)
     {
-        Board board = new Board(boardName, this.password);
-        addToUserBoards(boardName);
+        for (int i = 0; i < this.userBoardNames.size(); i++)
+        {
+            System.out.println(this.userBoardNames.get(i));
+        }
+
+        // overwrite duplicate if applicable
+        for (int i = 0; i < this.getUserBoardNames().size(); i++)
+        {
+            if (board.getBoardName().matches(this.getUserBoardNames().get(i)))
+            {
+                this.getUserBoardNames().remove(i);
+            }
+        }
+        Board newBoard = new Board(board.getBoardName(), this.password);
+        newBoard.setColumns(board.getColumns());
+        addToUserBoards(board.getBoardName());
+
+        Writer writer = new Writer();
+        writer.saveUser();
         return board;
     }
 }

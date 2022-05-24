@@ -20,7 +20,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import scuttlr.application.model.Board;
@@ -72,6 +71,8 @@ public class BoardController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        this.userBoards = new LinkedList<Board>();
+
         // set username to label
         this.usernameLabel.setText(userController.getCurrentUser().getUsername());
 
@@ -145,24 +146,21 @@ public class BoardController implements Initializable
         });
     }
 
-    public void openBoard(ActionEvent actionEvent) throws IOException
+    public void openBoard(ActionEvent actionEvent) throws IOException, ClassNotFoundException
     {
-        FileChooser fileChooser = new FileChooser();
-        File file = fileChooser.showOpenDialog(null);
-        if (file != null && file.getAbsoluteFile().toString().matches(userController.getCurrentUser().getUsername() + "_" + this.activeBoard.getBoardName() + ".ser"))
-        {
-            // TODO activate file
-        }
-        else
-        {
-            // TODO set popup error warning
-        }
+        ObservableList<String> loadedBoards = FXCollections.observableArrayList();
+        loadedBoards.addAll(userController.getCurrentUser().getUserBoardNames());
+        ListView<String> loadedBoardsListView = new ListView<>(loadedBoards);
+        Stage loadMenu = new Stage();
+        loadMenu.setScene(new Scene(loadedBoardsListView));
+        loadMenu.show();
     }
 
+    // create new temporary board with no password lock
     public void createNewBoard(ActionEvent actionEvent) throws IOException
     {
         String name = "New project";
-        this.activeBoard = userController.getCurrentUser().createBoard(name);
+        this.activeBoard = new Board(name, null);
         this.saveBoardMenuItem.setDisable(false);
         if (this.userBoards == null)
         {
@@ -198,7 +196,7 @@ public class BoardController implements Initializable
     // update UI elements based on whether a board is open
     public void updateActiveBoardUI()
     {
-        this.stage = (Stage) this.menuBar.getScene().getWindow();
+        this.stage = getStage();
         if (this.activeBoard != null)
         {
             this.boardControlsHBox.setDisable(false);
@@ -232,44 +230,32 @@ public class BoardController implements Initializable
 
     public void loadBoards(String username)
     {
+        this.userBoards = new LinkedList<Board>();
         Reader reader = new Reader();
-        LinkedList<Board> tempUserBoards;
         // read user's boards from database
-        if (this.userBoards != null)
+        LinkedList<String> tempBoardNames = userController.getCurrentUser().getUserBoardNames();
+        for (int i = 0; i < userController.getCurrentUser().getUserBoardNames().size(); i++)
         {
-            tempUserBoards = new LinkedList<Board>();
-            LinkedList<String> tempBoardNames = userController.getCurrentUser().getUserBoardNames();
-            for (int i = 0; i < userController.getCurrentUser().getUserBoardNames().size(); i++)
+            try
             {
-                try
-                {
-                    // open boards associated with the user - checks both the file name and the board's 'username' attribute
-                    tempUserBoards.add(reader.loadBoard("src/main/resources/scuttlr/application/boards/" + username + "_" + tempBoardNames.get(i) + "_data.ser"));
-                }
-                catch (IOException e)
-                {
-                    throw new RuntimeException(e);
-                }
-                catch (ClassNotFoundException e)
-                {
-                    throw new RuntimeException(e);
-                }
+                // open boards associated with the user - checks both the file name and the board's 'username' attribute
+                this.userBoards.add(reader.loadBoard("src/main/resources/scuttlr/application/boards/" + username + "_" + tempBoardNames.get(i) + ".ser"));
             }
-        }
-        else
-        {
-            // if user has no saved boards in database, create new temporary userBoards LinkedList
-            this.userBoards = new LinkedList<Board>();
+            catch (IOException e)
+            {
+                throw new RuntimeException(e);
+            }
+            catch (ClassNotFoundException e)
+            {
+                throw new RuntimeException(e);
+            }
         }
     }
 
     public void saveBoard()
     {
-        if (this.activeBoard != null)
-        {
-            Writer writer = new Writer();
-            writer.saveBoard(this.activeBoard);
-        }
+        Writer writer = new Writer();
+        writer.saveBoard(this.activeBoard);
     }
 
     // delete board save file
@@ -306,17 +292,18 @@ public class BoardController implements Initializable
 
     public void quit(ActionEvent actionEvent)
     {
-        this.stage = (Stage) this.menuBar.getScene().getWindow();
+        this.stage = getStage();
         this.stage.close();
     }
 
     // red warning text
     public void setWarning(String notification)
     {
-        this.notificationsLabel.setVisible(true);
         this.notificationsLabel.setTextFill(Color.color(1, 0, 0));
         this.notificationsLabel.setText(notification);
-        PauseTransition notificationFade = new PauseTransition(Duration.seconds(10));
+        this.notificationsLabel.setVisible(true);
+        // fade after 3 seconds
+        PauseTransition notificationFade = new PauseTransition(Duration.seconds(3));
         notificationFade.setOnFinished(event -> this.notificationsLabel.setVisible(false));
         notificationFade.play();
     }
@@ -324,12 +311,19 @@ public class BoardController implements Initializable
     // black notification text
     public void setNotification(String notification)
     {
-        this.notificationsLabel.setVisible(true);
         this.notificationsLabel.setTextFill(Color.color(0, 0, 0));
         this.notificationsLabel.setText(notification);
-        PauseTransition notificationFade = new PauseTransition(Duration.seconds(10));
+        this.notificationsLabel.setVisible(true);
+        // fade after 3 seconds
+        PauseTransition notificationFade = new PauseTransition(Duration.seconds(3));
         notificationFade.setOnFinished(event -> this.notificationsLabel.setVisible(false));
         notificationFade.play();
+    }
+
+    // get current window for ActionEvent purposes
+    public Stage getStage()
+    {
+        return (Stage) this.menuBar.getScene().getWindow();
     }
 
     // TODO migrate below methods to other classes
