@@ -70,7 +70,6 @@ public class ColumnController extends ListCell<Column>
 
     public void deleteColumn(ActionEvent actionEvent)
     {
-        System.out.println("ASD");
         boardController.deleteColumn(actionEvent);
     }
 

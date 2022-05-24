@@ -9,6 +9,7 @@ import static scuttlr.application.Main.userController;
 
 public class Writer
 {
+    // save a user as a serialized file including their username, password, avatar, and list of names of boards they own
     public void saveUser()
     {
         try
@@ -29,6 +30,7 @@ public class Writer
         }
     }
 
+    // save a board as a serialized file including contents, and owner's username and password (for verification)
     public void saveBoard(Board board)
     {
         if (board == null)

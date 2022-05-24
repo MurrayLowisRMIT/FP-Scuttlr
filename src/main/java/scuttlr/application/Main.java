@@ -11,6 +11,7 @@ import scuttlr.application.controllers.UserController;
 
 public class Main extends Application
 {
+    // board and user controllers are universal, so are publicly available
     public static UserController userController;
     public static BoardController boardController;
 

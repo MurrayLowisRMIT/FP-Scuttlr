@@ -6,9 +6,14 @@ import java.util.LinkedList;
 public class User implements Serializable
 {
     private String username;
+    // TODO should probably hash this or something so it's not readable in the serialized save file?
+    // password is never returned, only checked
     private String password;
+    // avatar stored as a byte array in the serialized save file
     private byte[] avatarData;
+    // list of names of boards owned by the user
     private LinkedList<String> userBoardNames;
+    // current board - this is the board loaded when logging in
     private String currentBoard;
 
     public User(String username, String password)
@@ -48,9 +53,21 @@ public class User implements Serializable
         this.avatarData = avatarData;
     }
 
+    // get the names of all boards owned by user
     public LinkedList<String> getUserBoardNames()
     {
         return this.userBoardNames;
+    }
+
+    // adds name of board to list of boards owned by user
+    public void addToUserBoards(String boardName)
+    {
+        this.userBoardNames.add(boardName);
+    }
+
+    public void setCurrentBoard(String boardName)
+    {
+        this.currentBoard = boardName;
     }
 
     // creating board here ensures password is added securely
@@ -58,12 +75,7 @@ public class User implements Serializable
     public Board createBoard(String boardName)
     {
         Board board = new Board(boardName, this.password);
-        saveBoard(boardName);
+        addToUserBoards(boardName);
         return board;
-    }
-
-    public void saveBoard(String boardName)
-    {
-        this.userBoardNames.add(boardName);
     }
 }

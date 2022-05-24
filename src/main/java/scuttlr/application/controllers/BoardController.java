@@ -216,6 +216,10 @@ public class BoardController implements Initializable
         }
     }
 
+    public void deleteBoard(ActionEvent actionEvent)
+    {
+    }
+
     public void logout() throws IOException
     {
         userController.logout();

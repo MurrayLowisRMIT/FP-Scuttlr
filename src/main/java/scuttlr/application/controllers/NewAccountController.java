@@ -75,6 +75,7 @@ public class NewAccountController implements Initializable
 
     public void goToLogin(ActionEvent actionEvent) throws IOException
     {
+        // go to log in screen using same window
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/login.fxml"));
         this.pane = loader.load();
         this.stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -88,12 +89,14 @@ public class NewAccountController implements Initializable
         String password = this.password.getText();
         String confirmPassword = this.confirmPassword.getText();
 
+        // hide error messages until triggered
         boolean failure = false;
         this.usernameFailLabel.setVisible(false);
         this.passwordFailLabel.setVisible(false);
         this.confirmPasswordFailLabel.setVisible(false);
         this.avatarFailLabel.setVisible(false);
 
+        // set error if username taken
         if (!userController.checkUsernameAvailable(username))
         {
             this.usernameFailLabel.setVisible(true);
@@ -101,6 +104,7 @@ public class NewAccountController implements Initializable
             failure = true;
         }
 
+        // set error if username blank
         if (username.length() == 0)
         {
             this.usernameFailLabel.setVisible(true);
@@ -108,32 +112,38 @@ public class NewAccountController implements Initializable
             failure = true;
         }
 
-        // TODO password regex
+        // TODO password regex maybe?
+        // set error if password insufficient
         if (password.length() < 8)
         {
             this.passwordFailLabel.setVisible(true);
             failure = true;
         }
 
+        // set error if confirmed password field does not match
         if (!password.matches(confirmPassword))
         {
             failure = true;
             this.confirmPasswordFailLabel.setVisible(true);
         }
 
+        // create new user if all checks pass
         if (!failure)
         {
             userController.createUser(username, password);
+            // save custom avatar if one was selected
             if (this.customAvatar)
             {
                 userController.getCurrentUser().setAvatar(this.avatar);
             }
+            // use default avatar if not selected
             else
             {
                 userController.getCurrentUser().setAvatar(defaultAvatar());
             }
             userController.saveUser();
             boardController.loadBoards(username);
+            // open main screen in new window
             this.stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             this.stage.close();
             this.stage = new Stage();
