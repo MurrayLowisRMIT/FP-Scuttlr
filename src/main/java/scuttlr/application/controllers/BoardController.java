@@ -1,5 +1,6 @@
 package scuttlr.application.controllers;
 
+import javafx.animation.PauseTransition;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
@@ -14,17 +15,20 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import scuttlr.application.model.Board;
 import scuttlr.application.model.Column;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -54,6 +58,10 @@ public class BoardController implements Initializable
     private Label usernameLabel;
     @FXML
     private Label quoteLabel;
+    @FXML
+    private Label notificationsLabel;
+    @FXML
+    private TextField boardNameTextField;
     @FXML
     private CheckBox completeCheckBox;
     @FXML
@@ -153,7 +161,7 @@ public class BoardController implements Initializable
 
     public void createNewBoard(ActionEvent actionEvent) throws IOException
     {
-        String name = "New board";
+        String name = "New project";
         this.activeBoard = userController.getCurrentUser().createBoard(name);
         this.saveBoardMenuItem.setDisable(false);
         if (this.userBoards == null)
@@ -161,7 +169,7 @@ public class BoardController implements Initializable
             this.userBoards = new LinkedList<Board>();
         }
         this.userBoards.add(this.activeBoard);
-        toggleBoardActiveUI();
+        updateActiveBoardUI();
     }
 
     public Board getCurrentBoard()
@@ -177,32 +185,46 @@ public class BoardController implements Initializable
     public void setCurrentBoard(Board board)
     {
         this.activeBoard = board;
-        toggleBoardActiveUI();
+        updateActiveBoardUI();
     }
 
     public void closeCurrentBoard()
     {
         this.activeBoard = null;
         this.columnListView.getItems().clear();
-        toggleBoardActiveUI();
+        updateActiveBoardUI();
     }
 
-    // toggle UI elements based on whether a board is open
-    public void toggleBoardActiveUI()
+    // update UI elements based on whether a board is open
+    public void updateActiveBoardUI()
     {
         this.stage = (Stage) this.menuBar.getScene().getWindow();
         if (this.activeBoard != null)
         {
             this.boardControlsHBox.setDisable(false);
             this.stage.setTitle(userController.getCurrentUser().getUsername() + " - " + this.activeBoard.getBoardName());
+            this.boardNameTextField.setText(this.activeBoard.getBoardName());
         }
         else
         {
             this.boardControlsHBox.setDisable(true);
             this.stage.setTitle(userController.getCurrentUser().getUsername() + " - No project selected");
+            this.boardNameTextField.setText("Project name");
         }
     }
 
+    // update board name from 'boardNameTextField' when user presses 'enter' key
+    public void setBoardName(KeyEvent keyEvent)
+    {
+        KeyCode key = keyEvent.getCode();
+        if (key == KeyCode.ENTER)
+        {
+            this.activeBoard.setBoardName(this.boardNameTextField.getText());
+            updateActiveBoardUI();
+        }
+    }
+
+    // update board name from other source
     public void setBoardName(String boardName)
     {
         this.activeBoard.setBoardName(boardName);
@@ -257,11 +279,11 @@ public class BoardController implements Initializable
         File file = new File("src/main/resources/scuttlr/application/boards/" + fileName);
         if (file.delete())
         {
-            // TODO notify user of success
+            setNotification(this.activeBoard.getBoardName() + " deleted");
         }
         else
         {
-            // TODO notify user of failure
+            setWarning(this.activeBoard.getBoardName() + " closed, no save file to delete");
         }
         closeCurrentBoard();
     }
@@ -278,21 +300,45 @@ public class BoardController implements Initializable
 
     public void deleteColumn(ActionEvent actionEvent)
     {
+        // TODO set this correctly
         this.columns.remove(actionEvent.getSource());
-    }
-
-    public void newTask(ActionEvent actionEvent)
-    {
-    }
-
-    public void deleteTask(ActionEvent actionEvent)
-    {
     }
 
     public void quit(ActionEvent actionEvent)
     {
         this.stage = (Stage) this.menuBar.getScene().getWindow();
         this.stage.close();
+    }
+
+    // red warning text
+    public void setWarning(String notification)
+    {
+        this.notificationsLabel.setVisible(true);
+        this.notificationsLabel.setTextFill(Color.color(1, 0, 0));
+        this.notificationsLabel.setText(notification);
+        PauseTransition notificationFade = new PauseTransition(Duration.seconds(10));
+        notificationFade.setOnFinished(event -> this.notificationsLabel.setVisible(false));
+        notificationFade.play();
+    }
+
+    // black notification text
+    public void setNotification(String notification)
+    {
+        this.notificationsLabel.setVisible(true);
+        this.notificationsLabel.setTextFill(Color.color(0, 0, 0));
+        this.notificationsLabel.setText(notification);
+        PauseTransition notificationFade = new PauseTransition(Duration.seconds(10));
+        notificationFade.setOnFinished(event -> this.notificationsLabel.setVisible(false));
+        notificationFade.play();
+    }
+
+    // TODO migrate below methods to other classes
+    public void newTask(ActionEvent actionEvent)
+    {
+    }
+
+    public void deleteTask(ActionEvent actionEvent)
+    {
     }
 
     // toggle completed status for task
