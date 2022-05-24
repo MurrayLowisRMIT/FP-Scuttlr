@@ -3,6 +3,7 @@ package scuttlr.application.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import scuttlr.application.model.User;
@@ -55,6 +56,8 @@ public class UserController
         this.stage.setTitle("Scuttlr");
         this.scene = new Scene(this.pane);
         this.stage.setScene(this.scene);
+        Image icon = new Image("/scuttlr/application/graphics/Logo.png");
+        stage.getIcons().add(icon);
         this.stage.setResizable(false);
         this.stage.show();
     }

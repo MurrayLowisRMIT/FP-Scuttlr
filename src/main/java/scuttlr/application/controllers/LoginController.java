@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.transform.Rotate;
@@ -77,6 +78,8 @@ public class LoginController implements Initializable
                     this.stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                     this.stage.close();
                     this.stage = new Stage();
+                    Image icon = new Image("/scuttlr/application/graphics/Logo.png");
+                    stage.getIcons().add(icon);
                     this.stage.setResizable(true);
                     userController.login(this.stage);
                 }
