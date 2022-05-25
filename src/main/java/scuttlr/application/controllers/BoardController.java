@@ -153,10 +153,16 @@ public class BoardController implements Initializable
             int x = i;
             Button button = new Button(userController.getCurrentUser().getUserBoardNames().get(i));
             button.setOnAction(e -> openSelectedBoard(e));
+            button.setPrefWidth(200);
             loadedBoardsListView.getItems().add(button);
         }
         Stage loadMenu = new Stage();
-        loadMenu.setScene(new Scene(loadedBoardsListView));
+        Scene scene = new Scene(loadedBoardsListView);
+        loadMenu.setWidth(240);
+        loadMenu.setHeight(200);
+        loadMenu.setTitle("Select project");
+        loadMenu.setResizable(false);
+        loadMenu.setScene(scene);
         loadMenu.show();
     }
 
