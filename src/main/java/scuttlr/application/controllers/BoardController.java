@@ -146,9 +146,15 @@ public class BoardController implements Initializable
 
     public void openBoard(ActionEvent actionEvent) throws IOException, ClassNotFoundException
     {
-        ObservableList<String> loadedBoards = FXCollections.observableArrayList();
-        loadedBoards.addAll(userController.getCurrentUser().getUserBoardNames());
-        ListView<String> loadedBoardsListView = new ListView<>(loadedBoards);
+        ObservableList<Button> loadedBoards = FXCollections.observableArrayList();
+        for (int i = 0; i < userController.getCurrentUser().getUserBoardNames().size(); i++)
+        {
+            int x = i;
+            Button button = new Button(userController.getCurrentUser().getUserBoardNames().get(i));
+            button.setOnAction(e -> setCurrentBoard(userController.getCurrentUser().getUserBoardNames().get(x)));
+            loadedBoards.addAll(button);
+        }
+        ListView<Button> loadedBoardsListView = new ListView<>(loadedBoards);
         Stage loadMenu = new Stage();
         loadMenu.setScene(new Scene(loadedBoardsListView));
         loadMenu.show();
@@ -180,6 +186,18 @@ public class BoardController implements Initializable
     public void setCurrentBoard(Board board)
     {
         this.activeBoard = board;
+        updateActiveBoardUI();
+    }
+
+    public void setCurrentBoard(String boardName)
+    {
+        for (int i = 0; i < this.loadedBoards.size(); i++)
+        {
+            if (this.loadedBoards.get(i).getBoardName().matches(boardName))
+            {
+                this.activeBoard = this.loadedBoards.get(i);
+            }
+        }
         updateActiveBoardUI();
     }
 
