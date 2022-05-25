@@ -393,7 +393,6 @@ public class BoardController implements Initializable
         loadMenu.setWidth(200);
         loadMenu.setHeight(89);
         loadMenu.setResizable(false);
-        loadMenu.setTitle("Select avatar");
         Image icon = new Image("scuttlr/application/graphics/Logo.png");
         loadMenu.getIcons().add(icon);
         loadMenu.setScene(scene);
