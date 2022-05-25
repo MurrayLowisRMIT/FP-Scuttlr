@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -54,7 +55,12 @@
                             <children>
                                 <Label fx:id="usernameLabel" alignment="CENTER" contentDisplay="CENTER" text="Username" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" />
                                 <Button fx:id="logoutButton" mnemonicParsing="false" onMouseClicked="#logout" text="Logout" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                <ImageView fx:id="avatarImageView" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.rowSpan="2147483647" />
+                                <ImageView fx:id="avatarImageView" fitHeight="50.0" fitWidth="50.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2147483647" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+                        <ImageView fx:id="avatarMaskImageView" fitHeight="60.0" fitWidth="60.0" nodeOrientation="INHERIT" onMouseClicked="#changeAvatar" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2147483647" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                           <image>
+                              <Image url="@../graphics/AvatarMask.png" />
+                           </image>
+                        </ImageView>
                             </children>
                         </GridPane>
                     </children>

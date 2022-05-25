@@ -17,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -357,17 +358,21 @@ public class BoardController implements Initializable
     {
     }
 
-    // toggle completed status for task
-    public void checkComplete(ActionEvent actionEvent)
+    public void changeAvatar(MouseEvent mouseEvent)
     {
-        this.completeCheckBox.setSelected(!this.completeCheckBox.isSelected());
-        if (this.completeCheckBox.isSelected())
-        {
-
-        }
-        else
-        {
-
-        }
     }
+
+    // toggle completed status for task
+    //    public void checkComplete(ActionEvent actionEvent)
+    //    {
+    //        this.completeCheckBox.setSelected(!this.completeCheckBox.isSelected());
+    //        if (this.completeCheckBox.isSelected())
+    //        {
+    //
+    //        }
+    //        else
+    //        {
+    //
+    //        }
+    //    }
 }
