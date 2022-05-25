@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
@@ -31,7 +32,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-import static scuttlr.application.Main.boardController;
 import static scuttlr.application.Main.userController;
 
 public class BoardController implements Initializable
@@ -42,8 +42,6 @@ public class BoardController implements Initializable
     private Stage stage;
     @FXML
     private Pane columnsPane;
-    @FXML
-    private Scene scene;
     @FXML
     private ImageView avatarImageView;
     @FXML
@@ -59,8 +57,6 @@ public class BoardController implements Initializable
     @FXML
     private Label notificationsLabel;
     @FXML
-    private CheckBox completeCheckBox;
-    @FXML
     protected ObservableList<Column> columns;
     @FXML
     protected ListView<Column> columnListView;
@@ -69,7 +65,8 @@ public class BoardController implements Initializable
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         // load user's boards
-        boardController.loadBoards(userController.getCurrentUser().getUsername());
+        this.loadedBoards = new LinkedList<Board>();
+        loadBoards(userController.getCurrentUser().getUsername());
 
         // set username to label
         this.usernameLabel.setText(userController.getCurrentUser().getUsername());
@@ -80,7 +77,7 @@ public class BoardController implements Initializable
 
         // read avatar from byte array to FXImage
         ByteArrayInputStream in = new ByteArrayInputStream(userController.getCurrentUser().getAvatar());
-        BufferedImage image = null;
+        BufferedImage image;
         try
         {
             image = ImageIO.read(in);
@@ -131,7 +128,6 @@ public class BoardController implements Initializable
         //                }
         //            }
         //        });
-
         this.columnsPane.getChildren().add(this.columnListView);
 
         this.columns.addListener(new InvalidationListener()
@@ -144,28 +140,41 @@ public class BoardController implements Initializable
         });
     }
 
-    public void openBoard(ActionEvent actionEvent) throws IOException, ClassNotFoundException
+    // create popup menu to select user projects
+    public void openBoard()
     {
-        ObservableList<Button> loadedBoards = FXCollections.observableArrayList();
-        ListView<Button> loadedBoardsListView = new ListView<>(loadedBoards);
-        for (int i = 0; i < userController.getCurrentUser().getUserBoardNames().size(); i++)
+        if (this.loadedBoards.size() > 0)
         {
-            int x = i;
-            Button button = new Button(userController.getCurrentUser().getUserBoardNames().get(i));
-            button.setOnAction(e -> openSelectedBoard(e));
-            button.setPrefWidth(200);
-            loadedBoardsListView.getItems().add(button);
+            ObservableList<Button> loadedBoards = FXCollections.observableArrayList();
+            ListView<Button> loadedBoardsListView = new ListView<>(loadedBoards);
+            // add a button to popup for each user owned project
+            for (int i = 0; i < userController.getCurrentUser().getUserBoardNames().size(); i++)
+            {
+                int x = i;
+                Button button = new Button(userController.getCurrentUser().getUserBoardNames().get(i));
+                button.setOnAction(e -> openSelectedBoard(e));
+                button.setPrefWidth(200);
+                loadedBoardsListView.getItems().add(button);
+            }
+            this.columnListView.setVisible(false);
+            Stage loadMenu = new Stage();
+            Scene scene = new Scene(loadedBoardsListView);
+            loadMenu.setWidth(240);
+            loadMenu.setHeight(200);
+            loadMenu.setResizable(false);
+            loadMenu.setTitle("Select project");
+            Image icon = new Image("scuttlr/application/graphics/Logo.png");
+            loadMenu.getIcons().add(icon);
+            loadMenu.setScene(scene);
+            loadMenu.show();
         }
-        Stage loadMenu = new Stage();
-        Scene scene = new Scene(loadedBoardsListView);
-        loadMenu.setWidth(240);
-        loadMenu.setHeight(200);
-        loadMenu.setTitle("Select project");
-        loadMenu.setResizable(false);
-        loadMenu.setScene(scene);
-        loadMenu.show();
+        else
+        {
+            setWarning("No projects available");
+        }
     }
 
+    // open board selected from openBoard method and close popup menu on selection
     public void openSelectedBoard(ActionEvent event)
     {
         String boardName = ((Button) event.getSource()).getText();
@@ -243,7 +252,6 @@ public class BoardController implements Initializable
 
     public void loadBoards(String username)
     {
-        this.loadedBoards = new LinkedList<Board>();
         Reader reader = new Reader();
         // read user's boards from database
         LinkedList<String> tempBoardNames = userController.getCurrentUser().getUserBoardNames();
@@ -289,6 +297,8 @@ public class BoardController implements Initializable
         {
             setWarning(this.activeBoard.getBoardName() + " closed, no save file to delete");
         }
+        // update user account with changes
+        userController.getCurrentUser().removeBoardFromUser(this.activeBoard.getBoardName());
         closeCurrentBoard();
     }
 

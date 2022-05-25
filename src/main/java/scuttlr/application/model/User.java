@@ -62,9 +62,23 @@ public class User implements Serializable
     }
 
     // adds name of board to list of boards owned by user
-    public void addToUserBoards(String boardName)
+    public void addBoardToUser(String boardName)
     {
         this.userBoardNames.add(boardName);
+    }
+
+    public void removeBoardFromUser(String boardName)
+    {
+        for (int i = 0; i < this.userBoardNames.size(); i++)
+        {
+            if (this.userBoardNames.get(i).matches(boardName))
+            {
+                this.userBoardNames.remove(i);
+                // update user save file
+                Writer writer = new Writer();
+                writer.saveUser();
+            }
+        }
     }
 
     public void setCurrentBoard(String boardName)
@@ -96,7 +110,7 @@ public class User implements Serializable
         }
         Board newBoard = new Board(board.getBoardName(), this.password);
         newBoard.setColumns(board.getColumns());
-        addToUserBoards(board.getBoardName());
+        addBoardToUser(board.getBoardName());
 
         Writer writer = new Writer();
         writer.saveUser();

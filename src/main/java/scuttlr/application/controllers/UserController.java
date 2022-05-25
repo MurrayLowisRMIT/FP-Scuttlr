@@ -23,10 +23,6 @@ public class UserController
     private AnchorPane pane;
     private User currentUser;
 
-    public void addBoardToUser(ActionEvent actionEvent)
-    {
-    }
-
     public void createUser(String username, String password)
     {
         this.currentUser = new User(username, password);
