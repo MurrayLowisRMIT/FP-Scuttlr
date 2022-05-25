@@ -19,7 +19,9 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import scuttlr.application.model.Board;
@@ -28,6 +30,7 @@ import scuttlr.application.model.Column;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -76,28 +79,7 @@ public class BoardController implements Initializable
         Reader reader = new Reader();
         this.quoteLabel.setText(reader.loadQuote());
 
-        // read avatar from byte array to FXImage
-        ByteArrayInputStream in = new ByteArrayInputStream(userController.getCurrentUser().getAvatar());
-        BufferedImage image;
-        try
-        {
-            image = ImageIO.read(in);
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e);
-        }
-        WritableImage avatar;
-        avatar = new WritableImage(image.getWidth(), image.getHeight());
-        PixelWriter pw = avatar.getPixelWriter();
-        for (int x = 0; x < image.getWidth(); x++)
-        {
-            for (int y = 0; y < image.getHeight(); y++)
-            {
-                pw.setArgb(x, y, image.getRGB(x, y));
-            }
-        }
-        this.avatarImageView.setImage(avatar);
+        setAvatarImageView();
 
         // populate columns
         this.columns = FXCollections.observableArrayList();
@@ -141,6 +123,32 @@ public class BoardController implements Initializable
         });
     }
 
+    // read avatar from byte array to FXImage
+    public void setAvatarImageView()
+    {
+        ByteArrayInputStream in = new ByteArrayInputStream(userController.getCurrentUser().getAvatar());
+        BufferedImage image;
+        try
+        {
+            image = ImageIO.read(in);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+        WritableImage avatar;
+        avatar = new WritableImage(image.getWidth(), image.getHeight());
+        PixelWriter pw = avatar.getPixelWriter();
+        for (int x = 0; x < image.getWidth(); x++)
+        {
+            for (int y = 0; y < image.getHeight(); y++)
+            {
+                pw.setArgb(x, y, image.getRGB(x, y));
+            }
+        }
+        this.avatarImageView.setImage(avatar);
+    }
+
     // create popup menu to select user projects
     public void openBoard()
     {
@@ -157,7 +165,6 @@ public class BoardController implements Initializable
                 button.setPrefWidth(200);
                 loadedBoardsListView.getItems().add(button);
             }
-            this.columnListView.setVisible(false);
             Stage loadMenu = new Stage();
             Scene scene = new Scene(loadedBoardsListView);
             loadMenu.setWidth(240);
@@ -349,16 +356,92 @@ public class BoardController implements Initializable
         notificationFade.play();
     }
 
+    public void changeAvatar(MouseEvent mouseEvent)
+    {
+        VBox vBox = new VBox();
+        Stage loadMenu = new Stage();
+        Button newAvatar = new Button("Change avatar");
+        Button removeAvatar = new Button("Default avatar");
+        newAvatar.setPrefWidth(200);
+        removeAvatar.setPrefWidth(200);
+        newAvatar.setOnAction(e ->
+        {
+            try
+            {
+                selectNewAvatar(e);
+            }
+            catch (IOException ex)
+            {
+                setWarning("Read error");
+                throw new RuntimeException(ex);
+            }
+        });
+        removeAvatar.setOnAction(e ->
+        {
+            try
+            {
+                removeAvatar(e);
+            }
+            catch (IOException ex)
+            {
+                setWarning("Read error");
+                throw new RuntimeException(ex);
+            }
+        });
+        vBox.getChildren().addAll(newAvatar, removeAvatar);
+        Scene scene = new Scene(vBox);
+        loadMenu.setWidth(200);
+        loadMenu.setHeight(89);
+        loadMenu.setResizable(false);
+        loadMenu.setTitle("Select avatar");
+        Image icon = new Image("scuttlr/application/graphics/Logo.png");
+        loadMenu.getIcons().add(icon);
+        loadMenu.setScene(scene);
+        loadMenu.show();
+    }
+
+    // select new user avatar
+    public void selectNewAvatar(ActionEvent event) throws IOException
+    {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.close();
+        // save avatar as byte array
+        // TODO filter file types
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(null);
+        // avatar only allowed to be png format
+        if (file != null && file.getAbsoluteFile().toString().contains(".png"))
+        {
+            BufferedImage image = ImageIO.read(new File(file.getPath()));
+            ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
+            ImageIO.write(image, "png", outStreamObj);
+            userController.getCurrentUser().setAvatar(outStreamObj.toByteArray());
+            setAvatarImageView();
+        }
+        else
+        {
+            setWarning(".png format only");
+        }
+    }
+
+    // set default avatar
+    public void removeAvatar(ActionEvent event) throws IOException
+    {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.close();
+        BufferedImage image = ImageIO.read(new File("src/main/resources/scuttlr/application/graphics/Logo.png"));
+        ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
+        ImageIO.write(image, "png", outStreamObj);
+        userController.getCurrentUser().setAvatar(outStreamObj.toByteArray());
+        setAvatarImageView();
+    }
+
     // TODO migrate below methods to other classes
     public void newTask(ActionEvent actionEvent)
     {
     }
 
     public void deleteTask(ActionEvent actionEvent)
-    {
-    }
-
-    public void changeAvatar(MouseEvent mouseEvent)
     {
     }
 

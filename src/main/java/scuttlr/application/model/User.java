@@ -53,6 +53,7 @@ public class User implements Serializable
     public void setAvatar(byte[] avatarData)
     {
         this.avatarData = avatarData;
+        saveUpdates();
     }
 
     // get the names of all boards owned by user
@@ -65,6 +66,7 @@ public class User implements Serializable
     public void addBoardToUser(String boardName)
     {
         this.userBoardNames.add(boardName);
+        saveUpdates();
     }
 
     public void removeBoardFromUser(String boardName)
@@ -74,9 +76,7 @@ public class User implements Serializable
             if (this.userBoardNames.get(i).matches(boardName))
             {
                 this.userBoardNames.remove(i);
-                // update user save file
-                Writer writer = new Writer();
-                writer.saveUser();
+                saveUpdates();
             }
         }
     }
@@ -111,9 +111,13 @@ public class User implements Serializable
         Board newBoard = new Board(board.getBoardName(), this.password);
         newBoard.setColumns(board.getColumns());
         addBoardToUser(board.getBoardName());
+        saveUpdates();
+        return board;
+    }
 
+    public void saveUpdates()
+    {
         Writer writer = new Writer();
         writer.saveUser();
-        return board;
     }
 }
