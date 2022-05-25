@@ -43,7 +43,6 @@
                 </MenuBar>
                 <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="10.0">
                     <children>
-                        <Label fx:id="quoteLabel" maxWidth="1.7976931348623157E308" text="Quote" HBox.hgrow="ALWAYS" />
                         <GridPane hgap="10.0">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" />

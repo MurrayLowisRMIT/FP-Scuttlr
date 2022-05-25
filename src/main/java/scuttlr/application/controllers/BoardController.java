@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -21,6 +22,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -77,7 +79,7 @@ public class BoardController implements Initializable
 
         // set quote
         Reader reader = new Reader();
-        this.quoteLabel.setText(reader.loadQuote());
+        setNotification(reader.loadQuote());
 
         setAvatarImageView();
 
@@ -154,9 +156,13 @@ public class BoardController implements Initializable
     {
         if (this.loadedBoards.size() > 0)
         {
-            ObservableList<Button> loadedBoards = FXCollections.observableArrayList();
-            ListView<Button> loadedBoardsListView = new ListView<>(loadedBoards);
+            ObservableList<Object> loadedBoards = FXCollections.observableArrayList();
+            ListView<Object> loadedBoardsListView = new ListView<>(loadedBoards);
             // add a button to popup for each user owned project
+            Label title = new Label("Select project");
+            title.setPrefWidth(200);
+            title.setAlignment(Pos.CENTER);
+            loadedBoardsListView.getItems().add(title);
             for (int i = 0; i < userController.getCurrentUser().getUserBoardNames().size(); i++)
             {
                 int x = i;
@@ -170,7 +176,6 @@ public class BoardController implements Initializable
             loadMenu.setWidth(240);
             loadMenu.setHeight(200);
             loadMenu.setResizable(false);
-            loadMenu.setTitle("Select project");
             Image icon = new Image("scuttlr/application/graphics/Logo.png");
             loadMenu.getIcons().add(icon);
             loadMenu.setScene(scene);
@@ -338,8 +343,8 @@ public class BoardController implements Initializable
         this.notificationsLabel.setTextFill(Color.color(1, 0, 0));
         this.notificationsLabel.setText(notification);
         this.notificationsLabel.setVisible(true);
-        // fade after 3 seconds
-        PauseTransition notificationFade = new PauseTransition(Duration.seconds(3));
+        // fade after 5 seconds
+        PauseTransition notificationFade = new PauseTransition(Duration.seconds(5));
         notificationFade.setOnFinished(event -> this.notificationsLabel.setVisible(false));
         notificationFade.play();
     }
@@ -351,7 +356,7 @@ public class BoardController implements Initializable
         this.notificationsLabel.setText(notification);
         this.notificationsLabel.setVisible(true);
         // fade after 3 seconds
-        PauseTransition notificationFade = new PauseTransition(Duration.seconds(3));
+        PauseTransition notificationFade = new PauseTransition(Duration.seconds(5));
         notificationFade.setOnFinished(event -> this.notificationsLabel.setVisible(false));
         notificationFade.play();
     }
