@@ -1,8 +1,6 @@
 package scuttlr.application.model;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 
 import static scuttlr.application.Main.userController;
@@ -20,11 +18,6 @@ public class Board implements Serializable
         this.userName = userController.getCurrentUser().getUsername();
         this.boardName = boardName;
         this.userPassword = userPassword;
-    }
-
-    public void setBoardName(String boardName)
-    {
-        this.boardName = boardName;
     }
 
     public String getBoardName()

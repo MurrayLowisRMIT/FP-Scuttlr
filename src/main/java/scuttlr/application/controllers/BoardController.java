@@ -22,7 +22,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -38,6 +37,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
+import static scuttlr.application.Main.boardController;
 import static scuttlr.application.Main.userController;
 
 public class BoardController implements Initializable
@@ -158,11 +158,11 @@ public class BoardController implements Initializable
         {
             ObservableList<Object> loadedBoards = FXCollections.observableArrayList();
             ListView<Object> loadedBoardsListView = new ListView<>(loadedBoards);
-            // add a button to popup for each user owned project
             Label title = new Label("Select project");
             title.setPrefWidth(200);
             title.setAlignment(Pos.CENTER);
             loadedBoardsListView.getItems().add(title);
+            // add a button to popup for each user owned project
             for (int i = 0; i < userController.getCurrentUser().getUserBoardNames().size(); i++)
             {
                 int x = i;
@@ -361,6 +361,49 @@ public class BoardController implements Initializable
         notificationFade.play();
     }
 
+    // open dialogue to change username
+    public void changeUsername(MouseEvent mouseEvent)
+    {
+        VBox vBox = new VBox();
+        Stage loadMenu = new Stage();
+        TextField textInput = new TextField();
+        textInput.setPromptText("Enter new username");
+        Button confirm = new Button("Confirm");
+        confirm.setPrefWidth(200);
+        confirm.setAlignment(Pos.CENTER);
+        confirm.setOnAction(e -> setNewName(e, textInput.getText()));
+        vBox.getChildren().addAll(textInput, confirm);
+        Scene scene = new Scene(vBox);
+        loadMenu.setWidth(200);
+        loadMenu.setHeight(89);
+        loadMenu.setResizable(false);
+        Image icon = new Image("scuttlr/application/graphics/Logo.png");
+        loadMenu.getIcons().add(icon);
+        loadMenu.setScene(scene);
+        loadMenu.show();
+    }
+
+    // select new username
+    public void setNewName(ActionEvent event, String username)
+    {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.close();
+        if (username.length() == 0)
+        {
+            this.setWarning("Username cannot be blank");
+        }
+        else if (userController.getCurrentUser().updateUsername(username, this.getLoadedBoards()))
+        {
+            this.usernameLabel.setText(username);
+            this.setNotification("Username updated");
+            updateActiveBoardUI();
+        }
+        else
+        {
+            this.setWarning("Username taken");
+        }
+    }
+
     public void changeAvatar(MouseEvent mouseEvent)
     {
         VBox vBox = new VBox();
@@ -421,6 +464,7 @@ public class BoardController implements Initializable
             ImageIO.write(image, "png", outStreamObj);
             userController.getCurrentUser().setAvatar(outStreamObj.toByteArray());
             setAvatarImageView();
+            setNotification("Avatar updated");
         }
         else
         {
@@ -438,6 +482,7 @@ public class BoardController implements Initializable
         ImageIO.write(image, "png", outStreamObj);
         userController.getCurrentUser().setAvatar(outStreamObj.toByteArray());
         setAvatarImageView();
+        setNotification("Avatar removed");
     }
 
     // TODO migrate below methods to other classes

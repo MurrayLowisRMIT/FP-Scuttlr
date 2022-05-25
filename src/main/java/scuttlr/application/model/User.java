@@ -2,8 +2,11 @@ package scuttlr.application.model;
 
 import scuttlr.application.controllers.Writer;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.LinkedList;
+
+import static scuttlr.application.Main.userController;
 
 public class User implements Serializable
 {
@@ -53,7 +56,33 @@ public class User implements Serializable
     public void setAvatar(byte[] avatarData)
     {
         this.avatarData = avatarData;
-        saveUpdates();
+        updateUser();
+    }
+
+    public boolean updateUsername(String username, LinkedList<Board> loadedBoards)
+    {
+        boolean success = false;
+        if (userController.checkUsernameAvailable(username))
+        {
+            // update username
+            String oldUsername = this.username;
+            this.username = username;
+            updateUser();
+            updateUserBoards(loadedBoards);
+            success = true;
+
+            // remove old user save file
+            File file = new File("src/main/resources/scuttlr/application/accounts/" + oldUsername + ".ser");
+            file.delete();
+
+            // delete board save files associated with old username
+            for (int i = 0; i < loadedBoards.size(); i++)
+            {
+                file = new File("src/main/resources/scuttlr/application/boards/" + oldUsername + "_" + loadedBoards.get(i).getBoardName() + ".ser");
+                file.delete();
+            }
+        }
+        return success;
     }
 
     // get the names of all boards owned by user
@@ -66,7 +95,7 @@ public class User implements Serializable
     public void addBoardToUser(String boardName)
     {
         this.userBoardNames.add(boardName);
-        saveUpdates();
+        updateUser();
     }
 
     public void removeBoardFromUser(String boardName)
@@ -76,7 +105,7 @@ public class User implements Serializable
             if (this.userBoardNames.get(i).matches(boardName))
             {
                 this.userBoardNames.remove(i);
-                saveUpdates();
+                updateUser();
             }
         }
     }
@@ -87,19 +116,8 @@ public class User implements Serializable
     }
 
     // creating board here ensures password is added securely
-    //    public Board createBoard(String boardName)
-    //    {
-    //        Board board = new Board(boardName, this.password);
-    //        addToUserBoards(boardName);
-    //        return board;
-    //    }
     public Board createBoard(Board board)
     {
-        for (int i = 0; i < this.userBoardNames.size(); i++)
-        {
-            System.out.println(this.userBoardNames.get(i));
-        }
-
         // overwrite duplicate if applicable
         for (int i = 0; i < this.getUserBoardNames().size(); i++)
         {
@@ -111,13 +129,27 @@ public class User implements Serializable
         Board newBoard = new Board(board.getBoardName(), this.password);
         newBoard.setColumns(board.getColumns());
         addBoardToUser(board.getBoardName());
-        saveUpdates();
+        updateUser();
         return board;
     }
 
-    public void saveUpdates()
+    public void updateUser()
     {
         Writer writer = new Writer();
         writer.saveUser();
+    }
+
+    // create new board save files using new username
+    public void updateUserBoards(LinkedList<Board> oldBoards)
+    {
+        LinkedList<Board> newBoards = new LinkedList<>();
+        Writer writer = new Writer();
+        // copy data from old boards and write new boards with new data
+        for (int i = 0; i < oldBoards.size(); i++)
+        {
+            Board board = createBoard(new Board(oldBoards.get(i).getBoardName(), null));
+            board.setColumns(oldBoards.get(i).getColumns());
+            writer.saveBoard(board);
+        }
     }
 }
