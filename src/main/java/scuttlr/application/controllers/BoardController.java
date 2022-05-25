@@ -9,13 +9,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -147,17 +147,38 @@ public class BoardController implements Initializable
     public void openBoard(ActionEvent actionEvent) throws IOException, ClassNotFoundException
     {
         ObservableList<Button> loadedBoards = FXCollections.observableArrayList();
+        ListView<Button> loadedBoardsListView = new ListView<>(loadedBoards);
         for (int i = 0; i < userController.getCurrentUser().getUserBoardNames().size(); i++)
         {
             int x = i;
             Button button = new Button(userController.getCurrentUser().getUserBoardNames().get(i));
-            button.setOnAction(e -> setCurrentBoard(userController.getCurrentUser().getUserBoardNames().get(x)));
-            loadedBoards.addAll(button);
+            button.setOnAction(e -> openSelectedBoard(e));
+            loadedBoardsListView.getItems().add(button);
         }
-        ListView<Button> loadedBoardsListView = new ListView<>(loadedBoards);
         Stage loadMenu = new Stage();
         loadMenu.setScene(new Scene(loadedBoardsListView));
         loadMenu.show();
+    }
+
+    public void openSelectedBoard(ActionEvent event)
+    {
+        String boardName = ((Button) event.getSource()).getText();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.close();
+        for (int i = 0; i < this.loadedBoards.size(); i++)
+        {
+            if (this.loadedBoards.get(i).getBoardName().matches(boardName))
+            {
+                this.activeBoard = this.loadedBoards.get(i);
+            }
+        }
+        updateActiveBoardUI();
+    }
+
+    public void setCurrentBoard(Board board)
+    {
+        this.activeBoard = board;
+        updateActiveBoardUI();
     }
 
     // create new temporary board with no password lock
@@ -181,24 +202,6 @@ public class BoardController implements Initializable
     public LinkedList<Board> getLoadedBoards()
     {
         return this.loadedBoards;
-    }
-
-    public void setCurrentBoard(Board board)
-    {
-        this.activeBoard = board;
-        updateActiveBoardUI();
-    }
-
-    public void setCurrentBoard(String boardName)
-    {
-        for (int i = 0; i < this.loadedBoards.size(); i++)
-        {
-            if (this.loadedBoards.get(i).getBoardName().matches(boardName))
-            {
-                this.activeBoard = this.loadedBoards.get(i);
-            }
-        }
-        updateActiveBoardUI();
     }
 
     public void closeCurrentBoard()
