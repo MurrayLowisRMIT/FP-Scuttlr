@@ -61,16 +61,7 @@ public class NewAccountController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        // rotating logo
-        this.logoRotation = new RotateTransition();
-        this.logoRotation.setNode(this.logoImageView);
-        this.logoRotation.setDuration(Duration.millis(5000));
-        this.logoRotation.setCycleCount(RotateTransition.INDEFINITE);
-        this.logoRotation.setInterpolator(Interpolator.LINEAR);
-        this.logoRotation.setByAngle(360);
-        this.logoRotation.setAxis(Rotate.Z_AXIS);
-        this.logoRotation.play();
-
+        rotatingLogo();
     }
 
     public void goToLogin(ActionEvent actionEvent) throws IOException
@@ -187,5 +178,18 @@ public class NewAccountController implements Initializable
         ImageIO.write(image, "png", outStreamObj);
         avatarData = outStreamObj.toByteArray();
         return avatarData;
+    }
+
+    // rotating logo
+    public void rotatingLogo()
+    {
+        this.logoRotation = new RotateTransition();
+        this.logoRotation.setNode(this.logoImageView);
+        this.logoRotation.setDuration(Duration.millis(5000));
+        this.logoRotation.setCycleCount(RotateTransition.INDEFINITE);
+        this.logoRotation.setInterpolator(Interpolator.LINEAR);
+        this.logoRotation.setByAngle(360);
+        this.logoRotation.setAxis(Rotate.Z_AXIS);
+        this.logoRotation.play();
     }
 }
