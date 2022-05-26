@@ -50,6 +50,10 @@ public class BoardController implements Initializable
     @FXML
     private ImageView avatarImageView;
     @FXML
+    private ImageView newColumnButtonImageView;
+    @FXML
+    private ImageView deleteColumnButtonImageView;
+    @FXML
     private MenuBar menuBar;
     @FXML
     private Menu projectMenu;
@@ -344,6 +348,8 @@ public class BoardController implements Initializable
         {
             this.projectMenu.setDisable(false);
             this.saveBoardMenuItem.setDisable(false);
+            this.newColumnButtonImageView.setVisible(true);
+            this.deleteColumnButtonImageView.setVisible(true);
             this.stage.setTitle(userController.getCurrentUser().getUsername() + " - " + this.activeBoard.getBoardName());
             this.projectNameLabel.setText(this.activeBoard.getBoardName());
         }
@@ -351,6 +357,8 @@ public class BoardController implements Initializable
         {
             this.projectMenu.setDisable(true);
             this.saveBoardMenuItem.setDisable(true);
+            this.newColumnButtonImageView.setVisible(false);
+            this.deleteColumnButtonImageView.setVisible(false);
             this.stage.setTitle(userController.getCurrentUser().getUsername() + " - No project selected");
             this.projectNameLabel.setText("No project selected");
         }

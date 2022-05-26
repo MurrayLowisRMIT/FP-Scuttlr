@@ -44,15 +44,29 @@
                 </MenuBar>
                 <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="10.0">
                     <children>
-                  <ImageView fx:id="newColumnButtonImageView" fitHeight="50.0" fitWidth="50.0" nodeOrientation="INHERIT" onMouseClicked="#newColumn" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="newColumnButtonImageView" fitHeight="50.0" fitWidth="50.0" nodeOrientation="INHERIT" onMouseClicked="#newColumn" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/+%20button.png" />
                      </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </ImageView>
-                  <Label fx:id="projectNameLabel" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" text="Project name" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                  <ImageView fx:id="deleteColumnButtonImageView" fitHeight="50.0" fitWidth="50.0" nodeOrientation="INHERIT" onMouseClicked="#newColumn" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/-%20button.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <Label fx:id="projectNameLabel" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" onMouseClicked="#openBoard" text="Project name" textAlignment="CENTER" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="20.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Label>
                         <GridPane hgap="10.0">
                             <columnConstraints>
