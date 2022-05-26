@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<TitledPane fx:id="taskTitledPane" animated="false" text="Task 1" wrapText="true" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scuttlr.application.controllers.TaskController">
+<TitledPane fx:id="taskTitledPanes" animated="false" text="Task 1" wrapText="true" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scuttlr.application.controllers.TaskController">
    <content>
       <VBox>
          <children>

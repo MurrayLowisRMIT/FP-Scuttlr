@@ -74,7 +74,7 @@ public class BoardController implements Initializable
     @FXML
     protected ObservableList<Column> columns;
     @FXML
-    protected VBox[] columnVBox;
+    protected VBox[] columnVBoxes;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -373,20 +373,20 @@ public class BoardController implements Initializable
         this.columnsHBox.getChildren().clear();
         if (this.activeBoard != null)
         {
-            this.columnVBox = new VBox[this.activeBoard.getColumns().size()];
+            this.columnVBoxes = new VBox[this.activeBoard.getColumns().size()];
             for (int i = 0; i < this.activeBoard.getColumns().size(); i++)
             {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/column.fxml"));
                 try
                 {
-                    this.columnVBox[i] = loader.load();
+                    this.columnVBoxes[i] = loader.load();
                 }
                 catch (IOException e)
                 {
                     throw new RuntimeException(e);
                 }
             }
-            this.columnsHBox.getChildren().addAll(this.columnVBox);
+            this.columnsHBox.getChildren().addAll(this.columnVBoxes);
         }
     }
 
@@ -469,7 +469,7 @@ public class BoardController implements Initializable
     public void deleteColumn(ActionEvent actionEvent)
     {
         // TODO set this correctly
-        // this.columns.remove(actionEvent.getSource());
+         this.columns.remove(actionEvent.getSource());
     }
 
     public void quit()

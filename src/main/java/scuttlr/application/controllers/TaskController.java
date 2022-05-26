@@ -7,9 +7,12 @@ import scuttlr.application.model.Column;
 
 import java.util.ArrayList;
 
-public class TaskController extends ListCell<Column>
+public class TaskController
 {
+    private Task task;
+
     public void deleteTask(ActionEvent actionEvent)
     {
+
     }
 }

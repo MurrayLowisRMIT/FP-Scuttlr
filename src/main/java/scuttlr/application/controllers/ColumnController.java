@@ -25,8 +25,6 @@ public class ColumnController extends ListCell<Column> implements Initializable
 {
     private Column column;
     @FXML
-    private Pane pane;
-    @FXML
     private TextField titleTextField;
     @FXML
     private ToolBar toolBar;
@@ -43,12 +41,13 @@ public class ColumnController extends ListCell<Column> implements Initializable
     @FXML
     protected ObservableList<Task> tasks;
     @FXML
-    private TitledPane[] taskTitledPane;
+    private TitledPane[] taskTitledPanes;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         this.column = new Column();
+        this.taskTitledPanes = new TitledPane[0];
         this.tasks = FXCollections.observableArrayList();
 
         this.tasks.addListener(new InvalidationListener()
@@ -92,26 +91,29 @@ public class ColumnController extends ListCell<Column> implements Initializable
         updateTasks();
     }
 
+    public void deleteTask(ActionEvent actionEvent)
+    {
+
+    }
+
     public void updateTasks()
     {
         // TODO dynamically populate instead of fully deleting and rebuilding every time
         tasksVBox.getChildren().clear();
-        //        this.taskTitledPane = new TitledPane[this.column.getTasks().size()];
-        //        for (int i = 0; i < this.column.getTasks().size(); i++)
-        this.taskTitledPane = new TitledPane[5];
-        for (int i = 0; i < 5; i++)
+        this.taskTitledPanes = new TitledPane[this.column.getTasks().size()];
+        for (int i = 0; i < this.column.getTasks().size(); i++)
         {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/task.fxml"));
             try
             {
-                this.taskTitledPane[i] = loader.load();
+                this.taskTitledPanes[i] = loader.load();
             }
             catch (IOException e)
             {
                 throw new RuntimeException(e);
             }
         }
-        this.tasksVBox.getChildren().addAll(this.taskTitledPane);
+        this.tasksVBox.getChildren().addAll(this.taskTitledPanes);
     }
 
     public void updateColumnName(InputMethodEvent inputMethodEvent)
