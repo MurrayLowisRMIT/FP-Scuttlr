@@ -19,9 +19,9 @@
 
 <AnchorPane fx:id="pane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scuttlr.application.controllers.BoardController">
     <children>
-        <VBox prefHeight="517.0" prefWidth="766.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox maxHeight="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="766.0">
+                <MenuBar fx:id="menuBar" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" VBox.vgrow="NEVER">
                     <menus>
                         <Menu mnemonicParsing="false" text="File">
                             <items>
@@ -41,7 +41,7 @@
                   </Menu>
                     </menus>
                 </MenuBar>
-                <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="10.0">
+                <HBox alignment="CENTER" fillHeight="false" maxWidth="1.7976931348623157E308" spacing="10.0" VBox.vgrow="NEVER">
                     <children>
                   <ImageView fx:id="newColumnButtonImageView" fitHeight="50.0" fitWidth="50.0" nodeOrientation="INHERIT" onMouseClicked="#newColumn" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
@@ -106,8 +106,8 @@
                         <Insets left="10.0" right="10.0" />
                     </padding>
                 </HBox>
-            <Label fx:id="notificationsLabel" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" textAlignment="CENTER" textFill="RED" VBox.vgrow="ALWAYS" />
-            <HBox fx:id="columnsHBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" VBox.vgrow="ALWAYS">
+            <Label fx:id="notificationsLabel" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" textAlignment="CENTER" textFill="RED" VBox.vgrow="NEVER" />
+            <HBox fx:id="columnsHBox" maxWidth="1.7976931348623157E308" spacing="10.0" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets left="5.0" right="5.0" />
                </VBox.margin>
