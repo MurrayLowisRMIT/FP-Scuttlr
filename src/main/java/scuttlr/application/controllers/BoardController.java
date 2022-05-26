@@ -56,6 +56,8 @@ public class BoardController implements Initializable
     @FXML
     private MenuItem saveBoardMenuItem;
     @FXML
+    private Label projectNameLabel;
+    @FXML
     private Label usernameLabel;
     @FXML
     private Label quoteLabel;
@@ -75,6 +77,9 @@ public class BoardController implements Initializable
 
         // set username to label
         this.usernameLabel.setText(userController.getCurrentUser().getUsername());
+
+        // set project name to label
+        this.projectNameLabel.setText("No project selected");
 
         // set quote
         Reader reader = new Reader();
@@ -207,11 +212,6 @@ public class BoardController implements Initializable
     {
         String name = "New project";
         this.activeBoard = new Board(name, null);
-        if (this.loadedBoards == null)
-        {
-            this.loadedBoards = new LinkedList<Board>();
-        }
-        this.loadedBoards.add(this.activeBoard);
         updateBoardController();
     }
 
@@ -261,12 +261,7 @@ public class BoardController implements Initializable
         }
         else if (userController.getCurrentUser().updateBoardName(this.activeBoard, newBoardName))
         {
-            // reload boards and refresh UI
-            this.loadedBoards = new LinkedList<Board>();
             this.setNotification("Project name updated");
-            // refresh loadedBoards list
-            this.loadedBoards = new LinkedList<>();
-            loadBoards(userController.getCurrentUser().getUsername());
             for (int i = 0; i < this.loadedBoards.size(); i++)
             {
                 if (userController.getCurrentUser().getUserBoardNames().get(i).matches(userController.getCurrentUser().getCurrentUserBoardName()))
@@ -274,6 +269,8 @@ public class BoardController implements Initializable
                     this.activeBoard = this.loadedBoards.get(i);
                 }
             }
+            // refresh loaded boards
+            loadBoards(userController.getCurrentUser().getUsername());
             updateBoardController();
         }
         else
@@ -328,6 +325,8 @@ public class BoardController implements Initializable
                     this.activeBoard = this.loadedBoards.get(i);
                 }
             }
+            // refresh loaded boards
+            loadBoards(userController.getCurrentUser().getUsername());
             updateBoardController();
         }
         else
@@ -346,13 +345,28 @@ public class BoardController implements Initializable
             this.projectMenu.setDisable(false);
             this.saveBoardMenuItem.setDisable(false);
             this.stage.setTitle(userController.getCurrentUser().getUsername() + " - " + this.activeBoard.getBoardName());
+            this.projectNameLabel.setText(this.activeBoard.getBoardName());
         }
         else
         {
             this.projectMenu.setDisable(true);
             this.saveBoardMenuItem.setDisable(true);
             this.stage.setTitle(userController.getCurrentUser().getUsername() + " - No project selected");
+            this.projectNameLabel.setText("No project selected");
         }
+
+        System.out.println("user");
+        for (int i = 0; i < userController.getCurrentUser().getUserBoardNames().size(); i++)
+        {
+            System.out.print("-" + userController.getCurrentUser().getUserBoardNames().get(i) + "-");
+        }
+        System.out.println();
+        System.out.println("loaded");
+        for (int i = 0; i < this.loadedBoards.size(); i++)
+        {
+            System.out.print("-" + this.loadedBoards.get(i).getBoardName() + "-");
+        }
+        System.out.println();
     }
 
     // read user's boards from database to memory
@@ -360,6 +374,7 @@ public class BoardController implements Initializable
     {
         Reader reader = new Reader();
         LinkedList<String> tempBoardNames = userController.getCurrentUser().getUserBoardNames();
+        this.loadedBoards = new LinkedList<>();
         for (int i = 0; i < userController.getCurrentUser().getUserBoardNames().size(); i++)
         {
             try
@@ -393,6 +408,9 @@ public class BoardController implements Initializable
     {
         Writer writer = new Writer();
         writer.saveBoard(this.activeBoard);
+        // refresh loaded boards
+        loadBoards(userController.getCurrentUser().getUsername());
+        updateBoardController();
     }
 
     // delete board save file
@@ -411,6 +429,9 @@ public class BoardController implements Initializable
         // update user account with changes
         userController.getCurrentUser().removeBoardFromUser(this.activeBoard.getBoardName());
         closeCurrentBoard();
+        // refresh loaded boards
+        loadBoards(userController.getCurrentUser().getUsername());
+        updateBoardController();
     }
 
     public void logout() throws IOException

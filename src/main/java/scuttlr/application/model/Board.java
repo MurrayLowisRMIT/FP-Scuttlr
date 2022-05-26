@@ -42,7 +42,7 @@ public class Board implements Serializable
     }
 
     // TODO use this
-    public boolean setOwner(String userName, String userPassword)
+    public boolean verifyOwner(String userName, String userPassword)
     {
         boolean verified = false;
         if (userName.matches(this.userName) && userPassword.matches(this.userPassword))
@@ -50,5 +50,11 @@ public class Board implements Serializable
             verified = true;
         }
         return verified;
+    }
+
+    // new boards have no password until saved
+    public boolean checkIfNew()
+    {
+        return this.userPassword == null;
     }
 }

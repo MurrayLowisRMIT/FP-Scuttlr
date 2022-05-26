@@ -96,11 +96,6 @@ public class User implements Serializable
         boolean success = false;
         if (!this.userBoardNames.contains(newBoardName))
         {
-            // create new board with new name
-            Board board = new Board(newBoardName, null);
-            Writer writer = new Writer();
-            writer.saveBoard(board);
-
             // delete old board save file
             for (int i = 0; i < this.userBoardNames.size(); i++)
             {
@@ -111,6 +106,11 @@ public class User implements Serializable
             }
             File file = new File("src/main/resources/scuttlr/application/boards/" + this.username + "_" + oldBoard.getBoardName() + ".ser");
             file.delete();
+
+            // create new board with new name
+            Board board = new Board(newBoardName, null);
+            Writer writer = new Writer();
+            writer.saveBoard(board);
             success = true;
         }
         return success;
