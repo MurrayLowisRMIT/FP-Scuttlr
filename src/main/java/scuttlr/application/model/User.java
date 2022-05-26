@@ -20,7 +20,7 @@ public class User implements Serializable
     private LinkedList<String> userBoardNames;
 
     // most recently active board
-    private String currentUserBoard;
+    private String currentUserBoardName;
 
     public User(String username, String password)
     {
@@ -31,7 +31,7 @@ public class User implements Serializable
 
     public String getCurrentUserBoardName()
     {
-        return this.currentUserBoard;
+        return this.currentUserBoardName;
     }
 
     public void setPassword(String password)
@@ -148,7 +148,7 @@ public class User implements Serializable
         Board newBoard = new Board(board.getBoardName(), this.password);
         newBoard.setColumns(board.getColumns());
         this.userBoardNames.add(board.getBoardName());
-        this.currentUserBoard = board.getBoardName();
+        this.currentUserBoardName = board.getBoardName();
         updateUser();
         return newBoard;
     }

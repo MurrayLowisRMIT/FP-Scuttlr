@@ -354,19 +354,6 @@ public class BoardController implements Initializable
             this.stage.setTitle(userController.getCurrentUser().getUsername() + " - No project selected");
             this.projectNameLabel.setText("No project selected");
         }
-
-        System.out.println("user");
-        for (int i = 0; i < userController.getCurrentUser().getUserBoardNames().size(); i++)
-        {
-            System.out.print("-" + userController.getCurrentUser().getUserBoardNames().get(i) + "-");
-        }
-        System.out.println();
-        System.out.println("loaded");
-        for (int i = 0; i < this.loadedBoards.size(); i++)
-        {
-            System.out.print("-" + this.loadedBoards.get(i).getBoardName() + "-");
-        }
-        System.out.println();
     }
 
     // read user's boards from database to memory
