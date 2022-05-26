@@ -470,9 +470,11 @@ public class BoardController implements Initializable
         updateColumns();
     }
 
-    public void addColumnController(ColumnController columnController)
+    // add controller for new column and pass column for it to control
+    public Column addColumnController(ColumnController columnController)
     {
         columnControllers.add(columnController);
+        return activeBoard.getColumns().getLast();
     }
 
     // TODO delete column via columnID

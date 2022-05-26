@@ -47,7 +47,7 @@ public class ColumnController extends ListCell<Column> implements Initializable
     {
         this.taskTitledPanes = new TitledPane[0];
         this.tasks = FXCollections.observableArrayList();
-        boardController.addColumnController(this);
+        this.column = boardController.addColumnController(this);
 
         this.tasks.addListener(new InvalidationListener()
         {
@@ -57,11 +57,6 @@ public class ColumnController extends ListCell<Column> implements Initializable
                 System.out.println("THING HAPPENED");
             }
         });
-    }
-
-    public void addColumn(Column column)
-    {
-        this.column = column;
     }
 
     public void deleteColumn()
