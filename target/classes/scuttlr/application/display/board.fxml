@@ -36,7 +36,7 @@
                         <MenuItem fx:id="newColumnMenuItem" mnemonicParsing="false" onAction="#newColumn" text="Add column" />
                         <MenuItem fx:id="deleteBoardMenuItem" mnemonicParsing="false" onAction="#deleteBoard" text="Delete project" />
                         <MenuItem fx:id="closeBoardMenuItem" mnemonicParsing="false" onAction="#closeCurrentBoard" text="Close project" />
-                        <MenuItem fx:id="renameBoardMenuItem" mnemonicParsing="false" onAction="#setBoardName" text="Rename project" />
+                        <MenuItem fx:id="renameBoardMenuItem" mnemonicParsing="false" onAction="#updateBoardName" text="Rename project" />
                      </items>
                   </Menu>
                     </menus>
@@ -53,7 +53,7 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <Label fx:id="usernameLabel" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#changeUsername" text="Username" textFill="#0088ff" underline="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS">
+                                <Label fx:id="usernameLabel" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#updateUsername" text="Username" textFill="#0088ff" underline="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>

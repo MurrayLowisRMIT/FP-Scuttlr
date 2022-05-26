@@ -37,7 +37,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-import static scuttlr.application.Main.boardController;
 import static scuttlr.application.Main.userController;
 
 public class BoardController implements Initializable
@@ -200,13 +199,7 @@ public class BoardController implements Initializable
                 this.activeBoard = this.loadedBoards.get(i);
             }
         }
-        updateActiveBoardUI();
-    }
-
-    public void setCurrentBoard(Board board)
-    {
-        this.activeBoard = board;
-        updateActiveBoardUI();
+        updateBoardController();
     }
 
     // create new temporary board with no password lock
@@ -219,12 +212,7 @@ public class BoardController implements Initializable
             this.loadedBoards = new LinkedList<Board>();
         }
         this.loadedBoards.add(this.activeBoard);
-        updateActiveBoardUI();
-    }
-
-    public Board getCurrentBoard()
-    {
-        return this.activeBoard;
+        updateBoardController();
     }
 
     public LinkedList<Board> getLoadedBoards()
@@ -236,13 +224,123 @@ public class BoardController implements Initializable
     {
         this.activeBoard = null;
         this.columnListView.getItems().clear();
-        updateActiveBoardUI();
+        updateBoardController();
     }
 
-    // update UI elements based on whether a board is open
-    public void updateActiveBoardUI()
+    // open dialogue to change name of currently active board
+    public void updateBoardName()
     {
         this.stage = (Stage) this.menuBar.getScene().getWindow();
+        VBox vBox = new VBox();
+        Stage loadMenu = new Stage();
+        TextField textInput = new TextField();
+        textInput.setPromptText("Enter new project name");
+        Button confirm = new Button("Confirm");
+        confirm.setPrefWidth(200);
+        confirm.setAlignment(Pos.CENTER);
+        confirm.setOnAction(e -> setSelectedBoardName(e, textInput.getText()));
+        vBox.getChildren().addAll(textInput, confirm);
+        Scene scene = new Scene(vBox);
+        loadMenu.setWidth(200);
+        loadMenu.setHeight(89);
+        loadMenu.setResizable(false);
+        Image icon = new Image("scuttlr/application/graphics/Logo.png");
+        loadMenu.getIcons().add(icon);
+        loadMenu.setScene(scene);
+        loadMenu.show();
+    }
+
+    // select new name for current board
+    public void setSelectedBoardName(ActionEvent event, String newBoardName)
+    {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.close();
+        if (newBoardName.length() == 0)
+        {
+            this.setWarning("Project name cannot be blank");
+        }
+        else if (userController.getCurrentUser().updateBoardName(this.activeBoard, newBoardName))
+        {
+            // reload boards and refresh UI
+            this.loadedBoards = new LinkedList<Board>();
+            this.setNotification("Project name updated");
+            // refresh loadedBoards list
+            this.loadedBoards = new LinkedList<>();
+            loadBoards(userController.getCurrentUser().getUsername());
+            for (int i = 0; i < this.loadedBoards.size(); i++)
+            {
+                if (userController.getCurrentUser().getUserBoardNames().get(i).matches(userController.getCurrentUser().getCurrentUserBoardName()))
+                {
+                    this.activeBoard = this.loadedBoards.get(i);
+                }
+            }
+            updateBoardController();
+        }
+        else
+        {
+            this.setWarning("Name in use by another project");
+        }
+    }
+
+    // open dialogue to change username
+    public void updateUsername()
+    {
+        VBox vBox = new VBox();
+        Stage loadMenu = new Stage();
+        TextField textInput = new TextField();
+        textInput.setPromptText("Enter new username");
+        Button confirm = new Button("Confirm");
+        confirm.setPrefWidth(200);
+        confirm.setAlignment(Pos.CENTER);
+        confirm.setOnAction(e -> setSelectedUsername(e, textInput.getText()));
+        vBox.getChildren().addAll(textInput, confirm);
+        Scene scene = new Scene(vBox);
+        loadMenu.setWidth(200);
+        loadMenu.setHeight(89);
+        loadMenu.setResizable(false);
+        Image icon = new Image("scuttlr/application/graphics/Logo.png");
+        loadMenu.getIcons().add(icon);
+        loadMenu.setScene(scene);
+        loadMenu.show();
+    }
+
+    // select new username
+    public void setSelectedUsername(ActionEvent event, String username)
+    {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.close();
+        if (username.length() == 0)
+        {
+            this.setWarning("Username cannot be blank");
+        }
+        else if (userController.getCurrentUser().updateUsername(username, this.getLoadedBoards()))
+        {
+            // refresh board UI
+            this.usernameLabel.setText(username);
+            this.setNotification("Username updated");
+            // refresh loadedBoards list
+            this.loadedBoards = new LinkedList<>();
+            loadBoards(userController.getCurrentUser().getUsername());
+            for (int i = 0; i < this.loadedBoards.size(); i++)
+            {
+                if (userController.getCurrentUser().getUserBoardNames().get(i).matches(userController.getCurrentUser().getCurrentUserBoardName()))
+                {
+                    this.activeBoard = this.loadedBoards.get(i);
+                }
+            }
+            updateBoardController();
+        }
+        else
+        {
+            this.setWarning("Username taken");
+        }
+    }
+
+    // update UI and memory elements after changes
+    public void updateBoardController()
+    {
+        this.stage = (Stage) this.menuBar.getScene().getWindow();
+        // toggle title enabled menu  elements
         if (this.activeBoard != null)
         {
             this.projectMenu.setDisable(false);
@@ -257,16 +355,10 @@ public class BoardController implements Initializable
         }
     }
 
-    public void setBoardName(ActionEvent actionEvent)
-    {
-        // TODO
-        this.stage = (Stage) this.menuBar.getScene().getWindow();
-    }
-
+    // read user's boards from database to memory
     public void loadBoards(String username)
     {
         Reader reader = new Reader();
-        // read user's boards from database
         LinkedList<String> tempBoardNames = userController.getCurrentUser().getUserBoardNames();
         for (int i = 0; i < userController.getCurrentUser().getUserBoardNames().size(); i++)
         {
@@ -284,10 +376,16 @@ public class BoardController implements Initializable
                 throw new RuntimeException(e);
             }
         }
-        // set most recent board to active
+        // set most recent board as active
         if (this.loadedBoards.size() > 0)
         {
-            this.activeBoard = this.loadedBoards.getLast();
+            for (int i = 0; i < this.loadedBoards.size(); i++)
+            {
+                if (this.loadedBoards.get(i).getBoardName().matches(userController.getCurrentUser().getCurrentUserBoardName()))
+                {
+                    this.activeBoard = loadedBoards.get(i);
+                }
+            }
         }
     }
 
@@ -359,49 +457,6 @@ public class BoardController implements Initializable
         PauseTransition notificationFade = new PauseTransition(Duration.seconds(5));
         notificationFade.setOnFinished(event -> this.notificationsLabel.setVisible(false));
         notificationFade.play();
-    }
-
-    // open dialogue to change username
-    public void changeUsername(MouseEvent mouseEvent)
-    {
-        VBox vBox = new VBox();
-        Stage loadMenu = new Stage();
-        TextField textInput = new TextField();
-        textInput.setPromptText("Enter new username");
-        Button confirm = new Button("Confirm");
-        confirm.setPrefWidth(200);
-        confirm.setAlignment(Pos.CENTER);
-        confirm.setOnAction(e -> setNewName(e, textInput.getText()));
-        vBox.getChildren().addAll(textInput, confirm);
-        Scene scene = new Scene(vBox);
-        loadMenu.setWidth(200);
-        loadMenu.setHeight(89);
-        loadMenu.setResizable(false);
-        Image icon = new Image("scuttlr/application/graphics/Logo.png");
-        loadMenu.getIcons().add(icon);
-        loadMenu.setScene(scene);
-        loadMenu.show();
-    }
-
-    // select new username
-    public void setNewName(ActionEvent event, String username)
-    {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.close();
-        if (username.length() == 0)
-        {
-            this.setWarning("Username cannot be blank");
-        }
-        else if (userController.getCurrentUser().updateUsername(username, this.getLoadedBoards()))
-        {
-            this.usernameLabel.setText(username);
-            this.setNotification("Username updated");
-            updateActiveBoardUI();
-        }
-        else
-        {
-            this.setWarning("Username taken");
-        }
     }
 
     public void changeAvatar(MouseEvent mouseEvent)

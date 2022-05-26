@@ -42,7 +42,7 @@ public class Board implements Serializable
     }
 
     // TODO use this
-    public boolean verifyOwner(String userName, String userPassword)
+    public boolean setOwner(String userName, String userPassword)
     {
         boolean verified = false;
         if (userName.matches(this.userName) && userPassword.matches(this.userPassword))

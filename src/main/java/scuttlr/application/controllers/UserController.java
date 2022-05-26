@@ -1,19 +1,15 @@
 package scuttlr.application.controllers;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import scuttlr.application.model.User;
 
 import java.io.File;
 import java.io.IOException;
 
-import static scuttlr.application.Main.boardController;
 import static scuttlr.application.Main.userController;
 
 public class UserController
