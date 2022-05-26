@@ -2,9 +2,10 @@ package scuttlr.application.model;
 
 import javafx.scene.control.ListCell;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Task
+public class Task implements Serializable
 {
     private String name;
     private String description;

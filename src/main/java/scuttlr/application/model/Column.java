@@ -1,9 +1,10 @@
 package scuttlr.application.model;
 
+import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 
-public class Column
+public class Column implements Serializable
 {
     private String title;
     private LinkedList<Task> tasks;

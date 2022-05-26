@@ -7,19 +7,25 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -46,7 +52,7 @@ public class BoardController implements Initializable
     @FXML
     private Stage stage;
     @FXML
-    private Pane columnsPane;
+    private HBox columnsHBox;
     @FXML
     private ImageView avatarImageView;
     @FXML
@@ -64,13 +70,10 @@ public class BoardController implements Initializable
     @FXML
     private Label usernameLabel;
     @FXML
-    private Label quoteLabel;
-    @FXML
     private Label notificationsLabel;
     @FXML
     protected ObservableList<Column> columns;
-    @FXML
-    protected ListView<Column> columnListView;
+    protected VBox[] columnVBox;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -92,19 +95,19 @@ public class BoardController implements Initializable
         setAvatarImageView();
 
         // populate columns
-        this.columns = FXCollections.observableArrayList();
-        this.columnListView = new ListView<>();
-        this.columnListView.setItems(this.columns);
-        this.columnListView.setOrientation(Orientation.HORIZONTAL);
-        this.columnListView.prefWidthProperty().bind(this.columnsPane.widthProperty().subtract(10));
-        this.columnListView.prefHeightProperty().bind(this.columnsPane.heightProperty().subtract(10));
-        this.columnListView.setLayoutX(5);
-        this.columnListView.setLayoutY(5);
-
-        columnListView.setCellFactory(param -> new ColumnController()
-        {
-        });
-
+        //        this.columns = FXCollections.observableArrayList();
+        //        this.columnListView = new ListView<>();
+        //        this.columnListView.setItems(this.columns);
+        //        this.columnListView.setOrientation(Orientation.HORIZONTAL);
+        //        this.columnListView.prefWidthProperty().bind(this.columnsHBox.widthProperty().subtract(10));
+        //        this.columnListView.prefHeightProperty().bind(this.columnsHBox.heightProperty().subtract(10));
+        //        this.columnListView.setLayoutX(5);
+        //        this.columnListView.setLayoutY(5);
+        //
+        //        columnListView.setCellFactory(param -> new ColumnController()
+        //        {
+        //        });
+        //
         //        columnListView.setCellFactory(param -> new ListCell<Column>()
         //        {
         //            @Override
@@ -121,7 +124,8 @@ public class BoardController implements Initializable
         //                }
         //            }
         //        });
-        this.columnsPane.getChildren().add(this.columnListView);
+
+        this.columns = FXCollections.observableArrayList();
 
         this.columns.addListener(new InvalidationListener()
         {
@@ -219,15 +223,10 @@ public class BoardController implements Initializable
         updateBoardController();
     }
 
-    public LinkedList<Board> getLoadedBoards()
-    {
-        return this.loadedBoards;
-    }
-
     public void closeCurrentBoard()
     {
         this.activeBoard = null;
-        this.columnListView.getItems().clear();
+        this.columnsHBox.getChildren().clear();
         updateBoardController();
     }
 
@@ -314,7 +313,7 @@ public class BoardController implements Initializable
         {
             this.setWarning("Username cannot be blank");
         }
-        else if (userController.getCurrentUser().updateUsername(username, this.getLoadedBoards()))
+        else if (userController.getCurrentUser().updateUsername(username, this.loadedBoards))
         {
             // refresh board UI
             this.usernameLabel.setText(username);
@@ -361,6 +360,29 @@ public class BoardController implements Initializable
             this.deleteColumnButtonImageView.setVisible(false);
             this.stage.setTitle(userController.getCurrentUser().getUsername() + " - No project selected");
             this.projectNameLabel.setText("No project selected");
+        }
+        updateColumns();
+    }
+
+    // update display of columns within board
+    public void updateColumns()
+    {
+        if (this.activeBoard != null)
+        {
+            this.columnVBox = new VBox[this.activeBoard.getColumns().size()];
+            for (int i = 0; i < this.activeBoard.getColumns().size(); i++)
+            {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/column.fxml"));
+                try
+                {
+                    this.columnVBox[i] = loader.load();
+                }
+                catch (IOException e)
+                {
+                    throw new RuntimeException(e);
+                }
+            }
+            this.columnsHBox.getChildren().addAll(this.columnVBox);
         }
     }
 
@@ -436,13 +458,13 @@ public class BoardController implements Initializable
 
     public void newColumn()
     {
-        this.columns.add(new Column("New column"));
+        this.activeBoard.addColumn();
     }
 
     public void deleteColumn(ActionEvent actionEvent)
     {
         // TODO set this correctly
-        this.columns.remove(actionEvent.getSource());
+//        this.columns.remove(actionEvent.getSource());
     }
 
     public void quit()

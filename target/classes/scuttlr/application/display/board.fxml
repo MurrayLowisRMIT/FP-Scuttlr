@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -52,7 +51,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView fx:id="deleteColumnButtonImageView" fitHeight="50.0" fitWidth="50.0" nodeOrientation="INHERIT" onMouseClicked="#newColumn" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="deleteColumnButtonImageView" fitHeight="50.0" fitWidth="50.0" nodeOrientation="INHERIT" onMouseClicked="#deleteColumn" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/-%20button.png" />
                      </image>
@@ -108,7 +107,11 @@
                     </padding>
                 </HBox>
             <Label fx:id="notificationsLabel" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" textAlignment="CENTER" textFill="RED" VBox.vgrow="ALWAYS" />
-                <Pane fx:id="columnsPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+            <HBox fx:id="columnsHBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </VBox.margin>
+            </HBox>
             </children>
         </VBox>
     </children>

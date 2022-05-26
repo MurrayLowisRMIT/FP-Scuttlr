@@ -18,6 +18,7 @@ public class Board implements Serializable
         this.userName = userController.getCurrentUser().getUsername();
         this.boardName = boardName;
         this.userPassword = userPassword;
+        this.columns = new LinkedList<>();
     }
 
     public String getBoardName()
@@ -34,6 +35,11 @@ public class Board implements Serializable
     public LinkedList<Column> getColumns()
     {
         return this.columns;
+    }
+
+    public void addColumn()
+    {
+        this.columns.add(new Column());
     }
 
     public void setColumns(LinkedList<Column> columns)

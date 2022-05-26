@@ -10,9 +10,6 @@ import javafx.scene.layout.VBox;
 import scuttlr.application.model.Column;
 import scuttlr.application.model.Task;
 
-import java.io.IOException;
-import java.util.LinkedList;
-
 import static scuttlr.application.Main.boardController;
 
 public class ColumnController extends ListCell<Column>
