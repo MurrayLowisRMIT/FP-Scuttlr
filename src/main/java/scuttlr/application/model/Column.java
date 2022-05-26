@@ -12,7 +12,9 @@ public class Column implements Serializable
     public Column()
     {
         this.title = "New column";
+        this.tasks = new LinkedList<>();
     }
+
     public Column(String title)
     {
         this.title = title;
@@ -33,9 +35,9 @@ public class Column implements Serializable
         this.title = title;
     }
 
-    public void addTask(Task task)
+    public void addTask()
     {
-        this.tasks.add(task);
+        this.tasks.add(new Task());
     }
 
     public void removeTask(Task task)

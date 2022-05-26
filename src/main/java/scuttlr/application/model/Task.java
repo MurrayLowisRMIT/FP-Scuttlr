@@ -13,11 +13,12 @@ public class Task implements Serializable
     private Date due;
     private Date completion;
 
-    public Task(String name, String description, Date start, Date due)
+    public Task()
     {
-        this.name = name;
-        this.description = description;
-        this.start = start;
-        this.due = due;
+        this.name = "New task";
+        this.description = "description";
+        // TODO default start date to now
+        this.start = new Date();
+        this.due = new Date();
     }
 }

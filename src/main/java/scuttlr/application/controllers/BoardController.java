@@ -52,8 +52,6 @@ public class BoardController implements Initializable
     @FXML
     private Stage stage;
     @FXML
-    private HBox columnsHBox;
-    @FXML
     private ImageView avatarImageView;
     @FXML
     private ImageView newColumnButtonImageView;
@@ -72,7 +70,10 @@ public class BoardController implements Initializable
     @FXML
     private Label notificationsLabel;
     @FXML
+    private HBox columnsHBox;
+    @FXML
     protected ObservableList<Column> columns;
+    @FXML
     protected VBox[] columnVBox;
 
     @Override
@@ -230,6 +231,7 @@ public class BoardController implements Initializable
         updateBoardController();
     }
 
+    // TODO transfer columns to new file
     // open dialogue to change name of currently active board
     public void updateBoardName()
     {
@@ -367,6 +369,8 @@ public class BoardController implements Initializable
     // update display of columns within board
     public void updateColumns()
     {
+        // TODO dynamically populate instead of fully deleting and rebuilding every time
+        this.columnsHBox.getChildren().clear();
         if (this.activeBoard != null)
         {
             this.columnVBox = new VBox[this.activeBoard.getColumns().size()];
@@ -459,12 +463,13 @@ public class BoardController implements Initializable
     public void newColumn()
     {
         this.activeBoard.addColumn();
+        updateColumns();
     }
 
     public void deleteColumn(ActionEvent actionEvent)
     {
         // TODO set this correctly
-//        this.columns.remove(actionEvent.getSource());
+        // this.columns.remove(actionEvent.getSource());
     }
 
     public void quit()
@@ -577,27 +582,4 @@ public class BoardController implements Initializable
         setAvatarImageView();
         setNotification("Avatar removed");
     }
-
-    // TODO migrate below methods to other classes
-    public void newTask(ActionEvent actionEvent)
-    {
-    }
-
-    public void deleteTask(ActionEvent actionEvent)
-    {
-    }
-
-    // toggle completed status for task
-    //    public void checkComplete(ActionEvent actionEvent)
-    //    {
-    //        this.completeCheckBox.setSelected(!this.completeCheckBox.isSelected());
-    //        if (this.completeCheckBox.isSelected())
-    //        {
-    //
-    //        }
-    //        else
-    //        {
-    //
-    //        }
-    //    }
 }

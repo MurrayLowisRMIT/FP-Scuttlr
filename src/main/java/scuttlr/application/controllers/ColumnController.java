@@ -1,8 +1,13 @@
 package scuttlr.application.controllers;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.layout.Pane;
@@ -10,14 +15,17 @@ import javafx.scene.layout.VBox;
 import scuttlr.application.model.Column;
 import scuttlr.application.model.Task;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import static scuttlr.application.Main.boardController;
 
-public class ColumnController extends ListCell<Column>
+public class ColumnController extends ListCell<Column> implements Initializable
 {
+    private Column column;
     @FXML
     private Pane pane;
-    @FXML
-    private VBox columnVBox;
     @FXML
     private TextField titleTextField;
     @FXML
@@ -31,40 +39,47 @@ public class ColumnController extends ListCell<Column>
     @FXML
     private Button moveRightButton;
     @FXML
-    private ListView<Task> tasks;
-
-    // TODO read from fxml file instead of hard coding here
-    public ColumnController()
-    {
-        super();
-        this.columnVBox = new VBox();
-        this.titleTextField = new TextField("New column");
-        this.toolBar = new ToolBar();
-        this.moveLeftButton = new Button("<<");
-        this.deleteColumnButton = new Button("Delete column");
-        this.newTaskButton = new Button("New task");
-        this.moveRightButton = new Button(">>");
-        // this.tasks = new ListView<>();
-
-        this.toolBar.getItems().addAll(this.moveLeftButton, this.deleteColumnButton, this.newTaskButton, this.moveRightButton);
-        // this.columnVBox.getChildren().addAll(this.titleLabel, this.toolBar, this.tasks);
-        this.columnVBox.getChildren().addAll(this.titleTextField, this.toolBar);
-    }
+    private VBox tasksVBox;
+    @FXML
+    protected ObservableList<Task> tasks;
+    @FXML
+    private TitledPane[] taskTitledPane;
 
     @Override
-    protected void updateItem(Column column, boolean empty)
+    public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        super.updateItem(column, empty);
-        if (column != null && !empty)
+        this.column = new Column();
+        this.tasks = FXCollections.observableArrayList();
+
+        this.tasks.addListener(new InvalidationListener()
         {
-            titleTextField.setText(column.getTitle());
-            setGraphic(columnVBox);
-        }
-        else
-        {
-            setGraphic(null);
-        }
+            @Override
+            public void invalidated(Observable observable)
+            {
+                System.out.println("THING HAPPENED");
+            }
+        });
     }
+
+    //    public ColumnController()
+    //    {
+    //        super();
+    //    }
+    //
+    //    @Override
+    //    protected void updateItem(Column column, boolean empty)
+    //    {
+    //        super.updateItem(column, empty);
+    //        if (column != null && !empty)
+    //        {
+    //            titleTextField.setText(column.getTitle());
+    //            setGraphic(taskTitledPane);
+    //        }
+    //        else
+    //        {
+    //            setGraphic(null);
+    //        }
+    //    }
 
     public void deleteColumn(ActionEvent actionEvent)
     {
@@ -73,6 +88,30 @@ public class ColumnController extends ListCell<Column>
 
     public void newTask(ActionEvent actionEvent)
     {
+        this.column.addTask();
+        updateTasks();
+    }
+
+    public void updateTasks()
+    {
+        // TODO dynamically populate instead of fully deleting and rebuilding every time
+        tasksVBox.getChildren().clear();
+        //        this.taskTitledPane = new TitledPane[this.column.getTasks().size()];
+        //        for (int i = 0; i < this.column.getTasks().size(); i++)
+        this.taskTitledPane = new TitledPane[5];
+        for (int i = 0; i < 5; i++)
+        {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/task.fxml"));
+            try
+            {
+                this.taskTitledPane[i] = loader.load();
+            }
+            catch (IOException e)
+            {
+                throw new RuntimeException(e);
+            }
+        }
+        this.tasksVBox.getChildren().addAll(this.taskTitledPane);
     }
 
     public void updateColumnName(InputMethodEvent inputMethodEvent)
