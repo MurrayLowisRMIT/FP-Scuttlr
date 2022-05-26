@@ -51,7 +51,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView fx:id="deleteColumnButtonImageView" fitHeight="50.0" fitWidth="50.0" nodeOrientation="INHERIT" onMouseClicked="#deleteColumn" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="deleteColumnButtonImageView" fitHeight="50.0" fitWidth="50.0" nodeOrientation="INHERIT" onMouseClicked="#deleteSelectedColumn" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/-%20button.png" />
                      </image>

@@ -39,7 +39,8 @@ public class Board implements Serializable
 
     public void addColumn()
     {
-        this.columns.add(new Column());
+        Column column = new Column(this.columns.size());
+        this.columns.add(column);
     }
 
     public void setColumns(LinkedList<Column> columns)

@@ -10,7 +10,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.InputMethodEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import scuttlr.application.model.Column;
 import scuttlr.application.model.Task;
@@ -46,9 +45,9 @@ public class ColumnController extends ListCell<Column> implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        this.column = new Column();
         this.taskTitledPanes = new TitledPane[0];
         this.tasks = FXCollections.observableArrayList();
+        boardController.addColumnController(this);
 
         this.tasks.addListener(new InvalidationListener()
         {
@@ -60,29 +59,14 @@ public class ColumnController extends ListCell<Column> implements Initializable
         });
     }
 
-    //    public ColumnController()
-    //    {
-    //        super();
-    //    }
-    //
-    //    @Override
-    //    protected void updateItem(Column column, boolean empty)
-    //    {
-    //        super.updateItem(column, empty);
-    //        if (column != null && !empty)
-    //        {
-    //            titleTextField.setText(column.getTitle());
-    //            setGraphic(taskTitledPane);
-    //        }
-    //        else
-    //        {
-    //            setGraphic(null);
-    //        }
-    //    }
-
-    public void deleteColumn(ActionEvent actionEvent)
+    public void addColumn(Column column)
     {
-        boardController.deleteColumn(actionEvent);
+        this.column = column;
+    }
+
+    public void deleteColumn()
+    {
+        boardController.deleteColumn(this.column.getColumnID());
     }
 
     public void newTask(ActionEvent actionEvent)

@@ -8,16 +8,13 @@ public class Column implements Serializable
 {
     private String title;
     private LinkedList<Task> tasks;
+    private int columnID;
 
-    public Column()
+    public Column(int columnID)
     {
         this.title = "New column";
         this.tasks = new LinkedList<>();
-    }
-
-    public Column(String title)
-    {
-        this.title = title;
+        this.columnID = columnID;
     }
 
     public String getTitle()
@@ -25,14 +22,19 @@ public class Column implements Serializable
         return this.title;
     }
 
-    public LinkedList<Task> getTasks()
-    {
-        return this.tasks;
-    }
-
     public void setTitle(String title)
     {
         this.title = title;
+    }
+
+    public int getColumnID()
+    {
+        return this.columnID;
+    }
+
+    public LinkedList<Task> getTasks()
+    {
+        return this.tasks;
     }
 
     public void addTask()
