@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -43,6 +44,12 @@
                 </MenuBar>
                 <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="10.0">
                     <children>
+                  <ImageView fx:id="avatarImageView1" fitHeight="50.0" fitWidth="50.0" nodeOrientation="INHERIT" onMouseClicked="#newColumn" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/+%20button.png" />
+                     </image>
+                  </ImageView>
+                  <Separator focusTraversable="false" prefWidth="200.0" visible="false" HBox.hgrow="ALWAYS" />
                         <GridPane hgap="10.0">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" />
