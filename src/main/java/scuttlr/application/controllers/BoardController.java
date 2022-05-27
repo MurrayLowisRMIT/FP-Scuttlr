@@ -76,6 +76,7 @@ public class BoardController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+//        this.columnsListView.height
         // read user's boards
         this.loadedBoards = new LinkedList<>();
         loadBoards(userController.getCurrentUser().getUsername());

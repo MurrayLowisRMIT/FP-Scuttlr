@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<Pane maxHeight="1.7976931348623157E308" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scuttlr.application.controllers.ColumnController">
+<Pane maxHeight="2000.0" prefHeight="2000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scuttlr.application.controllers.ColumnController">
    <children>
       <VBox alignment="CENTER" maxHeight="1.7976931348623157E308">
          <children>
@@ -43,7 +42,7 @@
                   <Insets bottom="10.0" left="20.0" right="20.0" />
                </padding>
             </HBox>
-            <ListView fx:id="tasksListView" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="300.0" VBox.vgrow="ALWAYS" />
+            <ListView fx:id="tasksListView" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="2000.0" prefWidth="300.0" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
    </children>
