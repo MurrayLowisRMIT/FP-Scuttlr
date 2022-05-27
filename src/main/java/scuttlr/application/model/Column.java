@@ -32,6 +32,11 @@ public class Column implements Serializable
         return this.columnID;
     }
 
+    public void setColumnID(int ID)
+    {
+        this.columnID = ID;
+    }
+
     public LinkedList<Task> getTasks()
     {
         return this.tasks;

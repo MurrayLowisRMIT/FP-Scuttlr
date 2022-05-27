@@ -6,9 +6,9 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="columnVBox" fillWidth="false" maxHeight="1.7976931348623157E308" maxWidth="250.0" minWidth="250.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scuttlr.application.controllers.ColumnController">
+<VBox fx:id="columnVBox" fillWidth="false" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scuttlr.application.controllers.ColumnController">
    <children>
-      <TextField fx:id="columnNameTextField" alignment="CENTER" onKeyTyped="#updateColumnName" prefWidth="250.0" promptText="Column name" />
+      <TextField fx:id="columnNameTextField" alignment="CENTER" maxWidth="1.7976931348623157E308" onKeyTyped="#updateColumnName" promptText="Column name" />
       <ToolBar fx:id="toolBar">
          <items>
             <Button fx:id="moveLeftButton" mnemonicParsing="false" text="&lt;&lt;" />
@@ -20,6 +20,6 @@
             <Insets bottom="10.0" />
          </VBox.margin>
       </ToolBar>
-      <VBox fx:id="tasksVBox" maxHeight="200.0" maxWidth="1.7976931348623157E308" minHeight="200.0" prefWidth="300.0" VBox.vgrow="ALWAYS" />
+      <VBox fx:id="tasksVBox" VBox.vgrow="ALWAYS" />
    </children>
 </VBox>

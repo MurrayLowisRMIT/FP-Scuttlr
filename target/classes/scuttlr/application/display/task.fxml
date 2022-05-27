@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<TitledPane fx:id="taskTitledPanes" animated="false" text="Task 1" wrapText="true" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scuttlr.application.controllers.TaskController">
+<TitledPane fx:id="taskTitledPanes" animated="false" prefWidth="300.0" text="Task 1" wrapText="true" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scuttlr.application.controllers.TaskController">
    <content>
       <VBox>
          <children>
@@ -23,11 +23,11 @@
                   <CheckBox fx:id="completeCheckBox" mnemonicParsing="false" text="Complete" />
                </items>
             </ToolBar>
-            <TextArea fx:id="taskDescription" minHeight="100.0" prefWidth="230.0" promptText="Enter new task details" wrapText="true" />
+            <TextArea fx:id="taskDescription" minHeight="100.0" promptText="Enter new task details" wrapText="true" />
             <HBox alignment="CENTER" fillHeight="false">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" text="Due date" />
-                  <DatePicker fx:id="dueDatePicker" nodeOrientation="RIGHT_TO_LEFT" />
+                  <DatePicker fx:id="dueDatePicker" nodeOrientation="RIGHT_TO_LEFT" promptText="Enter date" />
                </children>
                <opaqueInsets>
                   <Insets />

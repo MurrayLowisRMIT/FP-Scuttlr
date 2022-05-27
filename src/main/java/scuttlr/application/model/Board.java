@@ -64,4 +64,35 @@ public class Board implements Serializable
     {
         return this.userPassword == null;
     }
+
+    // swap the place of two columns
+    public void swapColumns(Column c1, Column c2)
+    {
+        for (Column column : this.columns)
+        {
+            if (column.getColumnID() == c1.getColumnID())
+            {
+                column.setColumnID(c2.getColumnID());
+            }
+            else if (column.getColumnID() == c2.getColumnID())
+            {
+                column.setColumnID(c1.getColumnID());
+            }
+        }
+        reorderColumns();
+    }
+
+    // reorders columns in linkedList when columns are moved in the active board
+    public void reorderColumns()
+    {
+        LinkedList<Column> newList = new LinkedList<>();
+        for (int i = 0; i < this.columns.size(); i++)
+        {
+            if (this.columns.get(i).getColumnID() == i)
+            {
+                newList.add(this.columns.get(i));
+            }
+        }
+        this.columns = new LinkedList<>(newList);
+    }
 }
