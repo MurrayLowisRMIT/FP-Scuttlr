@@ -45,10 +45,6 @@ public class ColumnController extends ListCell<Column> implements Initializable
     @FXML
     private TitledPane[] taskTitledPanes;
 
-//    public ColumnController()
-//    {
-//    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
@@ -115,9 +111,8 @@ public class ColumnController extends ListCell<Column> implements Initializable
 
     public void newTask(ActionEvent actionEvent)
     {
-        //        this.column.addTask();
-        //        updateTasks();
-        System.out.println(this.column.getTitle());
+        this.column.addTask();
+        updateTasks();
     }
 
     public void deleteTask(ActionEvent actionEvent)
