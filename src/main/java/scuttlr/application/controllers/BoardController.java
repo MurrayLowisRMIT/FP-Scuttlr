@@ -7,7 +7,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.fxml.JavaFXBuilderFactory;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -24,12 +23,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import javafx.util.Duration;
 import scuttlr.application.model.Board;
 import scuttlr.application.model.Column;
@@ -70,11 +68,11 @@ public class BoardController implements Initializable
     @FXML
     private Label notificationsLabel;
     @FXML
-    private HBox columnsHBox;
-    @FXML
     private ObservableList<Column> columns;
     @FXML
-    private VBox[] columnVBoxes;
+    private ListView columnsListView;
+    @FXML
+    private LinkedList<Pane> columnPanes;
     private LinkedList<ColumnController> columnControllers;
 
     @Override
@@ -98,6 +96,7 @@ public class BoardController implements Initializable
         setAvatarImageView();
 
         // read and populate columns
+        this.columnPanes = new LinkedList<>();
         this.columns = FXCollections.observableArrayList();
     }
 
@@ -173,7 +172,7 @@ public class BoardController implements Initializable
         {
             if (this.loadedBoards.get(i).getBoardName().matches(boardName))
             {
-                activeBoard = this.loadedBoards.get(i);
+                this.activeBoard = this.loadedBoards.get(i);
             }
         }
         updateBoardController();
@@ -183,14 +182,14 @@ public class BoardController implements Initializable
     public void createNewBoard(ActionEvent actionEvent) throws IOException
     {
         String name = "New project";
-        activeBoard = new Board(name, null);
+        this.activeBoard = new Board(name, null);
         updateBoardController();
     }
 
     public void closeCurrentBoard()
     {
-        activeBoard = null;
-        this.columnsHBox.getChildren().clear();
+        this.activeBoard = null;
+        this.columnsListView.getItems().clear();
         updateBoardController();
     }
 
@@ -227,14 +226,14 @@ public class BoardController implements Initializable
         {
             this.setWarning("Project name cannot be blank");
         }
-        else if (userController.getCurrentUser().updateBoardName(activeBoard, newBoardName))
+        else if (userController.getCurrentUser().updateBoardName(this.activeBoard, newBoardName))
         {
             this.setNotification("Project name updated");
             for (int i = 0; i < this.loadedBoards.size(); i++)
             {
                 if (userController.getCurrentUser().getUserBoardNames().get(i).matches(userController.getCurrentUser().getCurrentUserBoardName()))
                 {
-                    activeBoard = this.loadedBoards.get(i);
+                    this.activeBoard = this.loadedBoards.get(i);
                 }
             }
             // refresh loaded boards
@@ -290,7 +289,7 @@ public class BoardController implements Initializable
             {
                 if (userController.getCurrentUser().getUserBoardNames().get(i).matches(userController.getCurrentUser().getCurrentUserBoardName()))
                 {
-                    activeBoard = this.loadedBoards.get(i);
+                    this.activeBoard = this.loadedBoards.get(i);
                 }
             }
             // refresh loaded boards
@@ -308,14 +307,14 @@ public class BoardController implements Initializable
     {
         this.stage = (Stage) this.menuBar.getScene().getWindow();
         // toggle title enabled menu  elements
-        if (activeBoard != null)
+        if (this.activeBoard != null)
         {
             this.projectMenu.setDisable(false);
             this.saveBoardMenuItem.setDisable(false);
             this.newColumnButtonImageView.setVisible(true);
             this.deleteColumnButtonImageView.setVisible(true);
-            this.stage.setTitle(userController.getCurrentUser().getUsername() + " - " + activeBoard.getBoardName());
-            this.projectNameLabel.setText(activeBoard.getBoardName());
+            this.stage.setTitle(userController.getCurrentUser().getUsername() + " - " + this.activeBoard.getBoardName());
+            this.projectNameLabel.setText(this.activeBoard.getBoardName());
         }
         else
         {
@@ -331,35 +330,35 @@ public class BoardController implements Initializable
 
     public void newColumn()
     {
-        activeBoard.addColumn();
+        this.activeBoard.addColumn();
         updateColumns();
     }
 
     // update display of columns within board
     public void updateColumns()
     {
-        if (activeBoard != null)
+        if (this.activeBoard != null)
         {
             // TODO dynamically populate instead of fully deleting and rebuilding every time
-            this.columnsHBox.getChildren().clear();
-            this.columnVBoxes = new VBox[activeBoard.getColumns().size()];
+            this.columnsListView.getItems().clear();
+            this.columnPanes.clear();
             this.columnControllers = new LinkedList<>();
-            for (int i = 0; i < activeBoard.getColumns().size(); i++)
+            for (int i = 0; i < this.activeBoard.getColumns().size(); i++)
             {
                 // create and store controller in columnControllers list
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/column.fxml"));
                 try
                 {
-                    this.columnVBoxes[i] = loader.load();
+                    this.columnPanes.add(loader.load());
                 }
                 catch (IOException e)
                 {
                     throw new RuntimeException(e);
                 }
                 this.columnControllers.add(loader.getController());
-                this.columnControllers.getLast().setColumn(activeBoard.getColumns().get(i));
+                this.columnControllers.getLast().setColumn(this.activeBoard.getColumns().getLast());
             }
-            this.columnsHBox.getChildren().addAll(this.columnVBoxes);
+            this.columnsListView.getItems().addAll(this.columnPanes);
         }
     }
 
@@ -388,7 +387,7 @@ public class BoardController implements Initializable
             {
                 if (this.loadedBoards.get(i).getBoardName().matches(userController.getCurrentUser().getCurrentUserBoardName()))
                 {
-                    activeBoard = loadedBoards.get(i);
+                    this.activeBoard = loadedBoards.get(i);
                 }
             }
         }
@@ -397,7 +396,7 @@ public class BoardController implements Initializable
     public void saveBoard()
     {
         Writer writer = new Writer();
-        writer.saveBoard(activeBoard);
+        writer.saveBoard(this.activeBoard);
         // refresh loaded boards
         loadBoards(userController.getCurrentUser().getUsername());
         updateBoardController();
@@ -406,18 +405,18 @@ public class BoardController implements Initializable
     // delete board save file
     public void deleteBoard()
     {
-        String fileName = userController.getCurrentUser().getUsername() + "_" + activeBoard.getBoardName() + ".ser";
+        String fileName = userController.getCurrentUser().getUsername() + "_" + this.activeBoard.getBoardName() + ".ser";
         File file = new File("src/main/resources/scuttlr/application/boards/" + fileName);
         if (file.delete())
         {
-            setNotification(activeBoard.getBoardName() + " deleted");
+            setNotification(this.activeBoard.getBoardName() + " deleted");
         }
         else
         {
-            setWarning(activeBoard.getBoardName() + " closed, no save file to delete");
+            setWarning(this.activeBoard.getBoardName() + " closed, no save file to delete");
         }
         // update user account with changes
-        userController.getCurrentUser().removeBoardFromUser(activeBoard.getBoardName());
+        userController.getCurrentUser().removeBoardFromUser(this.activeBoard.getBoardName());
         closeCurrentBoard();
         // refresh loaded boards
         loadBoards(userController.getCurrentUser().getUsername());
@@ -441,7 +440,7 @@ public class BoardController implements Initializable
     {
         // TODO set this correctly
         //        this.columns.remove(columnID);
-        activeBoard.getColumns().remove(columnID);
+        this.activeBoard.getColumns().remove(columnID);
         updateBoardController();
     }
 

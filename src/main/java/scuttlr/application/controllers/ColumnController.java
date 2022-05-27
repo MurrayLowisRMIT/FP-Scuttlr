@@ -8,15 +8,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import scuttlr.application.model.Column;
 import scuttlr.application.model.Task;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 import static scuttlr.application.Main.boardController;
@@ -41,14 +42,17 @@ public class ColumnController extends ListCell<Column> implements Initializable
     @FXML
     private VBox tasksVBox;
     @FXML
+    private ListView tasksListView;
+    @FXML
     protected ObservableList<Task> tasks;
     @FXML
-    private TitledPane[] taskTitledPanes;
+    private LinkedList<Pane> taskPanes;
+    private LinkedList<TaskController> taskControllers;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        this.taskTitledPanes = new TitledPane[0];
+        this.taskPanes = new LinkedList<>();
         this.tasks = FXCollections.observableArrayList();
 
         this.tasks.addListener(new InvalidationListener()
@@ -60,34 +64,6 @@ public class ColumnController extends ListCell<Column> implements Initializable
             }
         });
     }
-
-    //    @Override
-    //    protected void updateItem(Column column, boolean bool)
-    //    {
-    //        System.out.println("TEST");
-    //        super.updateItem(column, bool);
-    //
-    //        if (column != null)
-    //        {
-    //            URL location = ColumnController.class.getResource("src/main/resources/scuttlr/application/display/column.fxml");
-    //
-    //            FXMLLoader fxmlLoader = new FXMLLoader();
-    //            fxmlLoader.setLocation(location);
-    //            fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
-    //
-    //            try
-    //            {
-    //                VBox vBox = (VBox) fxmlLoader.load(location.openStream());
-    //                ColumnController controller = fxmlLoader.getController();
-    //                controller.setColumn(column);
-    //                setGraphic(vBox);
-    //            }
-    //            catch (IOException e)
-    //            {
-    //                throw new IllegalStateException(e);
-    //            }
-    //        }
-    //    }
 
     public void setColumn(Column column)
     {
@@ -123,21 +99,25 @@ public class ColumnController extends ListCell<Column> implements Initializable
     public void updateTasks()
     {
         // TODO dynamically populate instead of fully deleting and rebuilding every time
-        tasksVBox.getChildren().clear();
-        this.taskTitledPanes = new TitledPane[this.column.getTasks().size()];
+        this.tasksListView.getItems().clear();
+        this.taskPanes.clear();
+        this.taskControllers = new LinkedList<>();
         for (int i = 0; i < this.column.getTasks().size(); i++)
         {
+            // create and store controller in columnControllers list
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/task.fxml"));
             try
             {
-                this.taskTitledPanes[i] = loader.load();
+                this.taskPanes.add(loader.load());
             }
             catch (IOException e)
             {
                 throw new RuntimeException(e);
             }
+            this.taskControllers.add(loader.getController());
+            this.taskControllers.getLast().setTask(this.column.getTasks().getLast());
         }
-        this.tasksVBox.getChildren().addAll(this.taskTitledPanes);
+        this.tasksListView.getItems().addAll(this.taskPanes);
     }
 
     public void updateTitle(ActionEvent actionEvent)

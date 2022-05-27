@@ -11,6 +11,11 @@ public class TaskController
 {
     private Task task;
 
+    public void setTask(Task task)
+    {
+        this.task = task;
+    }
+
     public void deleteTask(ActionEvent actionEvent)
     {
 

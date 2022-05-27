@@ -13,7 +13,7 @@ public class Task implements Serializable
     private Date due;
     private Date completion;
 
-    public Task()
+    public void setTask()
     {
         this.name = "New task";
         this.description = "description";
