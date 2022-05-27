@@ -51,14 +51,6 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView fx:id="deleteColumnButtonImageView" fitHeight="50.0" fitWidth="50.0" nodeOrientation="INHERIT" onMouseClicked="#deleteSelectedColumn" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../graphics/-%20button.png" />
-                     </image>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
                   <Label fx:id="projectNameLabel" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" onMouseClicked="#openBoard" text="Project name" textAlignment="CENTER" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="20.0" />
@@ -107,7 +99,7 @@
                     </padding>
                 </HBox>
             <Label fx:id="notificationsLabel" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" textAlignment="CENTER" textFill="RED" VBox.vgrow="NEVER" />
-            <ListView fx:id="columnsListView" maxHeight="1.7976931348623157E308" orientation="HORIZONTAL" VBox.vgrow="ALWAYS" />
+            <ListView fx:id="columnsListView" focusTraversable="false" maxHeight="1.7976931348623157E308" orientation="HORIZONTAL" VBox.vgrow="ALWAYS" />
             </children>
         </VBox>
     </children>

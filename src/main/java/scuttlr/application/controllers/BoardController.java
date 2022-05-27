@@ -54,8 +54,6 @@ public class BoardController implements Initializable
     @FXML
     private ImageView newColumnButtonImageView;
     @FXML
-    private ImageView deleteColumnButtonImageView;
-    @FXML
     private MenuBar menuBar;
     @FXML
     private Menu projectMenu;
@@ -205,7 +203,33 @@ public class BoardController implements Initializable
         Button confirm = new Button("Confirm");
         confirm.setPrefWidth(200);
         confirm.setAlignment(Pos.CENTER);
-        confirm.setOnAction(e -> setSelectedBoardName(e, textInput.getText()));
+        confirm.setOnAction(e ->
+        {
+            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+            stage.close();
+            if (textInput.getText().length() == 0)
+            {
+                this.setWarning("Project name cannot be blank");
+            }
+            else if (userController.getCurrentUser().updateBoardName(this.activeBoard, textInput.getText()))
+            {
+                this.setNotification("Project name updated");
+                for (int i = 0; i < this.loadedBoards.size(); i++)
+                {
+                    if (userController.getCurrentUser().getUserBoardNames().get(i).matches(userController.getCurrentUser().getCurrentUserBoardName()))
+                    {
+                        this.activeBoard = this.loadedBoards.get(i);
+                    }
+                }
+                // refresh loaded boards
+                loadBoards(userController.getCurrentUser().getUsername());
+                updateBoardController();
+            }
+            else
+            {
+                this.setWarning("Name in use by another project");
+            }
+        });
         vBox.getChildren().addAll(textInput, confirm);
         Scene scene = new Scene(vBox);
         loadMenu.setWidth(200);
@@ -215,35 +239,6 @@ public class BoardController implements Initializable
         loadMenu.getIcons().add(icon);
         loadMenu.setScene(scene);
         loadMenu.show();
-    }
-
-    // select new name for current board
-    public void setSelectedBoardName(ActionEvent event, String newBoardName)
-    {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.close();
-        if (newBoardName.length() == 0)
-        {
-            this.setWarning("Project name cannot be blank");
-        }
-        else if (userController.getCurrentUser().updateBoardName(this.activeBoard, newBoardName))
-        {
-            this.setNotification("Project name updated");
-            for (int i = 0; i < this.loadedBoards.size(); i++)
-            {
-                if (userController.getCurrentUser().getUserBoardNames().get(i).matches(userController.getCurrentUser().getCurrentUserBoardName()))
-                {
-                    this.activeBoard = this.loadedBoards.get(i);
-                }
-            }
-            // refresh loaded boards
-            loadBoards(userController.getCurrentUser().getUsername());
-            updateBoardController();
-        }
-        else
-        {
-            this.setWarning("Name in use by another project");
-        }
     }
 
     // open dialogue to change username
@@ -256,7 +251,41 @@ public class BoardController implements Initializable
         Button confirm = new Button("Confirm");
         confirm.setPrefWidth(200);
         confirm.setAlignment(Pos.CENTER);
-        confirm.setOnAction(e -> setSelectedUsername(e, textInput.getText()));
+        // lambda to control popup function
+        confirm.setOnAction(e ->
+        {
+            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+            stage.close();
+            if (textInput.getText().length() == 0)
+            {
+                this.setWarning("Username cannot be blank");
+            }
+            else if (userController.getCurrentUser().updateUsername(textInput.getText(), this.loadedBoards))
+            {
+                // refresh board UI
+                this.usernameLabel.setText(textInput.getText());
+                this.setNotification("Username updated");
+                // refresh loadedBoards list
+                this.loadedBoards = new LinkedList<>();
+                loadBoards(userController.getCurrentUser().getUsername());
+                for (int i = 0; i < this.loadedBoards.size(); i++)
+                {
+                    if (userController.getCurrentUser().getUserBoardNames().get(i).matches(userController.getCurrentUser().getCurrentUserBoardName()))
+                    {
+                        this.activeBoard = this.loadedBoards.get(i);
+                    }
+                }
+                // refresh loaded boards
+                loadBoards(userController.getCurrentUser().getUsername());
+                updateBoardController();
+            }
+            else
+            {
+                this.setWarning("Username taken");
+            }
+        });
+
+        // design popup
         vBox.getChildren().addAll(textInput, confirm);
         Scene scene = new Scene(vBox);
         loadMenu.setWidth(200);
@@ -266,40 +295,6 @@ public class BoardController implements Initializable
         loadMenu.getIcons().add(icon);
         loadMenu.setScene(scene);
         loadMenu.show();
-    }
-
-    // select new username
-    public void setSelectedUsername(ActionEvent event, String username)
-    {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.close();
-        if (username.length() == 0)
-        {
-            this.setWarning("Username cannot be blank");
-        }
-        else if (userController.getCurrentUser().updateUsername(username, this.loadedBoards))
-        {
-            // refresh board UI
-            this.usernameLabel.setText(username);
-            this.setNotification("Username updated");
-            // refresh loadedBoards list
-            this.loadedBoards = new LinkedList<>();
-            loadBoards(userController.getCurrentUser().getUsername());
-            for (int i = 0; i < this.loadedBoards.size(); i++)
-            {
-                if (userController.getCurrentUser().getUserBoardNames().get(i).matches(userController.getCurrentUser().getCurrentUserBoardName()))
-                {
-                    this.activeBoard = this.loadedBoards.get(i);
-                }
-            }
-            // refresh loaded boards
-            loadBoards(userController.getCurrentUser().getUsername());
-            updateBoardController();
-        }
-        else
-        {
-            this.setWarning("Username taken");
-        }
     }
 
     // update UI and memory elements after changes
@@ -312,7 +307,6 @@ public class BoardController implements Initializable
             this.projectMenu.setDisable(false);
             this.saveBoardMenuItem.setDisable(false);
             this.newColumnButtonImageView.setVisible(true);
-            this.deleteColumnButtonImageView.setVisible(true);
             this.stage.setTitle(userController.getCurrentUser().getUsername() + " - " + this.activeBoard.getBoardName());
             this.projectNameLabel.setText(this.activeBoard.getBoardName());
         }
@@ -321,7 +315,6 @@ public class BoardController implements Initializable
             this.projectMenu.setDisable(true);
             this.saveBoardMenuItem.setDisable(true);
             this.newColumnButtonImageView.setVisible(false);
-            this.deleteColumnButtonImageView.setVisible(false);
             this.stage.setTitle(userController.getCurrentUser().getUsername() + " - No project selected");
             this.projectNameLabel.setText("No project selected");
         }

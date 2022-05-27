@@ -123,5 +123,6 @@ public class ColumnController extends ListCell<Column> implements Initializable
     public void updateTitle(ActionEvent actionEvent)
     {
         this.column.setTitle(this.titleTextField.getText());
+        this.titleTextField.setText(this.titleTextField.getText());
     }
 }

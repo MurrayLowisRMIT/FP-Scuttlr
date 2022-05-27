@@ -29,6 +29,7 @@ public class Main extends Application
         Scene scene = new Scene(root);
         Image icon = new Image("/scuttlr/application/graphics/Logo.png");
         stage.getIcons().add(icon);
+        stage.setResizable(false);
         stage.setTitle("Scuttlr");
         stage.setScene(scene);
         stage.show();

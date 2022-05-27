@@ -29,8 +29,8 @@ public class UserController
         this.stage = new Stage();
         Image icon = new Image("/scuttlr/application/graphics/Logo.png");
         stage.getIcons().add(icon);
-        this.stage.setResizable(true);
         this.stage = stage;
+        this.stage.setResizable(true);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/board.fxml"));
         this.pane = loader.load();
         this.stage.setTitle(userController.getCurrentUser().getUsername() + " - No project selected");

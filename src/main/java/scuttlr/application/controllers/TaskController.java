@@ -20,4 +20,20 @@ public class TaskController
     {
 
     }
+
+    public void moveToLeftColumn(ActionEvent actionEvent)
+    {
+    }
+
+    public void moveToRightColumn(ActionEvent actionEvent)
+    {
+    }
+
+    public void checkComplete(ActionEvent actionEvent)
+    {
+    }
+
+    public void setDueDate(ActionEvent actionEvent)
+    {
+    }
 }
