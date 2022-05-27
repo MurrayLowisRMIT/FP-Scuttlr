@@ -8,8 +8,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.control.*;
-import javafx.scene.input.InputMethodEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import scuttlr.application.model.Column;
 import scuttlr.application.model.Task;
@@ -25,6 +26,8 @@ public class ColumnController extends ListCell<Column> implements Initializable
     private Column column;
     @FXML
     private TextField titleTextField;
+    @FXML
+    private HBox titleHBox;
     @FXML
     private ToolBar toolBar;
     @FXML
@@ -42,6 +45,10 @@ public class ColumnController extends ListCell<Column> implements Initializable
     @FXML
     private TitledPane[] taskTitledPanes;
 
+//    public ColumnController()
+//    {
+//    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
@@ -58,9 +65,47 @@ public class ColumnController extends ListCell<Column> implements Initializable
         });
     }
 
+    //    @Override
+    //    protected void updateItem(Column column, boolean bool)
+    //    {
+    //        System.out.println("TEST");
+    //        super.updateItem(column, bool);
+    //
+    //        if (column != null)
+    //        {
+    //            URL location = ColumnController.class.getResource("src/main/resources/scuttlr/application/display/column.fxml");
+    //
+    //            FXMLLoader fxmlLoader = new FXMLLoader();
+    //            fxmlLoader.setLocation(location);
+    //            fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+    //
+    //            try
+    //            {
+    //                VBox vBox = (VBox) fxmlLoader.load(location.openStream());
+    //                ColumnController controller = fxmlLoader.getController();
+    //                controller.setColumn(column);
+    //                setGraphic(vBox);
+    //            }
+    //            catch (IOException e)
+    //            {
+    //                throw new IllegalStateException(e);
+    //            }
+    //        }
+    //    }
+
     public void setColumn(Column column)
     {
         this.column = column;
+    }
+
+    public void moveColumnRight(ActionEvent event)
+    {
+        this.column.setColumnID(this.column.getColumnID() + 1);
+    }
+
+    public void moveColumnLeft(ActionEvent event)
+    {
+        this.column.setColumnID(this.column.getColumnID() - 1);
     }
 
     public void deleteColumn()
@@ -70,8 +115,9 @@ public class ColumnController extends ListCell<Column> implements Initializable
 
     public void newTask(ActionEvent actionEvent)
     {
-        this.column.addTask();
-        updateTasks();
+        //        this.column.addTask();
+        //        updateTasks();
+        System.out.println(this.column.getTitle());
     }
 
     public void deleteTask(ActionEvent actionEvent)
@@ -99,7 +145,8 @@ public class ColumnController extends ListCell<Column> implements Initializable
         this.tasksVBox.getChildren().addAll(this.taskTitledPanes);
     }
 
-    public void updateColumnName(InputMethodEvent inputMethodEvent)
+    public void updateTitle(ActionEvent actionEvent)
     {
+        this.column.setTitle(this.titleTextField.getText());
     }
 }
