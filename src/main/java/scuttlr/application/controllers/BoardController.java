@@ -237,20 +237,25 @@ public class BoardController implements Initializable
         // lambda to control popup menu
         confirm.setOnAction(e ->
         {
+            // close popup
             Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
             stage.close();
+            // notify failure
             if (textInput.getText().length() == 0)
             {
                 this.setWarning("Project name cannot be blank");
             }
+            // change name of board and save
             else if (userController.getCurrentUser().updateBoardName(this.activeBoard, textInput.getText()))
             {
+                // update display with new name
                 this.setNotification("Project name updated");
                 for (int i = 0; i < this.loadedBoards.size(); i++)
                 {
                     if (userController.getCurrentUser().getUserBoardNames().get(i).matches(userController.getCurrentUser().getCurrentBoardName()))
                     {
                         this.activeBoard = this.loadedBoards.get(i);
+                        this.projectNameLabel.setText(textInput.getText());
                     }
                 }
                 // refresh loaded boards
@@ -334,7 +339,7 @@ public class BoardController implements Initializable
     public void updateBoardController()
     {
         this.stage = (Stage) this.menuBar.getScene().getWindow();
-        // toggle title enabled menu  elements
+        // toggle enabled menu elements
         if (this.activeBoard != null)
         {
             this.projectMenu.setDisable(false);
@@ -516,6 +521,7 @@ public class BoardController implements Initializable
         Button removeAvatar = new Button("Default avatar");
         newAvatar.setPrefWidth(200);
         removeAvatar.setPrefWidth(200);
+        // popup menu to select new avatar or remove
         newAvatar.setOnAction(e ->
         {
             try

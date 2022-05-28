@@ -5,6 +5,9 @@ import javafx.scene.control.*;
 import scuttlr.application.model.Task;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 public class TaskController
 {
@@ -34,7 +37,7 @@ public class TaskController
         if (task.getDueDate() != null)
         {
             this.dueDatePicker.setValue(LocalDate.from(task.getDueDate()));
-            // TODO set due date warning
+            setDueDateWarning();
         }
     }
 
@@ -66,6 +69,7 @@ public class TaskController
     public void checkComplete()
     {
         this.task.setComplete(!this.task.getComplete());
+        setDueDateWarning();
     }
 
     public void toggleExpanded()
@@ -76,5 +80,34 @@ public class TaskController
     public void setDueDate()
     {
         this.task.setDueDate(this.dueDatePicker.getValue());
+        setDueDateWarning();
+    }
+
+    // warn user when due date is approaching for an incomplete task
+    public void setDueDateWarning()
+    {
+        // get current time as long
+        LocalDateTime dueDate = this.task.getDueDate().atStartOfDay();
+        ZonedDateTime dueZonedDateTime = ZonedDateTime.of(dueDate, ZoneId.systemDefault());
+        long currentTime = dueZonedDateTime.toInstant().toEpochMilli();
+
+        // get due date as long
+        LocalDateTime localDateTime = LocalDateTime.now();
+        ZonedDateTime currentZonedDateTime = ZonedDateTime.of(localDateTime, ZoneId.systemDefault());
+        long dueTime = currentZonedDateTime.toInstant().toEpochMilli();
+
+        // toggle notification when due date soon/passed and complete checkbox is not ticked
+        if (currentTime > dueTime && !this.task.getComplete())
+        {
+            this.taskWarningLabel.setText("Task overdue");
+        }
+        else if (currentTime - 1000 * 60 * 60 * 24 > dueTime - 1000 * 60 * 60 * 24 * 7 && !this.task.getComplete())
+        {
+            this.taskWarningLabel.setText("Task due in " + ((dueTime - currentTime) / (1000 * 60 * 60 * 24)) + " days");
+        }
+        else
+        {
+            this.taskWarningLabel.setText("");
+        }
     }
 }

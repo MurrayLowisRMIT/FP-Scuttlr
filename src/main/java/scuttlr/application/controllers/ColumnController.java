@@ -1,14 +1,10 @@
 package scuttlr.application.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import scuttlr.application.model.Column;
 
 import java.io.IOException;
@@ -22,20 +18,6 @@ public class ColumnController extends ListCell<Column> implements Initializable
     private Column column;
     @FXML
     private TextField titleTextField;
-    @FXML
-    private HBox titleHBox;
-    @FXML
-    private ToolBar toolBar;
-    @FXML
-    private ImageView deleteColumnImageView;
-    @FXML
-    private Button moveLeftButton;
-    @FXML
-    private Button newTaskButton;
-    @FXML
-    private Button moveRightButton;
-    @FXML
-    private VBox tasksVBox;
     @FXML
     private ListView<Pane> tasksListView;
     @FXML
