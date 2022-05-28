@@ -45,7 +45,7 @@ import static scuttlr.application.Main.userController;
 
 public class BoardController implements Initializable
 {
-    private static Board activeBoard;
+    private Board activeBoard;
     private LinkedList<Board> loadedBoards;
     @FXML
     private Stage stage;
@@ -76,7 +76,6 @@ public class BoardController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-//        this.columnsListView.height
         // read user's boards
         this.loadedBoards = new LinkedList<>();
         loadBoards(userController.getCurrentUser().getUsername());
@@ -97,6 +96,7 @@ public class BoardController implements Initializable
         // read and populate columns
         this.columnPanes = new LinkedList<>();
         this.columns = FXCollections.observableArrayList();
+        this.columnControllers = new LinkedList<>();
     }
 
     // read avatar from byte array to FXImage
@@ -325,6 +325,17 @@ public class BoardController implements Initializable
     public void newColumn()
     {
         this.activeBoard.addColumn();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/column.fxml"));
+        try
+        {
+            this.columnPanes.add(loader.load());
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+        this.columnControllers.add(loader.getController());
+        this.columnControllers.getLast().setColumn(this.activeBoard.getColumns().getLast());
         updateColumns();
     }
 
@@ -335,23 +346,22 @@ public class BoardController implements Initializable
         {
             // TODO dynamically populate instead of fully deleting and rebuilding every time
             this.columnsListView.getItems().clear();
-            this.columnPanes.clear();
-            this.columnControllers = new LinkedList<>();
-            for (int i = 0; i < this.activeBoard.getColumns().size(); i++)
-            {
-                // create and store controller in columnControllers list
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/column.fxml"));
-                try
-                {
-                    this.columnPanes.add(loader.load());
-                }
-                catch (IOException e)
-                {
-                    throw new RuntimeException(e);
-                }
-                this.columnControllers.add(loader.getController());
-                this.columnControllers.getLast().setColumn(this.activeBoard.getColumns().getLast());
-            }
+            //            this.columnPanes.clear();
+            //            for (int i = 0; i < this.activeBoard.getColumns().size(); i++)
+            //            {
+            //                // create and store controller in columnControllers list
+            //                FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/column.fxml"));
+            //                try
+            //                {
+            //                    this.columnPanes.add(loader.load());
+            //                }
+            //                catch (IOException e)
+            //                {
+            //                    throw new RuntimeException(e);
+            //                }
+            //                this.columnControllers.add(loader.getController());
+            //                this.columnControllers.getLast().setColumn(this.activeBoard.getColumns().getLast());
+            //            }
             this.columnsListView.getItems().addAll(this.columnPanes);
         }
     }
