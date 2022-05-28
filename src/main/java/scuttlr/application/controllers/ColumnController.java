@@ -71,7 +71,7 @@ public class ColumnController extends ListCell<Column> implements Initializable
                 throw new RuntimeException(e);
             }
             this.taskControllers.add(loader.getController());
-            this.taskControllers.getLast().setTask(this.column.getTasks().getLast());
+            this.taskControllers.getLast().setTask(this.column.getTasks().get(i));
             // check and set due date warning
         }
         this.tasksListView.getItems().addAll(this.taskPanes);
