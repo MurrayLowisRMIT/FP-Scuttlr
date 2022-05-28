@@ -14,7 +14,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <Pane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scuttlr.application.controllers.TaskController">
    <children>
       <TitledPane fx:id="taskTitledPane" animated="false" focusTraversable="false" text="Task 1" wrapText="true">
@@ -31,13 +30,14 @@
                         <Insets bottom="10.0" left="20.0" right="20.0" />
                      </padding>
                   </HBox>
-                  <TextArea fx:id="taskDescription" maxWidth="250.0" minHeight="100.0" promptText="Enter new task details" wrapText="true" />
+                  <TextArea fx:id="taskDescriptionTextArea" maxWidth="250.0" minHeight="100.0" promptText="Enter new task details" wrapText="true" />
+                  <Label fx:id="taskWarningLabel" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" text="Task overdue" textAlignment="CENTER" textFill="RED" visible="false" />
                   <HBox alignment="CENTER" fillHeight="false" maxWidth="1.7976931348623157E308">
                      <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" text="Due date" />
                         <DatePicker fx:id="dueDatePicker" nodeOrientation="RIGHT_TO_LEFT" onAction="#setDueDate" promptText="Enter date">
                            <HBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets bottom="10.0" left="10.0" right="10.0" />
                            </HBox.margin>
                         </DatePicker>
                      </children>

@@ -42,7 +42,10 @@
                   <Insets bottom="10.0" left="20.0" right="20.0" />
                </padding>
             </HBox>
-            <ListView fx:id="tasksListView" focusTraversable="false" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+            <ListView fx:id="tasksListView" focusTraversable="false" maxHeight="1.7976931348623157E308" prefWidth="300.0" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin></ListView>
          </children>
       </VBox>
    </children>

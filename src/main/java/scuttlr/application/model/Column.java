@@ -1,7 +1,6 @@
 package scuttlr.application.model;
 
 import java.io.Serializable;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 
 public class Column implements Serializable
@@ -44,12 +43,13 @@ public class Column implements Serializable
 
     public void addTask()
     {
-        this.tasks.add(new Task());
+        Task task = new Task(this.tasks.size());
+        this.tasks.add(task);
     }
 
-    public void removeTask(Task task)
+    public void removeTask(int taskID)
     {
-        //TODO confirm this works
-        this.tasks.remove(task);
+        //TODO update taskIDs
+        this.tasks.remove(taskID);
     }
 }

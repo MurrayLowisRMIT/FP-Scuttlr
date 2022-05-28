@@ -403,7 +403,7 @@ public class BoardController implements Initializable
     public void loadColumns()
     {
         resetColumnDisplay();
-        for (int j = 0; j < this.activeBoard.getColumns().size(); j++)
+        for (int i = 0; i < this.activeBoard.getColumns().size(); i++)
         {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/column.fxml"));
             try
@@ -415,7 +415,8 @@ public class BoardController implements Initializable
                 throw new RuntimeException(e);
             }
             this.columnControllers.add(loader.getController());
-            this.columnControllers.getLast().setColumn(this.activeBoard.getColumns().getLast());
+            this.columnControllers.getLast().setColumn(this.activeBoard.getColumns().get(i));
+            this.columnControllers.getLast().loadTasks();
         }
         this.columnsListView.getItems().addAll(this.columnPanes);
     }

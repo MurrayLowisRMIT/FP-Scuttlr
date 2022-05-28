@@ -48,7 +48,10 @@ public class Board implements Serializable
         // empty existing list
         this.columns.clear();
         // set new list
-        this.columns.addAll(columns);
+        for (int i = 0; i < columns.size(); i++)
+        {
+            this.columns.add(columns.get(i));
+        }
     }
 
     // TODO use this

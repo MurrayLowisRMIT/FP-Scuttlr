@@ -7,7 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -31,9 +31,9 @@ public class ColumnController extends ListCell<Column> implements Initializable
     @FXML
     private ToolBar toolBar;
     @FXML
-    private Button moveLeftButton;
+    private ImageView deleteColumnImageView;
     @FXML
-    private Button deleteColumnButton;
+    private Button moveLeftButton;
     @FXML
     private Button newTaskButton;
     @FXML
@@ -56,6 +56,27 @@ public class ColumnController extends ListCell<Column> implements Initializable
         this.taskControllers = new LinkedList<>();
     }
 
+    // load tasks and refresh tasks displays
+    public void loadTasks()
+    {
+        for (int i = 0; i < this.column.getTasks().size(); i++)
+        {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/task.fxml"));
+            try
+            {
+                this.taskPanes.add(loader.load());
+            }
+            catch (IOException e)
+            {
+                throw new RuntimeException(e);
+            }
+            this.taskControllers.add(loader.getController());
+            this.taskControllers.getLast().setTask(this.column.getTasks().getLast());
+            // check and set due date warning
+        }
+        this.tasksListView.getItems().addAll(this.taskPanes);
+    }
+
     public void setColumn(Column column)
     {
         this.column = column;
@@ -76,7 +97,7 @@ public class ColumnController extends ListCell<Column> implements Initializable
         boardController.deleteColumn(this.column.getColumnID());
     }
 
-    public void newTask(ActionEvent actionEvent)
+    public void newTask()
     {
         this.column.addTask();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/task.fxml"));
