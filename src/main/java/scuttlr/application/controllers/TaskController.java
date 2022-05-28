@@ -2,6 +2,7 @@ package scuttlr.application.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import scuttlr.application.model.Task;
 
 import java.time.LocalDate;
@@ -24,6 +25,8 @@ public class TaskController
     private DatePicker dueDatePicker;
     @FXML
     private Label taskWarningLabel;
+    @FXML
+    private ImageView dueDateWarningImageView;
     private ColumnController parentController;
 
     public void setTask(Task task, ColumnController parentController)
@@ -100,14 +103,17 @@ public class TaskController
         if (currentTime > dueTime && !this.task.getComplete())
         {
             this.taskWarningLabel.setText("Task overdue");
+            this.dueDateWarningImageView.setVisible(true);
         }
         else if (currentTime - 1000 * 60 * 60 * 24 > dueTime - 1000 * 60 * 60 * 24 * 7 && !this.task.getComplete())
         {
             this.taskWarningLabel.setText("Task due in " + ((dueTime - currentTime) / (1000 * 60 * 60 * 24)) + " days");
+            this.dueDateWarningImageView.setVisible(true);
         }
         else
         {
             this.taskWarningLabel.setText("");
+            this.dueDateWarningImageView.setVisible(false);
         }
     }
 }

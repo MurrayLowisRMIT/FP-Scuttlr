@@ -7,16 +7,16 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
-   sodipodi:docname="button.svg"
-   id="svg8"
-   version="1.1"
-   viewBox="0 0 210 297"
-   height="297mm"
-   width="210mm"
-   inkscape:export-filename="C:\Users\skelm\OneDrive\Documents\Uni\RMIT - IT\2022\SP01\Further Programming\Assignment 2\src\main\resources\scuttlr\application\graphics\v button.png"
+   inkscape:export-ydpi="96"
    inkscape:export-xdpi="96"
-   inkscape:export-ydpi="96">
+   inkscape:export-filename="C:\Users\skelm\OneDrive\Documents\Uni\RMIT - IT\2022\SP01\Further Programming\Assignment 2\src\main\resources\scuttlr\application\graphics\v button.png"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="button.svg"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)">
   <defs
      id="defs2">
     <inkscape:path-effect
@@ -26,60 +26,57 @@
        inverse="true"
        lpeversion="1"
        is_visible="true"
+       id="path-effect876"
+       effect="powerclip" />
+    <inkscape:path-effect
+       effect="powerclip"
        id="path-effect889"
-       effect="powerclip" />
-    <inkscape:path-effect
-       message="Use fill-rule evenodd on &lt;b&gt;fill and stroke&lt;/b&gt; dialog if no flatten result after convert clip to paths."
-       hide_clip="false"
-       flatten="false"
-       inverse="true"
-       lpeversion="1"
        is_visible="true"
+       lpeversion="1"
+       inverse="true"
+       flatten="false"
+       hide_clip="false"
+       message="Use fill-rule evenodd on &lt;b&gt;fill and stroke&lt;/b&gt; dialog if no flatten result after convert clip to paths." />
+    <inkscape:path-effect
+       effect="powerclip"
        id="path-effect1382"
-       effect="powerclip" />
-    <inkscape:path-effect
-       message="Use fill-rule evenodd on &lt;b&gt;fill and stroke&lt;/b&gt; dialog if no flatten result after convert clip to paths."
-       hide_clip="false"
-       flatten="false"
-       inverse="true"
-       lpeversion="1"
        is_visible="true"
+       lpeversion="1"
+       inverse="true"
+       flatten="false"
+       hide_clip="false"
+       message="Use fill-rule evenodd on &lt;b&gt;fill and stroke&lt;/b&gt; dialog if no flatten result after convert clip to paths." />
+    <inkscape:path-effect
+       effect="powerclip"
        id="path-effect1336"
-       effect="powerclip" />
-    <filter
-       height="1.1154797"
-       y="-0.057739854"
-       width="1.1154797"
-       x="-0.057739854"
-       id="filter1270"
-       style="color-interpolation-filters:sRGB"
-       inkscape:collect="always">
-      <feGaussianBlur
-         id="feGaussianBlur1272"
-         stdDeviation="0.92298557"
-         inkscape:collect="always" />
-    </filter>
+       is_visible="true"
+       lpeversion="1"
+       inverse="true"
+       flatten="false"
+       hide_clip="false"
+       message="Use fill-rule evenodd on &lt;b&gt;fill and stroke&lt;/b&gt; dialog if no flatten result after convert clip to paths." />
     <filter
        inkscape:collect="always"
        style="color-interpolation-filters:sRGB"
-       id="filter873"
-       x="-1.8e-05"
-       width="1.000036"
-       y="-9.0000006e-05"
-       height="1.00018">
+       id="filter1270"
+       x="-0.057739854"
+       width="1.1154797"
+       y="-0.057739854"
+       height="1.1154797">
       <feGaussianBlur
          inkscape:collect="always"
-         stdDeviation="0.00019843751"
-         id="feGaussianBlur875" />
+         stdDeviation="0.92298557"
+         id="feGaussianBlur1272" />
     </filter>
     <clipPath
-       id="clipPath885"
+       id="clipPath872"
        clipPathUnits="userSpaceOnUse">
       <circle
          d="M 77.666634,33.614845 A 17.859375,17.859375 0 0 1 59.807259,51.47422 17.859375,17.859375 0 0 1 41.947884,33.614845 17.859375,17.859375 0 0 1 59.807259,15.75547 17.859375,17.859375 0 0 1 77.666634,33.614845"
+         mask="none"
          clip-path="none"
          style="display:none;fill:#ffffff;fill-opacity:1;stroke-width:0.0351169"
-         id="circle887"
+         id="circle874"
          cx="59.807259"
          cy="33.614845"
          r="17.859375" />
@@ -87,28 +84,28 @@
          d="M 33.409802,7.2173889 H 86.204715 V 60.012302 H 33.409802 Z M 77.666634,33.614845 A 17.859375,17.859375 0 0 0 59.807259,15.75547 17.859375,17.859375 0 0 0 41.947884,33.614845 17.859375,17.859375 0 0 0 59.807259,51.47422 17.859375,17.859375 0 0 0 77.666634,33.614845"
          class="powerclip"
          style="display:block;fill:#ffffff;fill-opacity:1;stroke-width:0.0351169"
-         id="lpe_path-effect889" />
+         id="lpe_path-effect876" />
     </clipPath>
   </defs>
   <sodipodi:namedview
-     inkscape:window-maximized="1"
-     inkscape:window-y="-8"
-     inkscape:window-x="-8"
-     inkscape:window-height="1009"
-     inkscape:window-width="1920"
-     showgrid="false"
-     inkscape:document-rotation="0"
-     inkscape:current-layer="layer1"
-     inkscape:document-units="mm"
-     inkscape:cy="84.368787"
-     inkscape:cx="92.657594"
-     inkscape:zoom="2.9184343"
-     inkscape:pageshadow="2"
-     inkscape:pageopacity="0.0"
-     borderopacity="1.0"
-     bordercolor="#666666"
+     id="base"
      pagecolor="#ffffff"
-     id="base" />
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.0636447"
+     inkscape:cx="78.116749"
+     inkscape:cy="74.179834"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -121,44 +118,40 @@
     </rdf:RDF>
   </metadata>
   <g
-     id="layer1"
+     inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     inkscape:label="Layer 1">
-    <path
+     id="layer1">
+    <circle
        d="M 78.98955,33.614845 A 19.182291,19.182291 0 0 1 59.807259,52.797136 19.182291,19.182291 0 0 1 40.624968,33.614845 19.182291,19.182291 0 0 1 59.807259,14.432554 19.182291,19.182291 0 0 1 78.98955,33.614845 Z"
        sodipodi:ry="19.182291"
        sodipodi:rx="19.182291"
        sodipodi:cy="33.614845"
        sodipodi:cx="59.807259"
        sodipodi:type="arc"
-       inkscape:path-effect="#path-effect889"
-       clip-path="url(#clipPath885)"
-       transform="matrix(0.92738827,0,0,0.92738827,-35.6208,-11.330263)"
-       id="path833"
-       style="fill:#333333;fill-opacity:1;stroke-width:0.037718;filter:url(#filter1270)"
-       inkscape:export-xdpi="96"
-       inkscape:export-ydpi="96" />
-    <g
+       inkscape:path-effect="#path-effect876"
        inkscape:export-ydpi="96"
        inkscape:export-xdpi="96"
-       transform="matrix(1.6665885,0,0,1.6665885,9.2604167,9.2604169)"
-       id="g848">
-      <rect
-         transform="rotate(45)"
-         y="-7.4838977"
-         x="7.4838977"
-         height="14.967795"
-         width="2.9935589"
-         id="rect840"
-         style="opacity:0.994;fill:#333333;fill-opacity:1;stroke-width:0.157842" />
-      <rect
-         transform="matrix(0.40000437,-0.40000437,0.39994675,0.39994675,10.582915,12.699605)"
-         style="opacity:0.994;fill:#333333;fill-opacity:1;stroke-width:0.279014;filter:url(#filter873)"
-         id="rect840-9"
-         width="5.2916665"
-         height="26.458334"
-         x="0"
-         y="-26.458334" />
-    </g>
+       style="fill:#ff3e33;fill-opacity:1;stroke-width:0.037718;filter:url(#filter1270)"
+       id="path833"
+       transform="matrix(0.92738827,0,0,0.92738827,-35.6208,-11.330263)"
+       clip-path="url(#clipPath872)" />
+    <rect
+       inkscape:export-ydpi="96"
+       inkscape:export-xdpi="96"
+       transform="scale(-1)"
+       y="-25.138968"
+       x="-22.489666"
+       height="18.520836"
+       width="5.2916665"
+       id="rect840"
+       style="opacity:0.994;fill:#ff0000;fill-opacity:1;stroke-width:0.233441" />
+    <circle
+       inkscape:export-ydpi="96"
+       inkscape:export-xdpi="96"
+       r="2.6458333"
+       cy="30.461535"
+       cx="19.84375"
+       id="path846"
+       style="opacity:0.994;fill:#ff0000;fill-opacity:1;stroke-width:0.0454217" />
   </g>
 </svg>

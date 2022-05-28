@@ -33,7 +33,7 @@
                   <HBox alignment="CENTER" fillHeight="false" maxWidth="1.7976931348623157E308">
                      <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" text="Due date" />
-                        <DatePicker fx:id="dueDatePicker" nodeOrientation="RIGHT_TO_LEFT" onAction="#setDueDate" promptText="Enter date">
+                        <DatePicker fx:id="dueDatePicker" nodeOrientation="LEFT_TO_RIGHT" onAction="#setDueDate" promptText="Enter date">
                            <HBox.margin>
                               <Insets left="10.0" right="10.0" />
                            </HBox.margin>
@@ -75,6 +75,14 @@
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <ImageView fx:id="dueDateWarningImageView" fitHeight="20.0" fitWidth="20.0" layoutX="3.0" layoutY="5.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../graphics/!%20button.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
          </cursor>
       </ImageView>
    </children>
