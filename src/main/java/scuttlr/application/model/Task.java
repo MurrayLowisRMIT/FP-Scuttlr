@@ -1,24 +1,22 @@
 package scuttlr.application.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Task implements Serializable
 {
     private String name;
     private String description;
-    private Date dueDate;
-    private Date completionDate;
+    private LocalDate dueDate;
     private int taskID;
     private boolean complete;
 
     public Task(int taskID)
     {
         this.name = "New task";
-        this.description = "description";
         // TODO default start date to current time
-        this.dueDate = new Date();
-        this.completionDate = new Date();
         this.taskID = taskID;
         this.complete = false;
     }
@@ -43,24 +41,14 @@ public class Task implements Serializable
         this.description = description;
     }
 
-    public Date getDueDate()
+    public LocalDate getDueDate()
     {
         return this.dueDate;
     }
 
-    public void setDueDate(Date dueDate)
+    public void setDueDate(LocalDate dueDate)
     {
         this.dueDate = dueDate;
-    }
-
-    public Date getCompletionDate()
-    {
-        return this.completionDate;
-    }
-
-    public void setCompletionDate(Date completionDate)
-    {
-        this.completionDate = completionDate;
     }
 
     public int getTaskID()

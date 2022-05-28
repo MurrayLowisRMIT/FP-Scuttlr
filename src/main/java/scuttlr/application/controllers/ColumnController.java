@@ -70,9 +70,11 @@ public class ColumnController extends ListCell<Column> implements Initializable
             {
                 throw new RuntimeException(e);
             }
+            // load tasks
             this.taskControllers.add(loader.getController());
             this.taskControllers.getLast().setTask(this.column.getTasks().get(i));
-            // check and set due date warning
+            // give task access to its respective columnController
+            this.taskControllers.getLast().setParentController(this.taskControllers.getLast());
         }
         this.tasksListView.getItems().addAll(this.taskPanes);
     }
@@ -80,6 +82,7 @@ public class ColumnController extends ListCell<Column> implements Initializable
     public void setColumn(Column column)
     {
         this.column = column;
+        this.titleTextField.setText(column.getTitle());
     }
 
     public void moveColumnRight(ActionEvent event)
@@ -119,9 +122,8 @@ public class ColumnController extends ListCell<Column> implements Initializable
 
     }
 
-    public void updateTitle(ActionEvent actionEvent)
+    public void updateTitle()
     {
         this.column.setTitle(this.titleTextField.getText());
-        this.titleTextField.setText(this.titleTextField.getText());
     }
 }
