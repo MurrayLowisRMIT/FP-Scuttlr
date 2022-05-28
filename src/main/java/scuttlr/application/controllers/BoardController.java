@@ -255,9 +255,9 @@ public class BoardController implements Initializable
                     if (userController.getCurrentUser().getUserBoardNames().get(i).matches(userController.getCurrentUser().getCurrentBoardName()))
                     {
                         this.activeBoard = this.loadedBoards.get(i);
-                        this.projectNameLabel.setText(textInput.getText());
                     }
                 }
+                this.projectNameLabel.setText(textInput.getText());
                 // refresh loaded boards
                 loadBoards(userController.getCurrentUser().getUsername());
                 updateBoardController();
@@ -346,7 +346,6 @@ public class BoardController implements Initializable
             this.saveBoardMenuItem.setDisable(false);
             this.newColumnButtonImageView.setVisible(true);
             this.stage.setTitle(userController.getCurrentUser().getUsername() + " - " + this.activeBoard.getBoardName());
-            this.projectNameLabel.setText(this.activeBoard.getBoardName());
         }
         else
         {
@@ -354,7 +353,6 @@ public class BoardController implements Initializable
             this.saveBoardMenuItem.setDisable(true);
             this.newColumnButtonImageView.setVisible(false);
             this.stage.setTitle(userController.getCurrentUser().getUsername() + " - No project selected");
-            this.projectNameLabel.setText("No project selected");
         }
     }
 
