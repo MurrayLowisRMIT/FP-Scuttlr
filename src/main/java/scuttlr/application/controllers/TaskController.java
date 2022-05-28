@@ -29,11 +29,12 @@ public class TaskController
     private DatePicker dueDatePicker;
     @FXML
     private Label taskWarningLabel;
-    private TaskController parentController;
+    private ColumnController parentController;
 
-    public void setTask(Task task)
+    public void setTask(Task task, ColumnController parentController)
     {
         this.task = task;
+        this.parentController = parentController;
         this.taskNameTextField.setText(task.getName());
         this.completeCheckBox.setSelected(task.getComplete());
         if (task.getDueDate() != null)
@@ -42,21 +43,17 @@ public class TaskController
         }
     }
 
-    public void setParentController(TaskController taskController)
+    public void deleteTask()
     {
-        this.parentController = taskController;
+        this.parentController.deleteTask(this.task.getTaskID());
     }
 
-    public void deleteTask(ActionEvent actionEvent)
+    public void moveToLeftColumn()
     {
-
+        this.parentController.moveTask(this.task.getTaskID(), -1);
     }
 
-    public void moveToLeftColumn(ActionEvent actionEvent)
-    {
-    }
-
-    public void moveToRightColumn(ActionEvent actionEvent)
+    public void moveToRightColumn()
     {
     }
 

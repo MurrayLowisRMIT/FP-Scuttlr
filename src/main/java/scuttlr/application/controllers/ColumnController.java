@@ -43,8 +43,6 @@ public class ColumnController extends ListCell<Column> implements Initializable
     @FXML
     private ListView tasksListView;
     @FXML
-    protected ObservableList<Task> tasks;
-    @FXML
     private LinkedList<Pane> taskPanes;
     private LinkedList<TaskController> taskControllers;
 
@@ -52,7 +50,6 @@ public class ColumnController extends ListCell<Column> implements Initializable
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         this.taskPanes = new LinkedList<>();
-        this.tasks = FXCollections.observableArrayList();
         this.taskControllers = new LinkedList<>();
     }
 
@@ -72,9 +69,7 @@ public class ColumnController extends ListCell<Column> implements Initializable
             }
             // load tasks
             this.taskControllers.add(loader.getController());
-            this.taskControllers.getLast().setTask(this.column.getTasks().get(i));
-            // give task access to its respective columnController
-            this.taskControllers.getLast().setParentController(this.taskControllers.getLast());
+            this.taskControllers.getLast().setTask(this.column.getTasks().get(i), this);
         }
         this.tasksListView.getItems().addAll(this.taskPanes);
     }
@@ -112,18 +107,26 @@ public class ColumnController extends ListCell<Column> implements Initializable
         {
             throw new RuntimeException(e);
         }
+        // TODO match with column loader above
         this.taskControllers.add(loader.getController());
-        this.taskControllers.getLast().setTask(this.column.getTasks().getLast());
+        this.taskControllers.getLast().setTask(this.column.getTasks().getLast(), this);
         this.tasksListView.getItems().add(this.taskPanes.getLast());
-    }
-
-    public void deleteTask(ActionEvent actionEvent)
-    {
-
     }
 
     public void updateTitle()
     {
         this.column.setTitle(this.titleTextField.getText());
+    }
+
+    public void moveTask(int taskID, int direction)
+    {
+
+    }
+
+    public void deleteTask(int taskID)
+    {
+        this.taskControllers.remove(taskID);
+        this.tasksListView.getItems().remove(taskID);
+        this.column.removeTask(taskID);
     }
 }

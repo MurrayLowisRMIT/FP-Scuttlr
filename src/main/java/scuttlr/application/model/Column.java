@@ -47,9 +47,13 @@ public class Column implements Serializable
         this.tasks.add(task);
     }
 
+    // delete task and update taskIDs
     public void removeTask(int taskID)
     {
-        //TODO update taskIDs
         this.tasks.remove(taskID);
+        for (int i = 0; i < this.tasks.size(); i++)
+        {
+            this.tasks.get(i).setTaskID(i);
+        }
     }
 }

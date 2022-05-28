@@ -56,7 +56,7 @@
             <TextField fx:id="taskNameTextField" onKeyTyped="#updateName" text="Task name" />
          </graphic>
       </TitledPane>
-      <ImageView fx:id="deleteTaskImageView" fitHeight="20.0" fitWidth="20.0" focusTraversable="true" layoutX="230.0" layoutY="2.5" onMouseClicked="#deleteTask" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="deleteTaskImageView" fitHeight="20.0" fitWidth="20.0" focusTraversable="true" layoutX="250.0" layoutY="5.0" onMouseClicked="#deleteTask" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../graphics/-%20button.png" />
          </image>
