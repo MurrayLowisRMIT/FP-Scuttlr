@@ -9,6 +9,8 @@ import javafx.stage.Stage;
 import scuttlr.application.controllers.BoardController;
 import scuttlr.application.controllers.UserController;
 
+import java.io.IOException;
+
 public class Main extends Application
 {
     // board and user controllers are universal, so are publicly available
@@ -33,6 +35,7 @@ public class Main extends Application
         stage.setTitle("Scuttlr");
         stage.setScene(scene);
         stage.show();
+        // TODO set active board to users active board
     }
 
     @Override

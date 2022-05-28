@@ -76,6 +76,11 @@ public class BoardController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        // read and populate columns
+        this.columns = FXCollections.observableArrayList();
+        this.columnPanes = new LinkedList<>();
+        this.columnControllers = new LinkedList<>();
+
         // read user's boards
         this.loadedBoards = new LinkedList<>();
         loadBoards(userController.getCurrentUser().getUsername());
@@ -92,11 +97,6 @@ public class BoardController implements Initializable
 
         // read avatar
         setAvatarImageView();
-
-        // read and populate columns
-        this.columnPanes = new LinkedList<>();
-        this.columns = FXCollections.observableArrayList();
-        this.columnControllers = new LinkedList<>();
     }
 
     // read avatar from byte array to FXImage
@@ -178,6 +178,20 @@ public class BoardController implements Initializable
         loadColumns();
     }
 
+    // open board selected from openBoard method and close popup menu on selection
+    public void openSelectedBoard(String boardName)
+    {
+        for (int i = 0; i < this.loadedBoards.size(); i++)
+        {
+            if (this.loadedBoards.get(i).getBoardName().matches(boardName))
+            {
+                this.activeBoard = this.loadedBoards.get(i);
+            }
+        }
+        updateBoardController();
+        loadColumns();
+    }
+
     // create new temporary board with no password lock
     public void createNewBoard(ActionEvent actionEvent) throws IOException
     {
@@ -189,8 +203,8 @@ public class BoardController implements Initializable
 
     public void resetColumnDisplay()
     {
-        this.columnsListView.getItems().clear();
         this.columnPanes.clear();
+        this.columnsListView.getItems().clear();
         this.columnControllers.clear();
         this.columns.clear();
     }
@@ -198,7 +212,7 @@ public class BoardController implements Initializable
     public void closeCurrentBoard()
     {
         this.activeBoard = null;
-        this.columnsListView.getItems().clear();
+        resetColumnDisplay();
         updateBoardController();
     }
 
@@ -214,6 +228,7 @@ public class BoardController implements Initializable
         Button confirm = new Button("Confirm");
         confirm.setPrefWidth(200);
         confirm.setAlignment(Pos.CENTER);
+        // lambda to control popup menu
         confirm.setOnAction(e ->
         {
             Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -227,7 +242,7 @@ public class BoardController implements Initializable
                 this.setNotification("Project name updated");
                 for (int i = 0; i < this.loadedBoards.size(); i++)
                 {
-                    if (userController.getCurrentUser().getUserBoardNames().get(i).matches(userController.getCurrentUser().getCurrentUserBoardName()))
+                    if (userController.getCurrentUser().getUserBoardNames().get(i).matches(userController.getCurrentUser().getCurrentBoardName()))
                     {
                         this.activeBoard = this.loadedBoards.get(i);
                     }
@@ -262,7 +277,7 @@ public class BoardController implements Initializable
         Button confirm = new Button("Confirm");
         confirm.setPrefWidth(200);
         confirm.setAlignment(Pos.CENTER);
-        // lambda to control popup function
+        // lambda to control popup menu
         confirm.setOnAction(e ->
         {
             Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -281,7 +296,8 @@ public class BoardController implements Initializable
                 loadBoards(userController.getCurrentUser().getUsername());
                 for (int i = 0; i < this.loadedBoards.size(); i++)
                 {
-                    if (userController.getCurrentUser().getUserBoardNames().get(i).matches(userController.getCurrentUser().getCurrentUserBoardName()))
+                    // open user's currently selected board
+                    if (userController.getCurrentUser().getUserBoardNames().get(i).matches(userController.getCurrentUser().getCurrentBoardName()))
                     {
                         this.activeBoard = this.loadedBoards.get(i);
                     }
@@ -308,7 +324,7 @@ public class BoardController implements Initializable
         loadMenu.show();
     }
 
-    // update UI and memory elements after changes
+    // update UI and system memory after changes
     public void updateBoardController()
     {
         this.stage = (Stage) this.menuBar.getScene().getWindow();
@@ -371,7 +387,7 @@ public class BoardController implements Initializable
         {
             for (int i = 0; i < this.loadedBoards.size(); i++)
             {
-                if (this.loadedBoards.get(i).getBoardName().matches(userController.getCurrentUser().getCurrentUserBoardName()))
+                if (this.loadedBoards.get(i).getBoardName().matches(userController.getCurrentUser().getCurrentBoardName()))
                 {
                     this.activeBoard = loadedBoards.get(i);
                     loadColumns();
@@ -386,7 +402,6 @@ public class BoardController implements Initializable
         resetColumnDisplay();
         for (int j = 0; j < this.activeBoard.getColumns().size(); j++)
         {
-            // TODO populate columnsListView
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/column.fxml"));
             try
             {

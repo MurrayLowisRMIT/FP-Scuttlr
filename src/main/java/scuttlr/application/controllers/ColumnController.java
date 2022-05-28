@@ -89,6 +89,7 @@ public class ColumnController extends ListCell<Column> implements Initializable
     {
         System.out.println(this.column.getColumnID());
         this.column.addTask();
+        // TODO add without calling this
         updateTasks();
     }
 

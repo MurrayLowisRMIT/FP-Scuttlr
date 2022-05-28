@@ -20,7 +20,7 @@ public class User implements Serializable
     private LinkedList<String> userBoardNames;
 
     // most recently active board
-    private String currentUserBoardName;
+    private String currentBoardName;
 
     public User(String username, String password)
     {
@@ -29,9 +29,9 @@ public class User implements Serializable
         this.userBoardNames = new LinkedList<String>();
     }
 
-    public String getCurrentUserBoardName()
+    public String getCurrentBoardName()
     {
-        return this.currentUserBoardName;
+        return this.currentBoardName;
     }
 
     public void setPassword(String password)
@@ -137,6 +137,8 @@ public class User implements Serializable
     // creating board here ensures password is added securely
     public Board createBoard(Board board)
     {
+        Board newBoard = new Board(board.getBoardName(), this.password);
+        newBoard.setColumns(board.getColumns());
         // overwrite duplicate if applicable
         for (int i = 0; i < this.getUserBoardNames().size(); i++)
         {
@@ -145,10 +147,8 @@ public class User implements Serializable
                 this.getUserBoardNames().remove(i);
             }
         }
-        Board newBoard = new Board(board.getBoardName(), this.password);
-        newBoard.setColumns(board.getColumns());
-        this.userBoardNames.add(board.getBoardName());
-        this.currentUserBoardName = board.getBoardName();
+        this.userBoardNames.add(newBoard.getBoardName());
+        this.currentBoardName = newBoard.getBoardName();
         updateUser();
         return newBoard;
     }

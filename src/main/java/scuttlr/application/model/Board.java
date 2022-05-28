@@ -45,7 +45,10 @@ public class Board implements Serializable
 
     public void setColumns(LinkedList<Column> columns)
     {
-        this.columns = columns;
+        // empty existing list
+        this.columns.clear();
+        // set new list
+        this.columns.addAll(columns);
     }
 
     // TODO use this

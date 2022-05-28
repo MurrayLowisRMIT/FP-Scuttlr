@@ -3,6 +3,7 @@ package scuttlr.application.controllers;
 import scuttlr.application.model.Board;
 
 import java.io.*;
+import java.util.LinkedList;
 
 import static scuttlr.application.Main.boardController;
 import static scuttlr.application.Main.userController;
@@ -31,6 +32,7 @@ public class Writer
     // save a board as a serialized file including contents, and owner's username and password (for verification)
     public void saveBoard(Board board)
     {
+        // TODO do not create a new board every time
         board = userController.getCurrentUser().createBoard(board);
 
         try

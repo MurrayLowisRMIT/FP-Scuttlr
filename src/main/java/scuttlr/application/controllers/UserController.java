@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static scuttlr.application.Main.userController;
+import static scuttlr.application.Main.boardController;
 
 public class UserController
 {
@@ -32,11 +33,22 @@ public class UserController
         this.stage = stage;
         this.stage.setResizable(true);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/board.fxml"));
-        this.pane = loader.load();
+        this.pane = new AnchorPane();
+        try
+        {
+            this.pane = loader.load();
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
         this.stage.setTitle(userController.getCurrentUser().getUsername() + " - No project selected");
         this.scene = new Scene(this.pane);
         this.stage.setScene(this.scene);
         this.stage.show();
+        boardController = loader.getController();
+        // open user's most recent board
+        boardController.openSelectedBoard(userController.currentUser.getCurrentBoardName());
     }
 
     public User getCurrentUser()
