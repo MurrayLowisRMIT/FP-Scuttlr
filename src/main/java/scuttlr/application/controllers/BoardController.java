@@ -175,6 +175,7 @@ public class BoardController implements Initializable
             }
         }
         updateBoardController();
+        loadColumns();
     }
 
     // create new temporary board with no password lock
@@ -182,7 +183,16 @@ public class BoardController implements Initializable
     {
         String name = "New project";
         this.activeBoard = new Board(name, null);
+        resetColumnDisplay();
         updateBoardController();
+    }
+
+    public void resetColumnDisplay()
+    {
+        this.columnsListView.getItems().clear();
+        this.columnPanes.clear();
+        this.columnControllers.clear();
+        this.columns.clear();
     }
 
     public void closeCurrentBoard()
@@ -319,7 +329,6 @@ public class BoardController implements Initializable
             this.stage.setTitle(userController.getCurrentUser().getUsername() + " - No project selected");
             this.projectNameLabel.setText("No project selected");
         }
-        updateColumns();
     }
 
     public void newColumn()
@@ -336,34 +345,7 @@ public class BoardController implements Initializable
         }
         this.columnControllers.add(loader.getController());
         this.columnControllers.getLast().setColumn(this.activeBoard.getColumns().getLast());
-        updateColumns();
-    }
-
-    // update display of columns within board
-    public void updateColumns()
-    {
-        if (this.activeBoard != null)
-        {
-            // TODO dynamically populate instead of fully deleting and rebuilding every time
-            this.columnsListView.getItems().clear();
-            //            this.columnPanes.clear();
-            //            for (int i = 0; i < this.activeBoard.getColumns().size(); i++)
-            //            {
-            //                // create and store controller in columnControllers list
-            //                FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/column.fxml"));
-            //                try
-            //                {
-            //                    this.columnPanes.add(loader.load());
-            //                }
-            //                catch (IOException e)
-            //                {
-            //                    throw new RuntimeException(e);
-            //                }
-            //                this.columnControllers.add(loader.getController());
-            //                this.columnControllers.getLast().setColumn(this.activeBoard.getColumns().getLast());
-            //            }
-            this.columnsListView.getItems().addAll(this.columnPanes);
-        }
+        this.columnsListView.getItems().add(this.columnPanes.getLast());
     }
 
     // read user's boards from database to memory
@@ -392,9 +374,32 @@ public class BoardController implements Initializable
                 if (this.loadedBoards.get(i).getBoardName().matches(userController.getCurrentUser().getCurrentUserBoardName()))
                 {
                     this.activeBoard = loadedBoards.get(i);
+                    loadColumns();
                 }
             }
         }
+    }
+
+    // load columns and refresh columns display
+    public void loadColumns()
+    {
+        resetColumnDisplay();
+        for (int j = 0; j < this.activeBoard.getColumns().size(); j++)
+        {
+            // TODO populate columnsListView
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/column.fxml"));
+            try
+            {
+                this.columnPanes.add(loader.load());
+            }
+            catch (IOException e)
+            {
+                throw new RuntimeException(e);
+            }
+            this.columnControllers.add(loader.getController());
+            this.columnControllers.getLast().setColumn(this.activeBoard.getColumns().getLast());
+        }
+        this.columnsListView.getItems().addAll(this.columnPanes);
     }
 
     public void saveBoard()
@@ -431,13 +436,6 @@ public class BoardController implements Initializable
     {
         userController.logout();
     }
-
-    // add controller for new column and pass column for it to control
-    //    public Column addColumnController(ColumnController columnController)
-    //    {
-    //        columnControllers.add(columnController);
-    //        return this.active.getColumns().getLast();
-    //    }
 
     // TODO delete column via columnID
     public void deleteColumn(int columnID)
@@ -532,7 +530,6 @@ public class BoardController implements Initializable
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
         // save avatar as byte array
-        // TODO filter file types
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(null);
         // avatar only allowed to be png format
