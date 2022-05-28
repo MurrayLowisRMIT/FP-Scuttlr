@@ -36,6 +36,11 @@ public class Task implements Serializable
         this.description = description;
     }
 
+    public String getDescription()
+    {
+        return this.description;
+    }
+
     public LocalDate getDueDate()
     {
         return this.dueDate;

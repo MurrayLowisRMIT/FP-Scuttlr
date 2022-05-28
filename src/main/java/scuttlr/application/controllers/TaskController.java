@@ -35,6 +35,7 @@ public class TaskController
         this.task = task;
         this.parentController = parentController;
         this.taskNameTextField.setText(task.getName());
+        this.taskDescriptionTextArea.setText(task.getDescription());
         this.completeCheckBox.setSelected(task.getComplete());
         this.taskTitledPane.setExpanded(task.getExpanded());
         if (task.getDueDate() != null)
