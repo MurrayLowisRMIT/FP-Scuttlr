@@ -1,7 +1,5 @@
 package scuttlr.application.controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,14 +10,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import scuttlr.application.model.Column;
-import scuttlr.application.model.Task;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
-
-import static scuttlr.application.Main.boardController;
 
 public class ColumnController extends ListCell<Column> implements Initializable
 {
@@ -45,6 +40,7 @@ public class ColumnController extends ListCell<Column> implements Initializable
     @FXML
     private LinkedList<Pane> taskPanes;
     private LinkedList<TaskController> taskControllers;
+    private BoardController parentController;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -74,10 +70,12 @@ public class ColumnController extends ListCell<Column> implements Initializable
         this.tasksListView.getItems().addAll(this.taskPanes);
     }
 
-    public void setColumn(Column column)
+    public void newColumn(Column column, BoardController parentController)
     {
         this.column = column;
+        this.parentController = parentController;
         this.titleTextField.setText(column.getTitle());
+        loadTasks();
     }
 
     public void moveColumnRight(ActionEvent event)
@@ -92,7 +90,7 @@ public class ColumnController extends ListCell<Column> implements Initializable
 
     public void deleteColumn()
     {
-        boardController.deleteColumn(this.column.getColumnID());
+        //        boardController.deleteColumn(this.column.getColumnID());
     }
 
     public void newTask()
@@ -107,7 +105,6 @@ public class ColumnController extends ListCell<Column> implements Initializable
         {
             throw new RuntimeException(e);
         }
-        // TODO match with column loader above
         this.taskControllers.add(loader.getController());
         this.taskControllers.getLast().setTask(this.column.getTasks().getLast(), this);
         this.tasksListView.getItems().add(this.taskPanes.getLast());
@@ -127,6 +124,7 @@ public class ColumnController extends ListCell<Column> implements Initializable
     {
         this.taskControllers.remove(taskID);
         this.tasksListView.getItems().remove(taskID);
+        this.taskPanes.remove(taskID);
         this.column.removeTask(taskID);
     }
 }

@@ -30,7 +30,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import scuttlr.application.model.Board;
-import scuttlr.application.model.Column;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -66,8 +65,6 @@ public class BoardController implements Initializable
     @FXML
     private Label notificationsLabel;
     @FXML
-    private ObservableList<Column> columns;
-    @FXML
     private ListView columnsListView;
     @FXML
     private LinkedList<Pane> columnPanes;
@@ -77,7 +74,6 @@ public class BoardController implements Initializable
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         // read and populate columns
-        this.columns = FXCollections.observableArrayList();
         this.columnPanes = new LinkedList<>();
         this.columnControllers = new LinkedList<>();
 
@@ -220,7 +216,6 @@ public class BoardController implements Initializable
         this.columnPanes.clear();
         this.columnsListView.getItems().clear();
         this.columnControllers.clear();
-        this.columns.clear();
     }
 
     public void closeCurrentBoard()
@@ -361,24 +356,6 @@ public class BoardController implements Initializable
         }
     }
 
-    public void newColumn()
-    {
-        this.activeBoard.addColumn();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/column.fxml"));
-        try
-        {
-            this.columnPanes.add(loader.load());
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e);
-        }
-        this.columnControllers.add(loader.getController());
-        this.columnControllers.getLast().setColumn(this.activeBoard.getColumns().getLast());
-        this.columnsListView.getItems().add(this.columnPanes.getLast());
-        setNotification("New column added");
-    }
-
     // read user's boards from database to memory
     public void loadBoards(String username)
     {
@@ -415,10 +392,27 @@ public class BoardController implements Initializable
                 throw new RuntimeException(e);
             }
             this.columnControllers.add(loader.getController());
-            this.columnControllers.getLast().setColumn(this.activeBoard.getColumns().get(i));
-            this.columnControllers.getLast().loadTasks();
+            this.columnControllers.getLast().newColumn(this.activeBoard.getColumns().get(i), this);
         }
         this.columnsListView.getItems().addAll(this.columnPanes);
+    }
+
+    public void newColumn()
+    {
+        this.activeBoard.addColumn();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scuttlr/application/display/column.fxml"));
+        try
+        {
+            this.columnPanes.add(loader.load());
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+        this.columnControllers.add(loader.getController());
+        this.columnControllers.getLast().newColumn(this.activeBoard.getColumns().getLast(), this);
+        this.columnsListView.getItems().add(this.columnPanes.getLast());
+        setNotification("New column added");
     }
 
     public void saveBoard()
@@ -460,11 +454,9 @@ public class BoardController implements Initializable
     public void deleteColumn(int columnID)
     {
         // TODO set this correctly
+        this.columnControllers.remove(columnID);
         this.columnPanes.remove(columnID);
         this.columnsListView.getItems().remove(columnID);
-        this.columnControllers.remove(columnID);
-        this.columns.remove(columnID);
-        this.activeBoard.getColumns().remove(columnID);
         updateBoardController();
     }
 

@@ -54,6 +54,16 @@ public class Board implements Serializable
         }
     }
 
+    // delete column and update columnIDs
+    public void removeColumn(int columnID)
+    {
+        this.columns.remove(columnID);
+        for (int i = 0; i < this.columns.size(); i++)
+        {
+            this.columns.get(i).setColumnID(columnID);
+        }
+    }
+
     // TODO use this
     public boolean verifyOwner(String userName, String userPassword)
     {
@@ -63,12 +73,6 @@ public class Board implements Serializable
             verified = true;
         }
         return verified;
-    }
-
-    // new boards have no password until saved
-    public boolean checkIfNew()
-    {
-        return this.userPassword == null;
     }
 
     // swap the place of two columns

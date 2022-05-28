@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 
 import static scuttlr.application.Main.userController;
-import static scuttlr.application.Main.boardController;
 
 public class UserController
 {
@@ -49,7 +48,7 @@ public class UserController
         // open user's most recent board on log in
         if (currentUser.getUserBoardNames().size() > 0)
         {
-            boardController = loader.getController();
+            BoardController boardController = loader.getController();
             boardController.openSelectedBoard(userController.currentUser.getCurrentBoardName());
         }
     }

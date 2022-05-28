@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static scuttlr.application.Main.boardController;
 import static scuttlr.application.Main.userController;
 
 public class LoginController implements Initializable

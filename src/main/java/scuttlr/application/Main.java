@@ -6,22 +6,17 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import scuttlr.application.controllers.BoardController;
 import scuttlr.application.controllers.UserController;
-
-import java.io.IOException;
 
 public class Main extends Application
 {
-    // board and user controllers are universal, so are publicly available
+    // user controller is universal so is publicly statically available
     public static UserController userController;
-    public static BoardController boardController;
 
     @Override
     public void init()
     {
         userController = new UserController();
-        boardController = new BoardController();
     }
 
     @Override
@@ -35,13 +30,7 @@ public class Main extends Application
         stage.setTitle("Scuttlr");
         stage.setScene(scene);
         stage.show();
-        // TODO set active board to users active board
-    }
-
-    @Override
-    public void stop() throws Exception
-    {
-        // TODO terminate program
+        // TODO set active board to user's current board
     }
 
     public static void main(String[] args)
