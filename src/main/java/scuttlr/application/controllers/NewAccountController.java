@@ -2,7 +2,6 @@ package scuttlr.application.controllers;
 
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +9,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.transform.Rotate;
@@ -73,7 +71,7 @@ public class NewAccountController implements Initializable
         this.stage.setScene(this.scene);
     }
 
-    public void createAccount(ActionEvent actionEvent) throws IOException, ClassNotFoundException
+    public void createAccount(ActionEvent actionEvent) throws IOException
     {
         String username = this.username.getText();
         String password = this.password.getText();

@@ -28,7 +28,7 @@ public class Reader
     // read random quote from save file to display at top of main screen
     public String loadQuote()
     {
-        List<String> quotes = null;
+        List<String> quotes;
         try
         {
             quotes = Files.readAllLines(Path.of("src/main/resources/scuttlr/application/documents/Quotes.txt"), StandardCharsets.UTF_8);

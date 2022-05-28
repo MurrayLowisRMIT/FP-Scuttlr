@@ -26,7 +26,7 @@ public class User implements Serializable
     {
         this.username = username;
         this.password = password;
-        this.userBoardNames = new LinkedList<String>();
+        this.userBoardNames = new LinkedList<>();
     }
 
     public String getCurrentBoardName()
@@ -34,19 +34,9 @@ public class User implements Serializable
         return this.currentBoardName;
     }
 
-    public void setPassword(String password)
-    {
-        this.password = password;
-    }
-
     public boolean checkPassword(String password)
     {
-        boolean confirmPassword = false;
-        if (password.matches(this.password))
-        {
-            confirmPassword = true;
-        }
-        return confirmPassword;
+        return password.matches(this.password);
     }
 
     public String getUsername()
@@ -82,9 +72,9 @@ public class User implements Serializable
             file.delete();
 
             // delete board save files associated with old username
-            for (int i = 0; i < loadedBoards.size(); i++)
+            for (Board loadedBoard : loadedBoards)
             {
-                file = new File("src/main/resources/scuttlr/application/boards/" + oldUsername + "_" + loadedBoards.get(i).getBoardName() + ".ser");
+                file = new File("src/main/resources/scuttlr/application/boards/" + oldUsername + "_" + loadedBoard.getBoardName() + ".ser");
                 file.delete();
             }
         }
@@ -164,13 +154,12 @@ public class User implements Serializable
     // create new board save files using new username
     public void reconstructUserBoards(LinkedList<Board> oldBoards)
     {
-        LinkedList<Board> newBoards = new LinkedList<>();
         Writer writer = new Writer();
         // copy data from old boards and write new boards with new data
-        for (int i = 0; i < oldBoards.size(); i++)
+        for (Board oldBoard : oldBoards)
         {
-            Board board = new Board(oldBoards.get(i).getBoardName(), null);
-            board.setColumns(oldBoards.get(i).getColumns());
+            Board board = new Board(oldBoard.getBoardName(), null);
+            board.setColumns(oldBoard.getColumns());
             writer.saveBoard(board);
         }
     }

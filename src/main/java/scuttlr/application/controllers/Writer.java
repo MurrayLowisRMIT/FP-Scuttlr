@@ -3,7 +3,6 @@ package scuttlr.application.controllers;
 import scuttlr.application.model.Board;
 
 import java.io.*;
-import java.util.LinkedList;
 
 import static scuttlr.application.Main.userController;
 
@@ -41,10 +40,6 @@ public class Writer
             out.writeObject(board);
             out.close();
             fileOut.close();
-        }
-        catch (FileNotFoundException e)
-        {
-            throw new RuntimeException(e);
         }
         catch (IOException e)
         {

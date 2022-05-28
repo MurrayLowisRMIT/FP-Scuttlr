@@ -61,29 +61,6 @@ public class Board implements Serializable
         }
     }
 
-    // TODO use this
-    public boolean verifyOwner(String userName, String userPassword)
-    {
-        return userName.matches(this.userName) && userPassword.matches(this.userPassword);
-    }
-
-    // swap the place of two columns
-    public void swapColumns(Column c1, Column c2)
-    {
-        for (Column column : this.columns)
-        {
-            if (column.getColumnID() == c1.getColumnID())
-            {
-                column.setColumnID(c2.getColumnID());
-            }
-            else if (column.getColumnID() == c2.getColumnID())
-            {
-                column.setColumnID(c1.getColumnID());
-            }
-        }
-        reorderColumns();
-    }
-
     // reorders columns in linkedList when columns are moved in the active board
     public void reorderColumns()
     {

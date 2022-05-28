@@ -223,7 +223,6 @@ public class BoardController implements Initializable
         updateBoardController();
     }
 
-    // TODO transfer columns to new file
     // open dialogue to change name of currently active board
     public void updateBoardName()
     {

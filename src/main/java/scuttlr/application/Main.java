@@ -30,7 +30,6 @@ public class Main extends Application
         stage.setTitle("Scuttlr");
         stage.setScene(scene);
         stage.show();
-        // TODO set active board to user's current board
     }
 
     public static void main(String[] args)
