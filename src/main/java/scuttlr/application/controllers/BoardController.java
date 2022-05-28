@@ -85,6 +85,19 @@ public class BoardController implements Initializable
         this.loadedBoards = new LinkedList<>();
         loadBoards(userController.getCurrentUser().getUsername());
 
+        // set most recent board as active
+        if (this.loadedBoards.size() > 0)
+        {
+            for (int i = 0; i < this.loadedBoards.size(); i++)
+            {
+                if (this.loadedBoards.get(i).getBoardName().matches(userController.getCurrentUser().getCurrentBoardName()))
+                {
+                    this.activeBoard = loadedBoards.get(i);
+                    loadColumns();
+                }
+            }
+        }
+
         // set username to label
         this.usernameLabel.setText(userController.getCurrentUser().getUsername());
 
@@ -384,18 +397,6 @@ public class BoardController implements Initializable
                 throw new RuntimeException(e);
             }
         }
-        // set most recent board as active
-        if (this.loadedBoards.size() > 0)
-        {
-            for (int i = 0; i < this.loadedBoards.size(); i++)
-            {
-                if (this.loadedBoards.get(i).getBoardName().matches(userController.getCurrentUser().getCurrentBoardName()))
-                {
-                    this.activeBoard = loadedBoards.get(i);
-                    loadColumns();
-                }
-            }
-        }
     }
 
     // load columns and refresh columns display
@@ -458,7 +459,10 @@ public class BoardController implements Initializable
     public void deleteColumn(int columnID)
     {
         // TODO set this correctly
-        //        this.columns.remove(columnID);
+        this.columnPanes.remove(columnID);
+        this.columnsListView.getItems().remove(columnID);
+        this.columnControllers.remove(columnID);
+        this.columns.remove(columnID);
         this.activeBoard.getColumns().remove(columnID);
         updateBoardController();
     }
