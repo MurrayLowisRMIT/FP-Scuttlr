@@ -199,6 +199,7 @@ public class BoardController implements Initializable
         this.activeBoard = new Board(name, null);
         resetColumnDisplay();
         updateBoardController();
+        setNotification("New project created");
     }
 
     public void resetColumnDisplay()
@@ -362,6 +363,7 @@ public class BoardController implements Initializable
         this.columnControllers.add(loader.getController());
         this.columnControllers.getLast().setColumn(this.activeBoard.getColumns().getLast());
         this.columnsListView.getItems().add(this.columnPanes.getLast());
+        setNotification("New column added");
     }
 
     // read user's boards from database to memory

@@ -47,8 +47,11 @@ public class UserController
         this.stage.setScene(this.scene);
         this.stage.show();
         // open user's most recent board on log in
-        boardController = loader.getController();
-        boardController.openSelectedBoard(userController.currentUser.getCurrentBoardName());
+        if (currentUser.getUserBoardNames().size() > 0)
+        {
+            boardController = loader.getController();
+            boardController.openSelectedBoard(userController.currentUser.getCurrentBoardName());
+        }
     }
 
     public User getCurrentUser()
