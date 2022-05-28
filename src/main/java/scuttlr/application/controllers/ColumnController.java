@@ -54,15 +54,6 @@ public class ColumnController extends ListCell<Column> implements Initializable
     {
         this.taskPanes = new LinkedList<>();
         this.tasks = FXCollections.observableArrayList();
-
-        this.tasks.addListener(new InvalidationListener()
-        {
-            @Override
-            public void invalidated(Observable observable)
-            {
-                System.out.println("THING HAPPENED");
-            }
-        });
     }
 
     public void setColumn(Column column)
@@ -87,7 +78,6 @@ public class ColumnController extends ListCell<Column> implements Initializable
 
     public void newTask(ActionEvent actionEvent)
     {
-        System.out.println(this.column.getColumnID());
         this.column.addTask();
         // TODO add without calling this
         updateTasks();

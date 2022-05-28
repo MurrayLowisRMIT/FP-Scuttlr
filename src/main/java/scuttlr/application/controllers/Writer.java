@@ -45,7 +45,6 @@ public class Writer
         }
         catch (FileNotFoundException e)
         {
-            System.out.println();
             throw new RuntimeException(e);
         }
         catch (IOException e)
