@@ -389,6 +389,7 @@ public class BoardController implements Initializable
             {
                 throw new RuntimeException(e);
             }
+            // add handlers to list
             this.columnControllers.add(loader.getController());
             this.columnControllers.getLast().newColumn(this.activeBoard.getColumns().get(i), this);
         }
@@ -407,6 +408,7 @@ public class BoardController implements Initializable
         {
             throw new RuntimeException(e);
         }
+        // add handler to list
         this.columnControllers.add(loader.getController());
         this.columnControllers.getLast().newColumn(this.activeBoard.getColumns().getLast(), this);
         this.columnsListView.getItems().add(this.columnPanes.getLast());
@@ -422,6 +424,7 @@ public class BoardController implements Initializable
         updateBoardController();
     }
 
+    // swap columns within board
     public void moveColumn(int columnID, int direction)
     {
         if (columnID + direction >= 0 && columnID + direction < this.activeBoard.getColumns().size())

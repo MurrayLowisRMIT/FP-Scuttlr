@@ -64,7 +64,7 @@ public class ColumnController extends ListCell<Column> implements Initializable
             {
                 throw new RuntimeException(e);
             }
-            // load tasks
+            // add handlers to list
             this.taskControllers.add(loader.getController());
             this.taskControllers.getLast().setTask(this.column.getTasks().get(i), this);
         }
@@ -96,6 +96,7 @@ public class ColumnController extends ListCell<Column> implements Initializable
         {
             throw new RuntimeException(e);
         }
+        // add handler to list
         this.taskControllers.add(loader.getController());
         this.taskControllers.getLast().setTask(this.column.getTasks().getLast(), this);
         this.tasksListView.getItems().add(this.taskPanes.getLast());
@@ -116,6 +117,7 @@ public class ColumnController extends ListCell<Column> implements Initializable
         this.parentController.moveColumn(this.column.getColumnID(), -1);
     }
 
+    // swap tasks within column
     public void moveTask(int taskID, int direction)
     {
         if (taskID + direction >= 0 && taskID + direction < this.column.getTasks().size())
