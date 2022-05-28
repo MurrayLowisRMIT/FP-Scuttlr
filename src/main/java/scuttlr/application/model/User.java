@@ -93,6 +93,7 @@ public class User implements Serializable
 
     public boolean updateBoardName(Board oldBoard, String newBoardName)
     {
+        // skip if an existing file already has the name
         boolean success = false;
         if (!this.userBoardNames.contains(newBoardName))
         {
@@ -109,6 +110,7 @@ public class User implements Serializable
 
             // create new board with new name
             Board board = new Board(newBoardName, null);
+            board.setColumns(oldBoard.getColumns());
             Writer writer = new Writer();
             writer.saveBoard(board);
             success = true;
