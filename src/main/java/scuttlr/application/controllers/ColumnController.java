@@ -13,6 +13,7 @@ import scuttlr.application.model.Column;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
@@ -80,12 +81,10 @@ public class ColumnController extends ListCell<Column> implements Initializable
 
     public void moveColumnRight()
     {
-        this.column.setColumnID(this.column.getColumnID() + 1);
     }
 
     public void moveColumnLeft()
     {
-        this.column.setColumnID(this.column.getColumnID() - 1);
     }
 
     public void deleteColumn()
@@ -117,16 +116,22 @@ public class ColumnController extends ListCell<Column> implements Initializable
 
     public void moveTask(int taskID, int direction)
     {
-        if (taskID + direction > 0 && taskID + direction < this.column.getTasks().size())
+        System.out.println(taskID);
+        if (taskID + direction >= 0 && taskID + direction < this.column.getTasks().size())
         {
-            this.column.getTasks().get(taskID).setTaskID(taskID + direction);
-            this.column.getTasks().get(taskID + direction).setTaskID(taskID);
+            Collections.swap(this.column.getTasks(), taskID, taskID + direction);
+
+            // swap elements
+            this.column.reorderTasks();
+            Collections.swap(this.taskPanes, taskID, taskID + direction);
+            Collections.swap(this.taskControllers, taskID, taskID + direction);
+            this.tasksListView.getItems().clear();
+            this.tasksListView.getItems().addAll(this.taskPanes);
         }
         else
         {
             this.parentController.setWarning("Can't move any further");
         }
-        this.column.reorderTasks();
     }
 
     public void deleteTask(int taskID)
