@@ -21,7 +21,7 @@
                   <TextField fx:id="titleTextField" alignment="CENTER" maxWidth="1.7976931348623157E308" onKeyTyped="#updateTitle" promptText="Enter column name" text="Column name" HBox.hgrow="ALWAYS" />
                   <ImageView fx:id="deleteColumnImageView" fitHeight="25.0" fitWidth="25.0" focusTraversable="true" onMouseClicked="#deleteColumn" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../graphics/-%20button.png" />
+                        <Image url="@../graphics/x%20button.png" />
                      </image>
                   </ImageView>
                </children>

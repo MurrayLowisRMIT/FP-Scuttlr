@@ -2,7 +2,6 @@ package scuttlr.application.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import scuttlr.application.model.Task;
 
 import java.time.LocalDate;
@@ -16,12 +15,6 @@ public class TaskController
     private TextField taskNameTextField;
     @FXML
     private TextArea taskDescriptionTextArea;
-    @FXML
-    private ImageView deleteTaskImageView;
-    @FXML
-    private Button moveLeftButton;
-    @FXML
-    private Button moveRightButton;
     @FXML
     private CheckBox completeCheckBox;
     @FXML
@@ -50,12 +43,12 @@ public class TaskController
         this.parentController.deleteTask(this.task.getTaskID());
     }
 
-    public void moveToLeftColumn()
+    public void moveUp()
     {
         this.parentController.moveTask(this.task.getTaskID(), -1);
     }
 
-    public void moveToRightColumn()
+    public void moveDown()
     {
         this.parentController.moveTask(this.task.getTaskID(), +1);
     }

@@ -8,13 +8,13 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
-   sodipodi:docname="+ button.svg"
+   sodipodi:docname="button.svg"
    id="svg8"
    version="1.1"
    viewBox="0 0 210 297"
    height="297mm"
    width="210mm"
-   inkscape:export-filename="C:\Users\skelm\OneDrive\Documents\Uni\RMIT - IT\2022\SP01\Further Programming\Assignment 2\src\main\resources\scuttlr\application\graphics\- button.png"
+   inkscape:export-filename="C:\Users\skelm\OneDrive\Documents\Uni\RMIT - IT\2022\SP01\Further Programming\Assignment 2\src\main\resources\scuttlr\application\graphics\v button.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96">
   <defs
@@ -93,16 +93,16 @@
   <sodipodi:namedview
      inkscape:window-maximized="1"
      inkscape:window-y="-8"
-     inkscape:window-x="1912"
+     inkscape:window-x="-8"
      inkscape:window-height="1009"
      inkscape:window-width="1920"
      showgrid="false"
      inkscape:document-rotation="0"
      inkscape:current-layer="layer1"
      inkscape:document-units="mm"
-     inkscape:cy="114.9882"
-     inkscape:cx="104.66063"
-     inkscape:zoom="2"
+     inkscape:cy="128.9411"
+     inkscape:cx="111.41858"
+     inkscape:zoom="2.9184343"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
@@ -124,30 +124,33 @@
      id="layer1"
      inkscape:groupmode="layer"
      inkscape:label="Layer 1">
+    <path
+       d="M 78.98955,33.614845 A 19.182291,19.182291 0 0 1 59.807259,52.797136 19.182291,19.182291 0 0 1 40.624968,33.614845 19.182291,19.182291 0 0 1 59.807259,14.432554 19.182291,19.182291 0 0 1 78.98955,33.614845 Z"
+       sodipodi:ry="19.182291"
+       sodipodi:rx="19.182291"
+       sodipodi:cy="33.614845"
+       sodipodi:cx="59.807259"
+       sodipodi:type="arc"
+       inkscape:path-effect="#path-effect889"
+       clip-path="url(#clipPath885)"
+       transform="matrix(0.92738827,0,0,0.92738827,-35.6208,-11.330263)"
+       id="path833"
+       style="fill:#333333;fill-opacity:1;stroke-width:0.037718;filter:url(#filter1270)"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
     <g
-       id="g898">
-      <path
-         style="fill:#333333;fill-opacity:1;stroke-width:0.037718;filter:url(#filter1270)"
-         id="path833"
-         transform="matrix(0.92738827,0,0,0.92738827,-35.6208,-11.330263)"
-         clip-path="url(#clipPath885)"
-         inkscape:path-effect="#path-effect889"
-         sodipodi:type="arc"
-         sodipodi:cx="59.807259"
-         sodipodi:cy="33.614845"
-         sodipodi:rx="19.182291"
-         sodipodi:ry="19.182291"
-         d="M 78.98955,33.614845 A 19.182291,19.182291 0 0 1 59.807259,52.797136 19.182291,19.182291 0 0 1 40.624968,33.614845 19.182291,19.182291 0 0 1 59.807259,14.432554 19.182291,19.182291 0 0 1 78.98955,33.614845" />
+       transform="matrix(1.6665885,0,0,1.6665885,9.2604167,9.2604169)"
+       id="g848">
       <rect
-         transform="scale(-1)"
-         y="-26.458334"
-         x="-21.166668"
-         height="13.229167"
-         width="2.6458333"
+         transform="rotate(45)"
+         y="-7.4838977"
+         x="7.4838977"
+         height="14.967795"
+         width="2.9935589"
          id="rect840"
-         style="opacity:0.994;fill:#333333;fill-opacity:1;stroke-width:0.139507" />
+         style="opacity:0.994;fill:#333333;fill-opacity:1;stroke-width:0.157842" />
       <rect
-         transform="matrix(0,0.49998202,-0.49991,0,13.230357,18.520882)"
+         transform="matrix(0.40000437,-0.40000437,0.39994675,0.39994675,10.582915,12.699605)"
          style="opacity:0.994;fill:#333333;fill-opacity:1;stroke-width:0.279014;filter:url(#filter873)"
          id="rect840-9"
          width="5.2916665"

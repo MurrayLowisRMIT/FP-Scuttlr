@@ -413,7 +413,35 @@ public class BoardController implements Initializable
         setNotification("New column added");
     }
 
-    public void saveBoard()
+    public void deleteColumn(int columnID)
+    {
+        this.columnControllers.remove(columnID);
+        this.columnPanes.remove(columnID);
+        this.columnsListView.getItems().remove(columnID);
+        this.activeBoard.removeColumn(columnID);
+        updateBoardController();
+    }
+
+    public void moveColumn(int columnID, int direction)
+    {
+        if (columnID + direction >= 0 && columnID + direction < this.activeBoard.getColumns().size())
+        {
+            Collections.swap(this.activeBoard.getColumns(), columnID, columnID + direction);
+
+            // swap elements
+            this.activeBoard.reorderColumns();
+            Collections.swap(this.columnPanes, columnID, columnID + direction);
+            Collections.swap(this.columnControllers, columnID, columnID + direction);
+            this.columnsListView.getItems().clear();
+            this.columnsListView.getItems().addAll(this.columnPanes);
+        }
+        else
+        {
+            setWarning("Can't move any further");
+        }
+    }
+
+    public void save()
     {
         Writer writer = new Writer();
         writer.saveBoard(this.activeBoard);
@@ -446,15 +474,6 @@ public class BoardController implements Initializable
     public void logout() throws IOException
     {
         userController.logout();
-    }
-
-    public void deleteColumn(int columnID)
-    {
-        this.columnControllers.remove(columnID);
-        this.columnPanes.remove(columnID);
-        this.columnsListView.getItems().remove(columnID);
-        this.activeBoard.removeColumn(columnID);
-        updateBoardController();
     }
 
     public void quit()

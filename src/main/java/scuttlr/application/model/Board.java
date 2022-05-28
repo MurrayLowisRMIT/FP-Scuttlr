@@ -87,14 +87,9 @@ public class Board implements Serializable
     // reorders columns in linkedList when columns are moved in the active board
     public void reorderColumns()
     {
-        LinkedList<Column> newList = new LinkedList<>();
         for (int i = 0; i < this.columns.size(); i++)
         {
-            if (this.columns.get(i).getColumnID() == i)
-            {
-                newList.add(this.columns.get(i));
-            }
+            this.columns.get(i).setColumnID(i);
         }
-        this.columns = new LinkedList<>(newList);
     }
 }

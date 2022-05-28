@@ -79,14 +79,6 @@ public class ColumnController extends ListCell<Column> implements Initializable
         loadTasks();
     }
 
-    public void moveColumnRight()
-    {
-    }
-
-    public void moveColumnLeft()
-    {
-    }
-
     public void deleteColumn()
     {
         this.parentController.deleteColumn(this.column.getColumnID());
@@ -114,9 +106,18 @@ public class ColumnController extends ListCell<Column> implements Initializable
         this.column.setTitle(this.titleTextField.getText());
     }
 
+    public void moveColumnRight()
+    {
+        this.parentController.moveColumn(this.column.getColumnID(), +1);
+    }
+
+    public void moveColumnLeft()
+    {
+        this.parentController.moveColumn(this.column.getColumnID(), -1);
+    }
+
     public void moveTask(int taskID, int direction)
     {
-        System.out.println(taskID);
         if (taskID + direction >= 0 && taskID + direction < this.column.getTasks().size())
         {
             Collections.swap(this.column.getTasks(), taskID, taskID + direction);
