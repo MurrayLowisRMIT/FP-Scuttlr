@@ -53,7 +53,7 @@
             </VBox>
          </content>
          <graphic>
-            <TextField fx:id="taskNameTextField" onKeyTyped="#updateName" text="Task name" />
+            <TextField fx:id="taskNameTextField" onKeyTyped="#updateName" promptText="Enter task name" text="Task name" />
          </graphic>
       </TitledPane>
       <ImageView fx:id="deleteTaskImageView" fitHeight="20.0" fitWidth="20.0" focusTraversable="true" layoutX="250.0" layoutY="5.0" onMouseClicked="#deleteTask" pickOnBounds="true" preserveRatio="true">
