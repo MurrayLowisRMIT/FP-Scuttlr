@@ -48,31 +48,23 @@ public class Board implements Serializable
         // empty existing list
         this.columns.clear();
         // set new list
-        for (int i = 0; i < columns.size(); i++)
-        {
-            this.columns.add(columns.get(i));
-        }
+        this.columns.addAll(columns);
     }
 
     // delete column and update columnIDs
     public void removeColumn(int columnID)
     {
         this.columns.remove(columnID);
-        for (int i = 0; i < this.columns.size(); i++)
+        for (Column column : this.columns)
         {
-            this.columns.get(i).setColumnID(columnID);
+            column.setColumnID(columnID);
         }
     }
 
     // TODO use this
     public boolean verifyOwner(String userName, String userPassword)
     {
-        boolean verified = false;
-        if (userName.matches(this.userName) && userPassword.matches(this.userPassword))
-        {
-            verified = true;
-        }
-        return verified;
+        return userName.matches(this.userName) && userPassword.matches(this.userPassword);
     }
 
     // swap the place of two columns

@@ -1,18 +1,17 @@
 package scuttlr.application.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import scuttlr.application.model.Task;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 public class TaskController
 {
     private Task task;
+    @FXML
+    private TitledPane taskTitledPane;
     @FXML
     private TextField taskNameTextField;
     @FXML
@@ -37,9 +36,11 @@ public class TaskController
         this.parentController = parentController;
         this.taskNameTextField.setText(task.getName());
         this.completeCheckBox.setSelected(task.getComplete());
+        this.taskTitledPane.setExpanded(task.getExpanded());
         if (task.getDueDate() != null)
         {
             this.dueDatePicker.setValue(LocalDate.from(task.getDueDate()));
+            // TODO set due date warning
         }
     }
 
@@ -55,6 +56,7 @@ public class TaskController
 
     public void moveToRightColumn()
     {
+        this.parentController.moveTask(this.task.getTaskID(), +1);
     }
 
     public void updateName()
@@ -72,12 +74,13 @@ public class TaskController
         this.task.setComplete(!this.task.getComplete());
     }
 
+    public void toggleExpanded()
+    {
+        this.task.setExpanded(!this.task.getExpanded());
+    }
+
     public void setDueDate()
     {
         this.task.setDueDate(this.dueDatePicker.getValue());
-    }
-
-    public void setDueDateWarning()
-    {
     }
 }

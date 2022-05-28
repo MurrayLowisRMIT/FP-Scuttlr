@@ -51,6 +51,11 @@ public class Column implements Serializable
     public void removeTask(int taskID)
     {
         this.tasks.remove(taskID);
+        reorderTasks();
+    }
+
+    public void reorderTasks()
+    {
         for (int i = 0; i < this.tasks.size(); i++)
         {
             this.tasks.get(i).setTaskID(i);

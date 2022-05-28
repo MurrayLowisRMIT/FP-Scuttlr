@@ -36,7 +36,7 @@ public class ColumnController extends ListCell<Column> implements Initializable
     @FXML
     private VBox tasksVBox;
     @FXML
-    private ListView tasksListView;
+    private ListView<Pane> tasksListView;
     @FXML
     private LinkedList<Pane> taskPanes;
     private LinkedList<TaskController> taskControllers;
@@ -78,19 +78,19 @@ public class ColumnController extends ListCell<Column> implements Initializable
         loadTasks();
     }
 
-    public void moveColumnRight(ActionEvent event)
+    public void moveColumnRight()
     {
         this.column.setColumnID(this.column.getColumnID() + 1);
     }
 
-    public void moveColumnLeft(ActionEvent event)
+    public void moveColumnLeft()
     {
         this.column.setColumnID(this.column.getColumnID() - 1);
     }
 
     public void deleteColumn()
     {
-        //        boardController.deleteColumn(this.column.getColumnID());
+        this.parentController.deleteColumn(this.column.getColumnID());
     }
 
     public void newTask()
@@ -117,14 +117,23 @@ public class ColumnController extends ListCell<Column> implements Initializable
 
     public void moveTask(int taskID, int direction)
     {
-
+        if (taskID + direction > 0 && taskID + direction < this.column.getTasks().size())
+        {
+            this.column.getTasks().get(taskID).setTaskID(taskID + direction);
+            this.column.getTasks().get(taskID + direction).setTaskID(taskID);
+        }
+        else
+        {
+            this.parentController.setWarning("Can't move any further");
+        }
+        this.column.reorderTasks();
     }
 
     public void deleteTask(int taskID)
     {
         this.taskControllers.remove(taskID);
-        this.tasksListView.getItems().remove(taskID);
         this.taskPanes.remove(taskID);
+        this.tasksListView.getItems().remove(taskID);
         this.column.removeTask(taskID);
     }
 }

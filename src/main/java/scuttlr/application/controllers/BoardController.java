@@ -22,7 +22,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -65,7 +64,7 @@ public class BoardController implements Initializable
     @FXML
     private Label notificationsLabel;
     @FXML
-    private ListView columnsListView;
+    private ListView<Pane> columnsListView;
     @FXML
     private LinkedList<Pane> columnPanes;
     private LinkedList<ColumnController> columnControllers;
@@ -84,11 +83,11 @@ public class BoardController implements Initializable
         // set most recent board as active
         if (this.loadedBoards.size() > 0)
         {
-            for (int i = 0; i < this.loadedBoards.size(); i++)
+            for (Board loadedBoard : this.loadedBoards)
             {
-                if (this.loadedBoards.get(i).getBoardName().matches(userController.getCurrentUser().getCurrentBoardName()))
+                if (loadedBoard.getBoardName().matches(userController.getCurrentUser().getCurrentBoardName()))
                 {
-                    this.activeBoard = loadedBoards.get(i);
+                    this.activeBoard = loadedBoard;
                     loadColumns();
                 }
             }
@@ -148,9 +147,8 @@ public class BoardController implements Initializable
             // add a button to popup for each user owned project
             for (int i = 0; i < userController.getCurrentUser().getUserBoardNames().size(); i++)
             {
-                int x = i;
                 Button button = new Button(userController.getCurrentUser().getUserBoardNames().get(i));
-                button.setOnAction(e -> openSelectedBoard(e));
+                button.setOnAction(this::openSelectedBoard);
                 button.setPrefWidth(200);
                 loadedBoardsListView.getItems().add(button);
             }
@@ -176,11 +174,11 @@ public class BoardController implements Initializable
         String boardName = ((Button) event.getSource()).getText();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
-        for (int i = 0; i < this.loadedBoards.size(); i++)
+        for (Board loadedBoard : this.loadedBoards)
         {
-            if (this.loadedBoards.get(i).getBoardName().matches(boardName))
+            if (loadedBoard.getBoardName().matches(boardName))
             {
-                this.activeBoard = this.loadedBoards.get(i);
+                this.activeBoard = loadedBoard;
             }
         }
         updateBoardController();
@@ -190,11 +188,11 @@ public class BoardController implements Initializable
     // open board selected from openBoard method and close popup menu on selection
     public void openSelectedBoard(String boardName)
     {
-        for (int i = 0; i < this.loadedBoards.size(); i++)
+        for (Board loadedBoard : this.loadedBoards)
         {
-            if (this.loadedBoards.get(i).getBoardName().matches(boardName))
+            if (loadedBoard.getBoardName().matches(boardName))
             {
-                this.activeBoard = this.loadedBoards.get(i);
+                this.activeBoard = loadedBoard;
             }
         }
         updateBoardController();
@@ -202,7 +200,7 @@ public class BoardController implements Initializable
     }
 
     // create new temporary board with no password lock
-    public void createNewBoard(ActionEvent actionEvent) throws IOException
+    public void createNewBoard()
     {
         String name = "New project";
         this.activeBoard = new Board(name, null);
@@ -450,19 +448,13 @@ public class BoardController implements Initializable
         userController.logout();
     }
 
-    // TODO delete column via columnID
     public void deleteColumn(int columnID)
     {
-        // TODO set this correctly
         this.columnControllers.remove(columnID);
         this.columnPanes.remove(columnID);
         this.columnsListView.getItems().remove(columnID);
+        this.activeBoard.removeColumn(columnID);
         updateBoardController();
-    }
-
-    // TODO delete column via actionEvent
-    public void deleteSelectedColumn(MouseEvent mouseEvent)
-    {
     }
 
     public void quit()
@@ -495,7 +487,7 @@ public class BoardController implements Initializable
         notificationFade.play();
     }
 
-    public void changeAvatar(MouseEvent mouseEvent)
+    public void changeAvatar()
     {
         VBox vBox = new VBox();
         Stage loadMenu = new Stage();

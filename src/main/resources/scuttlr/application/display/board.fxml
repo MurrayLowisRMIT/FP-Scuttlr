@@ -34,9 +34,9 @@
                         </Menu>
                   <Menu fx:id="projectMenu" disable="true" mnemonicParsing="false" text="Project">
                      <items>
-                        <MenuItem fx:id="deleteBoardMenuItem" mnemonicParsing="false" onAction="#deleteBoard" text="Delete project" />
-                        <MenuItem fx:id="closeBoardMenuItem" mnemonicParsing="false" onAction="#closeCurrentBoard" text="Close project" />
                         <MenuItem fx:id="renameBoardMenuItem" mnemonicParsing="false" onAction="#updateBoardName" text="Rename project" />
+                        <MenuItem fx:id="closeBoardMenuItem" mnemonicParsing="false" onAction="#closeCurrentBoard" text="Close project" />
+                        <MenuItem fx:id="deleteBoardMenuItem" mnemonicParsing="false" onAction="#deleteBoard" text="Delete project" />
                      </items>
                   </Menu>
                     </menus>

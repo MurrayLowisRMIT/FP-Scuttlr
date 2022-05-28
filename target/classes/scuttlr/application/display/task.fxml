@@ -17,7 +17,7 @@
 
 <Pane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scuttlr.application.controllers.TaskController">
    <children>
-      <TitledPane fx:id="taskTitledPane" animated="false" focusTraversable="false" wrapText="true">
+      <TitledPane fx:id="taskTitledPane" animated="false" focusTraversable="false" onMouseClicked="#toggleExpanded" wrapText="true">
          <content>
             <VBox>
                <children>
