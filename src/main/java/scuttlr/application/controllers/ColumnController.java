@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
-public class ColumnController extends ListCell<Column> implements Initializable
+public class ColumnController implements Initializable
 {
     private Column column;
     @FXML
