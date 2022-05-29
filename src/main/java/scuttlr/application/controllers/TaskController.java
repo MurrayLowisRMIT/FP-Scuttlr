@@ -1,10 +1,12 @@
 package scuttlr.application.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import scuttlr.application.model.Task;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -82,8 +84,15 @@ public class TaskController
 
     public void setDueDate()
     {
-        this.task.setDueDate(this.dueDatePicker.getValue());
-        setDueDateWarning();
+        // prevent error from user inputting value other than date
+        try
+        {
+            this.task.setDueDate(this.dueDatePicker.getValue());
+            setDueDateWarning();
+        }
+        catch (Exception e)
+        {
+        }
     }
 
     // warn user when due date is approaching for an incomplete task
